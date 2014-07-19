@@ -10,13 +10,12 @@ controllers.sync = function($scope, $location, socket, UserSet) {
 		$location.path('/tapping');
 	});
 
-	socket.on('CP', changePage)
+	socket.on('CP', function(data) {
+		$location.path(data)
+	})
 
 }
 
-function changePage(newPage) {
-	$location.path('/' + newPage.page);
-}
 
 controllers.selectColours = function($scope, socket) {
 
@@ -50,18 +49,40 @@ controllers.tapping = function($scope, socket) {
 controllers.login = function($scope, socket, UserSet, $location) {
 	$scope.loginInfo = {}
 	$scope.addUser = function() {
-		console.log($scope.loginInfo.fname,$scope.loginInfo.ticket);
+		console.log($scope.loginInfo.fname, $scope.loginInfo.ticket);
 
 		$location.path('/tapping');
 
 		// SEND TO LOBBY
 	}
+
+	socket.on('CP', function(data) {
+		$location.path(data)
+	})
 }
 
-WE NEED A LOBBY FUNCTION
+// WE NEED A LOBBY FUNCTION
 
-controllers.admin = function($scope, socket, UserSet) {
+controllers.admin = function($scope, socket, UserSet, $location) {
 	$scope.userID = UserSet.user;
+	$scope.msg = {
+		"id": "repeat",
+		"header": "CP",
+		"msg": "/"
+	}
+
+	$scope.sendMsg = function() {
+		socket.emit($scope.msg.id, {
+			"header": $scope.msg.header,
+			"msg": $scope.msg.msg
+		})
+		// console.log($scope.msg.id, $scope.msg.msg)
+	}
+
+	socket.on('CP', function(data) {
+		console.log("got: " + data)
+		// $location.path(data);
+	})
 }
 
 timeApp.controller(controllers);

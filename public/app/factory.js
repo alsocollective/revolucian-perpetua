@@ -1,13 +1,12 @@
 var factories = {};
 
-factories.socket = function($rootScope) {
-	var socket = io.connect("192.168.100.106:3000");
+factories.socket = function($rootScope, $location) {
+	var socket = io.connect("192.168.100.119:3000");
 	return {
 		on: function(eventName, callback) {
-			socket.on(eventName, function() {
-				var args = arguments;
+			socket.on(eventName, function(msg) {
 				$rootScope.$apply(function() {
-					callback.apply(socket, args);
+					callback.apply(socket, [msg]);
 				});
 			});
 		},
@@ -40,7 +39,7 @@ factories.UserSet = function($cookies, socket) {
 	}*/
 	factory.setUserId = function(ticketNum, username) {
 		factory.user = username;
-		factory.ticket = ticketNum;		
+		factory.ticket = ticketNum;
 	}
 	return factory
 }

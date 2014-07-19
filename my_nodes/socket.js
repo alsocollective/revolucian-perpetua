@@ -15,9 +15,17 @@ exports.connect = function(socket) {
 	io.sockets.emit('setup', {
 		"msg": "WELCOME"
 	});
+	console.log("some one connected");
 	socket.on("set ID", function(msg) {
 		this.id = msg;
 		console.log(msg, "connected");
+	})
+
+
+	socket.on("repeat", function(msg) {
+		console.log(msg)
+		io.sockets.emit(msg.header, msg.msg);
+		// io.sockets.emit()
 	})
 }
 
