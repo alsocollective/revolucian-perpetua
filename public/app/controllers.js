@@ -58,6 +58,8 @@ controllers.login = function($scope, socket, UserSet, $location) {
 	}
 }
 
+WE NEED A LOBBY FUNCTION
+
 controllers.admin = function($scope, socket, UserSet) {
 	$scope.userID = UserSet.user;
 }
