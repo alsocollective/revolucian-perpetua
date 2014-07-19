@@ -47,10 +47,14 @@ controllers.tapping = function($scope, socket) {
 	// })
 }
 
-controllers.login = function($scope, socket, UserSet) {
+controllers.login = function($scope, socket, UserSet, $location) {
 	$scope.loginInfo = {}
 	$scope.addUser = function() {
 		console.log($scope.loginInfo.fname,$scope.loginInfo.ticket);
+
+		$location.path('/tapping');
+
+		// SEND TO LOBBY
 	}
 }
 

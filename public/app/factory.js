@@ -31,11 +31,11 @@ factories.UserSet = function($cookies, socket) {
 	/*if ($cookies.user) {
 		factory.user = $cookies.user;
 	} else {
-		factory.user = Math.floor(Math.random() * 200);
+		fgactory.user = Math.floor(Math.random() * 200);
 		$cookies.user = factory.user
 		socket.emit("set ID", factory.user, function(socket, arg) {
 			console.log(socket);
-			console.log(arg);
+			console.log(ar);
 		})
 	}*/
 	factory.setUserId = function(ticketNum, username) {
