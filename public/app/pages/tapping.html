@@ -1,6 +1,26 @@
-<div class="container">
+<div class="container " ng-class="{fade : active}" ng-click="triggerTapped();">
 	<div class="modal">
 	<h1>tapping</h1>
-    <h2>{{message}}</h2>
+	<h2>{{active}}</h2>
+	<style type="text/css">
+
+	.fade{
+		-webkit-animation: towhite 0.7s; /* Chrome, Safari, Opera */
+		animation: towhite 0.7s;
+	}
+
+	/* Chrome, Safari, Opera */
+	@-webkit-keyframes towhite {
+		from {background: #000;}
+		to {background: #fff;}
+	}
+
+	/* Standard syntax */
+	@keyframes towhite {
+		from {background: #000;}
+		to {background: #fff;}
+	}		
+
+	</style>
 </div>
 </div>
