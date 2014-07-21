@@ -1,9 +1,11 @@
 var express = require('express'),
 	app = express(),
 	views = require('./my_nodes/views'),
-	socket = require('./my_nodes/socket');
-	// SerialPort = require("serialport").SerialPort,
-	// net = require('net');
+	socket = require('./my_nodes/socket'),
+	SerialPort = require("serialport").SerialPort,
+	dgram = require("dgram"),
+	udp = dgram.createSocket("udp4"),
+	StringDecoder = require('string_decoder').StringDecoder;
 
 app
 	.set('views', __dirname + '/views')
@@ -31,10 +33,34 @@ socket.io.on('connection', socket.connect);
 // 	baudrate: 9600
 // });
 
-//Net 
+var TDSocket = null;
+var decoder = new StringDecoder('utf8');
+//UDP
+udp.on("listening",function(){
+	console.log("UDP server running at port 5000\n");
+});
+udp.on("message",function(msg,info){
+	var msg = decoder.write(msg);
+	msg = msg.substring(24,msg.length)
+	console.log(msg)
+});
+
+udp.bind(5000)
 // net.createServer(function (socket) {
-// 	socket.write("Welcome " + socket.name + "\n");
+// 	TDSocket = socket;
+// 	socket.write("Welcome \n");
+// 	console.log("connection");
 // }).listen(5000)
+
+// setInterval(function(){
+// 	if(TDSocket){
+// 		TDSocket.write(Math.floor(Math.random()*1000)+"\n")
+// 	}
+// },50)
+
+
+console.log("HTTP server running at port 8000\n");
+console.log("Socket IO running at port 3000\n");
 
 console.log("HTTP server running at port 8000\n");
 console.log("Socket IO running at port 3000\n");

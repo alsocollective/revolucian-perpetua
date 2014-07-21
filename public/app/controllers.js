@@ -50,6 +50,8 @@ controllers.tapping = function($scope, socket, UserSet, $location) {
 
 controllers.login = function($scope, socket, UserSet, $location) {
 	$scope.loginInfo = {}
+	$scope.loginInfo.username = "Your Name";
+	$scope.loginInfo.ticket = "000"
 	$scope.addUser = function() {
 		console.log($scope.loginInfo.username, $scope.loginInfo.ticket);
 
@@ -69,7 +71,7 @@ controllers.lobby = function($scope, socket, UserSet, $location) {
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
 	var yyyy = today.getFullYear();
-	var startTime = "23:50:00";
+	var startTime = "16:08:00";
 
 	var target_date = new Date(mm+" "+dd+", "+yyyy+", "+startTime).getTime();
 	var hours, minutes, seconds;
@@ -106,14 +108,15 @@ controllers.lobby = function($scope, socket, UserSet, $location) {
 	    	timer.innerHTML = "00 : 00 : 00";
 	   		console.log("PARTY TIME!");
 
-	   		$scope.showStart();
+	   		showStart();
+
 	    }	 
 	}, 1000);
 
-	$scope.showStart = function() {
+	var showStart = function() {
 
-		//$location.path('/tapping');
-		window.location.href = "/#/tapping"; //This is wrong!
+		$location.path('/tapping');
+		/*window.location.href = "/#/tapping";*/ //This is wrong!
   		//$location.replace();
   		clearInterval(timerId);
 	}
