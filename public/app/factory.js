@@ -1,7 +1,7 @@
 var factories = {};
 
 factories.socket = function($rootScope, $location) {
-	var socket = io.connect("192.168.100.119:3000");
+	var socket = io.connect("192.168.0.14:3000");
 	return {
 		on: function(eventName, callback) {
 			socket.on(eventName, function(msg) {
@@ -27,16 +27,16 @@ factories.UserSet = function($cookies, socket) {
 	var factory = {};
 	factory.user = null;
 	factory.ticket = null;
-	/*if ($cookies.user) {
+	if ($cookies.user) {
 		factory.user = $cookies.user;
 	} else {
-		fgactory.user = Math.floor(Math.random() * 200);
+		factory.user = Math.floor(Math.random() * 200);
 		$cookies.user = factory.user
 		socket.emit("set ID", factory.user, function(socket, arg) {
 			console.log(socket);
 			console.log(ar);
 		})
-	}*/
+	}
 	factory.setUserId = function(ticketNum, username) {
 		factory.user = username;
 		factory.ticket = ticketNum;

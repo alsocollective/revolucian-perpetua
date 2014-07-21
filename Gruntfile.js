@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 				src: [
 					'application/src/js/libraries/*.js',
 					'application/src/js/libraries/**/*.js'
-				],
+				]
 				dest: 'application/static/js/all-lib.js'
 			},
 			css: {
@@ -43,21 +43,21 @@ module.exports = function(grunt) {
 					style: 'compressed',
 				},
 				files: {
-					'public/css/style.css': 'public/sass/*.scss',
+					'application/static/css/screen.css': 'application/static/css/screen.scss',
 				}
 			}
 		},
 		watch: {
-			/*scripts: {
-				files: ['public/js/*.js', 'application/src/js/script.js'],
+			scripts: {
+				files: ['application/src/js/libraries/*.js', 'application/src/js/script.js'],
 				tasks: ['concat:js', 'uglify', 'notify:js'],
 				options: {
 					spawn: false
 				}
-			},*/
+			},
 			css: {
-				files: ['public/sass/*.scss'],
-				tasks: ['sass', 'notify:css'],
+				files: ['application/src/scss/*.scss'],
+				tasks: ['concat:css', 'sass', 'notify:css'],
 				options: {
 					spawn: false,
 				}
@@ -78,6 +78,9 @@ module.exports = function(grunt) {
 		}
 	});
 
+
+
+
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -86,7 +89,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-notify');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 
-	grunt.registerTask('w', ['watch', 'notify:watch', 'notify', 'concat:css', 'sass'])
+	grunt.registerTask('w', ['watch', 'notify:watch', 'notify'])
 	grunt.registerTask('default', ['concat', 'uglify', 'imagemin']);
 	grunt.registerTask('scss', ['concat:css', 'sass']);
 };

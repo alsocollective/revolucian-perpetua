@@ -1,11 +1,10 @@
 <div class="container">
 	<form class="modal">
-	<h1>Revolución Perpetua</h1>
-	<h2>Please enter your name and ticket number</h2>
-	
-		<!-- First name: <input type="text" name="fname" ng-model="loginInfo.fname"><br> -->
-		Ticket #: <input type="text" name="ticket" ng-model="loginInfo.ticket"><br>
-		<input type="number" name="quantity" min="1" max="5">
+	<h1>Revolución<br/>Perpetua<br/>&#8800;</h1>
+	<h1>Enter your ticket number.</h1>
+	<p>{{loginInfo.ticket}}</p>
+		<input type="text" name="ticket" ng-model="loginInfo.username" value="name"><br/>
+		<input type="text" name="quantity" value="&Oslash;&Oslash;&Oslash;" minlength="3" maxlength="3" ng-model="loginInfo.ticket"><br/>
 		<input type="submit" ng-click="addUser()">
 	</form>
 </div>

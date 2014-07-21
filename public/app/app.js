@@ -17,4 +17,8 @@ var timeApp = angular.module("timeApp", ['ngRoute', 'ngCookies', 'ngAnimate'])
 				controller: 'sync',
 				templateUrl: 'public/app/pages/loading.html'
 			})
+			.when('/lobby', {
+				controller: "lobby",
+				templateUrl: 'public/app/pages/lobby.html'
+			})
 	});

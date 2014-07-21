@@ -21,8 +21,9 @@ controllers.selectColours = function($scope, socket) {
 
 }
 
-controllers.tapping = function($scope, socket) {
+controllers.tapping = function($scope, socket, UserSet, $location) {
 	console.log("strted gyro");
+
 	scope = $scope;
 	var ax = 0,
 		ay = 0,
@@ -32,8 +33,9 @@ controllers.tapping = function($scope, socket) {
 			if (ax < event.accelerationIncludingGravity.x - 1 || ax > event.accelerationIncludingGravity.x + 1 || ay < event.accelerationIncludingGravity.y - 1 || ay > event.accelerationIncludingGravity.y + 1) {
 				ax = event.accelerationIncludingGravity.x;
 				ay = event.accelerationIncludingGravity.y;
-				console.log(Math.floor(ax * 100) + " " + Math.floor(ay * 100))
+				console.log(Math.floor(ax * 100) + " " + Math.floor(ay * 100));
 				socket.emit("msg", (ax.toString() + " " + ay.toString()));
+				
 				scope.message = (Math.floor(ax * 100) + " " + Math.floor(ay * 100));
 			}
 		}
@@ -49,11 +51,9 @@ controllers.tapping = function($scope, socket) {
 controllers.login = function($scope, socket, UserSet, $location) {
 	$scope.loginInfo = {}
 	$scope.addUser = function() {
-		console.log($scope.loginInfo.fname, $scope.loginInfo.ticket);
+		console.log($scope.loginInfo.username, $scope.loginInfo.ticket);
 
-		$location.path('/tapping');
-
-		// SEND TO LOBBY
+		$location.path('/lobby');
 	}
 
 	socket.on('CP', function(data) {
@@ -61,7 +61,65 @@ controllers.login = function($scope, socket, UserSet, $location) {
 	})
 }
 
-// WE NEED A LOBBY FUNCTION
+controllers.lobby = function($scope, socket, UserSet, $location) {
+
+	$scope.timer = {}
+
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	var startTime = "23:21:00";
+
+	var target_date = new Date(mm+" "+dd+", "+yyyy+", "+startTime).getTime();
+	var hours, minutes, seconds;
+	var timer = document.getElementById("timer");
+
+	console.log("You've reached the LOBBY!");
+
+	$('.autoplay').slick({
+        dots: false,
+        arrows: false,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000
+    });
+
+	var timerId = setInterval(function () {
+	 
+	    var current_date = new Date().getTime();
+	    var seconds_left = (target_date - current_date) / 1000;
+	 	     
+	    hours = parseInt(seconds_left / 3600);
+	    seconds_left = seconds_left % 3600;
+	     
+	    minutes = parseInt(seconds_left / 60);
+	    seconds = parseInt(seconds_left % 60);
+
+	    timer.innerHTML = ("0" + hours).slice(-2)+" : "+("0" + minutes).slice(-2)+" : "+("0" + seconds).slice(-2);
+
+	    if(hours <= 0 && minutes <= 0 && seconds <= 0) {
+
+	    	timer.innerHTML = "00 : 00 : 00";
+	   		console.log("PARTY TIME!");
+
+	   		$scope.showStart();
+	    }	 
+	}, 1000);
+
+	$scope.showStart = function() {
+
+		//$location.path('/tapping');
+		window.location.href = "/#/tapping"; //This is wrong!
+  		//$location.replace();
+  		clearInterval(timerId);
+	}
+
+	socket.on('CP', function(data) {$location.path(data)})
+}
 
 controllers.admin = function($scope, socket, UserSet, $location) {
 	$scope.userID = UserSet.user;
@@ -81,7 +139,7 @@ controllers.admin = function($scope, socket, UserSet, $location) {
 
 	socket.on('CP', function(data) {
 		console.log("got: " + data)
-		// $location.path(data);
+		//$location.path(data);
 	})
 }
 
