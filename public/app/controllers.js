@@ -69,7 +69,7 @@ controllers.lobby = function($scope, socket, UserSet, $location) {
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
 	var yyyy = today.getFullYear();
-	var startTime = "23:21:00";
+	var startTime = "23:50:00";
 
 	var target_date = new Date(mm+" "+dd+", "+yyyy+", "+startTime).getTime();
 	var hours, minutes, seconds;
