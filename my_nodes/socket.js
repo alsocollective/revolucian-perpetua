@@ -1,5 +1,7 @@
 var http = null,
-	io = null;
+	io = null,
+	udp = null;
+
 
 exports.setup = function(app) {
 	http = require('http').Server(app),
@@ -21,6 +23,10 @@ exports.connect = function(socket) {
 		console.log(msg, "connected");
 	})
 
+	socket.on("tapped",function(msg){
+		console.log("tapped "+msg)
+	})
+
 
 	socket.on("repeat", function(msg) {
 		console.log(msg)
@@ -32,3 +38,4 @@ exports.connect = function(socket) {
 exports.dissconect = function(socket) {
 
 }
+
