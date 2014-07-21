@@ -2,7 +2,7 @@ var express = require('express'),
 	app = express(),
 	views = require('./my_nodes/views'),
 	socket = require('./my_nodes/socket'),
-	SerialPort = require("serialport").SerialPort,
+	// SerialPort = require("serialport").SerialPort,
 	dgram = require("dgram"),
 	udp = dgram.createSocket("udp4"),
 	StringDecoder = require('string_decoder').StringDecoder;
@@ -41,27 +41,16 @@ udp.on("listening",function(){
 });
 udp.on("message",function(msg,info){
 	var msg = decoder.write(msg);
-	msg = msg.substring(24,msg.length)
+	msg = msg.substring(24,msg.length);
+	if(msg.substring(0,2) == "CP"){
+		socket.io.sockets.emit("CP",msg.substring(3,msg.length-2))
+	}
 	console.log(msg)
 });
 
 udp.bind(5000)
-// net.createServer(function (socket) {
-// 	TDSocket = socket;
-// 	socket.write("Welcome \n");
-// 	console.log("connection");
-// }).listen(5000)
-
-// setInterval(function(){
-// 	if(TDSocket){
-// 		TDSocket.write(Math.floor(Math.random()*1000)+"\n")
-// 	}
-// },50)
 
 
 console.log("HTTP server running at port 8000\n");
 console.log("Socket IO running at port 3000\n");
 
-console.log("HTTP server running at port 8000\n");
-console.log("Socket IO running at port 3000\n");
-console.log("TCP/Ip server running at port 5000\n");
