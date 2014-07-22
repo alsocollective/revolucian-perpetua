@@ -184,7 +184,6 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 	$scope.$on("$destroy", function() {
 		window.ondevicemotion = null;
 	});
-
 }
 
 
@@ -201,8 +200,12 @@ controllers.login = function($scope, socket, UserSet, $location) {
 		$location.path('/lobby');
 	}
 
-	if($scope.ticket.length != 3){
-		
+	window.onkeypress = function(){
+		if($scope.ticket.length != 3){
+			console.log("nope");
+		}else{
+			console.log("yup");
+		}
 	}
 
 	socket.on('CP', function(data) {$location.path(data)});
