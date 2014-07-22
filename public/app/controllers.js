@@ -16,6 +16,27 @@ controllers.sync = function($scope, $location, socket, UserSet) {
 
 }
 
+controllers.swipe = function($scope, socket, $location, $timeout) {
+
+	$scope.users = ["@SamiraAhmed", "@NerminAl-Fiqy", "@LobnaAbdelAziz", "@DaliaElBehery", "@Bushra", "@IlhamChahine", "@MimiChakib"] //, "@AssiaDagher", "@NabilaEbeid", "@MariamFakhrEddine", "@RehamAbdElGhafour", "@LailaElwi", "@NaglaaFathi", "@Feyrouz", "@SanaaGamil", "@FatenHamama", "@SuadHusni", "@YosraElLozy", "@NadiaLutfi", "@FerdoosMohammed", "@LeilaMourad", "@Nadine[disambiguationneeded]", "@SuadNasr", "@MaryQueeny", "@GehanRateb", "@AminaRizk", "@HendRostom", "@HalaSedki", "@Shadia", "@Sherihan", "@Shwikar", "@HananTork", "@Yousra", "@MonaZaki"]
+
+	$timeout(function() {
+		jQuery(".usersswippe").slick({
+			dots: false,
+			arrows: false,
+			infinite: false,
+			speed: 300,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			autoplay: false,
+			autoplaySpeed: 2000
+		});
+	});
+
+	socket.on('CP', function(data) {
+		$location.path(data)
+	});
+}
 
 controllers.shaker = function($scope, socket, UserSet, $location) {
 
@@ -27,24 +48,24 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 	/*$scope.colourSelect.colour1 = "000";
 	$scope.colourSelect.colour2 = "000";
 
-	var colour1 = [0,0,0];
-	var colour2 = [0,0,0];
+	var colour1 = [0, 0, 0];
+	var colour2 = [0, 0, 0];
 
 	console.log("Get Shak'nnnn wwwwwwoooo!");
 
 	$scope.addColour1 = function(value) {
-		console.log("colour1 "+value);
+		console.log("colour1 " + value);
 		$scope.colourSelect.colour1 = value;
 		checker();
 	}
 	$scope.addColour2 = function(value) {
-		console.log("colour2 "+value);
+		console.log("colour2 " + value);
 		$scope.colourSelect.colour2 = value;
 		checker();
 	}
 
-	function checker(){
-		if($scope.colourSelect.colour2 != "000" && $scope.colourSelect.colour1 != "000"){
+	function checker() {
+		if ($scope.colourSelect.colour2 != "000" && $scope.colourSelect.colour1 != "000") {
 			console.log("success");
 			document.getElementById("colorSelect").remove();
 
@@ -57,38 +78,41 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 		}
 	}
 
-	if(window.DeviceMotionEvent){
+	if (window.DeviceMotionEvent) {
 		var min = 0,
 			max = 0,
 			current = 0;
-			// colour1 = "#ff0000",
-			// colour2 = "#0000ff";
-			console.log(colour1);
-			window.ondevicemotion = function(event) {
-			if(event.accelerationIncludingGravity.z ){
+		// colour1 = "#ff0000",
+		// colour2 = "#0000ff";
+		console.log(colour1);
+		window.ondevicemotion = function(event) {
+			if (event.accelerationIncludingGravity.z) {
 				//real it back in...
 				min += 50;
 				max -= 50;
-				current = (Math.floor(event.accelerationIncludingGravity.x*1000));
-				if(current < min){
+				current = (Math.floor(event.accelerationIncludingGravity.x * 1000));
+				if (current < min) {
 					min = current;
-				} else if (current > max){
+				} else if (current > max) {
 					max = current;
 				}
-				output.style.backgroundColor = mapColour(current,min,max,colour1,colour2);
+				output.style.backgroundColor = mapColour(current, min, max, colour1, colour2);
 			}
-	    }
+		}
 	}
 
-	function mapColour(cur,min,max,c1,c2){
-		var percent = (cur - min)/(max - min);
-		return "rgb("+map255(percent,c1,c2,0)+","+map255(percent,c1,c2,1)+","+map255(percent,c1,c2,2)+")"
+	function mapColour(cur, min, max, c1, c2) {
+		var percent = (cur - min) / (max - min);
+		return "rgb(" + map255(percent, c1, c2, 0) + "," + map255(percent, c1, c2, 1) + "," + map255(percent, c1, c2, 2) + ")"
 	}
 
 	function map255(percent,c1,c2,c){
 		return Math.floor(percent*(c2[c]-c1[c])+c1[c])
 	}*/
 
+	socket.on('CP', function(data) {
+		$location.path(data)
+	});
 }
 
 controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
@@ -187,6 +211,10 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 	$scope.$on("$destroy", function() {
 		window.ondevicemotion = null;
 	});
+	socket.on('CP', function(data) {
+		$location.path(data)
+	});
+
 }
 
 
@@ -266,7 +294,9 @@ controllers.lobby = function($scope, socket, UserSet, $location) {
 		}
 	}, 1000);
 
-	socket.on('CP', function(data) {$location.path(data)});
+	socket.on('CP', function(data) {
+		$location.path(data)
+	});
 }
 
 controllers.admin = function($scope, socket, UserSet, $location) {
