@@ -1,10 +1,10 @@
 <div class="container">
 	<form class="modal">
 	<h1>Revolución<br/>Perpetua<br/>&#8800;</h1>
-	<h1>Enter your ticket number.</h1>
+	<h2>Enter your ticket number.</h2>
 	<!-- <p>{{loginInfo.ticket}}</p> -->
-		<input type="text" name="ticket" ng-model="loginInfo.username"><br/>
-		<input type="text" name="quantity" minlength="3" maxlength="3" ng-model="loginInfo.ticket"><br/>
-		<input type="submit" ng-click="addUser()">
+		<!-- <input type="text" name="ticket" ng-model="loginInfo.username"><br/> -->
+		<input type="text" name="ticket-input" minlength="3" maxlength="3" ng-model="ticket" ng-click="ticket=''"><br/>
+		<input type="submit" ng-click="addUser()" class="active">
 	</form>
 </div>

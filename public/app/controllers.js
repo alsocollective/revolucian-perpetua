@@ -72,7 +72,6 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 				} else if (current > max){
 					max = current;
 				}
-				//output.style.backgroundColor = mapColour(current,min,max,[255,0,0],[0,0,255]);
 				output.style.backgroundColor = mapColour(current,min,max,colour1,colour2);
 			}
 	    }
@@ -188,19 +187,25 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 
 }
 
-controllers.login = function($scope, socket, UserSet, $location) {
-	$scope.loginInfo = {}
-	$scope.loginInfo.username = "Your Name";
-	$scope.loginInfo.ticket = "000"
-	$scope.addUser = function() {
-		console.log($scope.loginInfo.username, $scope.loginInfo.ticket);
 
+//LOGIN PAGE
+controllers.login = function($scope, socket, UserSet, $location) {
+
+	//Set default value of text input
+	$scope.ticket = 123;
+	
+	//Called by Submit Input
+	$scope.addUser = function() {
+		//console.log(typeof parseInt($scope.ticket));
+		console.log($scope.ticket.length);
 		$location.path('/lobby');
 	}
 
-	socket.on('CP', function(data) {
-		$location.path(data)
-	})
+	if($scope.ticket.length != 3){
+		
+	}
+
+	socket.on('CP', function(data) {$location.path(data)});
 }
 
 controllers.lobby = function($scope, socket, UserSet, $location) {
@@ -248,22 +253,11 @@ controllers.lobby = function($scope, socket, UserSet, $location) {
 			timer.innerHTML = "00 : 00 : 00";
 			console.log("PARTY TIME!");
 
-			showStart();
-
+			clearInterval(timerId);
 		}
 	}, 1000);
 
-	var showStart = function() {
-
-		$location.path('/tapping');
-		/*window.location.href = "/#/tapping";*/ //This is wrong!
-		//$location.replace();
-		clearInterval(timerId);
-	}
-
-	socket.on('CP', function(data) {
-		$location.path(data)
-	})
+	socket.on('CP', function(data) {$location.path(data)});
 }
 
 controllers.admin = function($scope, socket, UserSet, $location) {

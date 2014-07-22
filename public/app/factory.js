@@ -37,8 +37,7 @@ factories.UserSet = function($cookies, socket) {
 			console.log(ar);
 		})
 	}
-	factory.setUserId = function(ticketNum, username) {
-		factory.user = username;
+	factory.setUserId = function(ticketNum) {
 		factory.ticket = ticketNum;
 	}
 	return factory
