@@ -18,9 +18,46 @@ controllers.sync = function($scope, $location, socket, UserSet) {
 
 controllers.swipe = function($scope, socket, $location, $timeout) {
 
-	$scope.users = ["@SamiraAhmed", "@NerminAl-Fiqy", "@LobnaAbdelAziz", "@DaliaElBehery", "@Bushra", "@IlhamChahine", "@MimiChakib"] //, "@AssiaDagher", "@NabilaEbeid", "@MariamFakhrEddine", "@RehamAbdElGhafour", "@LailaElwi", "@NaglaaFathi", "@Feyrouz", "@SanaaGamil", "@FatenHamama", "@SuadHusni", "@YosraElLozy", "@NadiaLutfi", "@FerdoosMohammed", "@LeilaMourad", "@Nadine[disambiguationneeded]", "@SuadNasr", "@MaryQueeny", "@GehanRateb", "@AminaRizk", "@HendRostom", "@HalaSedki", "@Shadia", "@Sherihan", "@Shwikar", "@HananTork", "@Yousra", "@MonaZaki"]
+	$scope.users = ["@SamiraAhmed", "@NerminAl-Fiqy", "@LobnaAbdelAziz", "@DaliaElBehery"] //, "@Bushra", "@IlhamChahine", "@MimiChakib", "@AssiaDagher", "@NabilaEbeid", "@MariamFakhrEddine", "@RehamAbdElGhafour", "@LailaElwi", "@NaglaaFathi", "@Feyrouz", "@SanaaGamil", "@FatenHamama", "@SuadHusni", "@YosraElLozy", "@NadiaLutfi", "@FerdoosMohammed", "@LeilaMourad", "@Nadine[disambiguationneeded]", "@SuadNasr", "@MaryQueeny", "@GehanRateb", "@AminaRizk", "@HendRostom", "@HalaSedki", "@Shadia", "@Sherihan", "@Shwikar", "@HananTork", "@Yousra", "@MonaZaki"]
 
-	$timeout(function() {
+	$scope.currentList = ["@SamiraAhmed", "@NerminAl-Fiqy", "@LobnaAbdelAziz", "@DaliaElBehery"];
+
+	function timeoutFunction() {
+		$(".usersswippe").slick({
+			dots: false,
+			arrows: false,
+			infinite: false,
+			speed: 300,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			autoplay: false,
+			autoplaySpeed: 2000,
+			onAfterChange: function() {
+				if (!this.currentSlide) {
+					var index = $scope.currentList.indexOf(this.$slider[0].id);
+					if (index !== -1) {
+						$scope.currentList.splice(index, 1);
+					}
+					$(this.$slider[0]).unslick();
+					var el = this.$slider[0];
+					$(el).height($(el).height() / 2);
+					$(el).height(0);
+					$timeout(function() {
+						el.parentNode.removeChild(el);
+						if ($scope.currentList.length == 0) {
+							console.log("load in data");
+							console.log($scope.users);
+							$scope.currentList = $scope.users;
+							$timeout(timeoutFunction);
+						}
+					}, 500)
+				}
+			}
+		}).slickNext();
+	}
+
+	$timeout(timeoutFunction);
+	/*function() {
 		jQuery(".usersswippe").slick({
 			dots: false,
 			arrows: false,
@@ -29,9 +66,31 @@ controllers.swipe = function($scope, socket, $location, $timeout) {
 			slidesToShow: 1,
 			slidesToScroll: 1,
 			autoplay: false,
-			autoplaySpeed: 2000
-		});
-	});
+			autoplaySpeed: 2000,
+			onAfterChange: function() {
+				if (!this.currentSlide) {
+					var index = $scope.currentList.indexOf(this.$slider[0].id);
+					if (index !== -1) {
+						$scope.currentList.splice(index, 1);
+					}
+
+					if ($scope.currentList.length == 0) {
+						console.log("load in data");
+						// $scope.currentList = $scope.users;
+					}
+
+					$(this.$slider[0]).unslick();
+					var el = this.$slider[0];
+					$(el).height($(el).height() / 2);
+					$(el).height(0);
+					$timeout(function() {
+						el.parentNode.removeChild(el);
+					}, 500)
+				}
+			}
+		}).slickNext()
+
+	}*/
 
 	socket.on('CP', function(data) {
 		$location.path(data)
@@ -224,7 +283,7 @@ controllers.login = function($scope, socket, UserSet, $location) {
 	//Set default value of text input
 	$scope.ticket = 123;
 	$scope.active = true;
-	
+
 	//Called by Submit Input
 	$scope.addUser = function() {
 		console.log($scope.ticket.length);
@@ -233,13 +292,15 @@ controllers.login = function($scope, socket, UserSet, $location) {
 
 	//Keep checking the field whenever there is input
 	$scope.changeLength = function() {
-		if($scope.ticket.length > 2){
+		if ($scope.ticket.length > 2) {
 			$scope.active = false;
-		}else{
+		} else {
 			$scope.active = true;
 		}
-    };
-	socket.on('CP', function(data) {$location.path(data)});
+	};
+	socket.on('CP', function(data) {
+		$location.path(data)
+	});
 }
 
 controllers.lobby = function($scope, socket, UserSet, $location) {
