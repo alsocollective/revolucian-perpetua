@@ -1,6 +1,6 @@
 <div class="container">
 
-	<div id="output">
+	<div id="output" ng-class="{fade : active}">
 		<h1>Shaker</h1>
 	    <h1>{{message}}</h1>
 	    <h2>Shak'n TIME!</h2>
@@ -25,12 +25,29 @@
 	#output{
 		height: 70%;
 		width: 100%;
-		background-color: #000;
+		/*background-color: #000;*/
 		/*-webkit-transition: background-color 0.25s;
 		-moz-transition: background-color 0.25s;
 		-o-transition: background-color 0.25s;
 		-ms-transition: background-color 0.25s;
 		transition: background-color 0.25s;*/
+	}
+
+	.fade{
+		-webkit-animation: towhite 0.7s; /* Chrome, Safari, Opera */
+		animation: towhite 0.7s;
+	}
+
+	/* Chrome, Safari, Opera */
+	@-webkit-keyframes towhite {
+		from {background: #000;}
+		to {background: #fff;}
+	}
+
+	/* Standard syntax */
+	@keyframes towhite {
+		from {background: #000;}
+		to {background: #fff;}
 	}
 
 	</style>

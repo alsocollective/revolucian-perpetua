@@ -20,8 +20,11 @@ controllers.sync = function($scope, $location, socket, UserSet) {
 controllers.shaker = function($scope, socket, UserSet, $location) {
 
 	$scope.colourSelect = {}
+	$scope.active = true;
 
-	$scope.colourSelect.colour1 = "000";
+	//$scope.colourSelect
+
+	/*$scope.colourSelect.colour1 = "000";
 	$scope.colourSelect.colour2 = "000";
 
 	var colour1 = [0,0,0];
@@ -84,7 +87,7 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 
 	function map255(percent,c1,c2,c){
 		return Math.floor(percent*(c2[c]-c1[c])+c1[c])
-	}
+	}*/
 
 }
 
@@ -192,34 +195,36 @@ controllers.login = function($scope, socket, UserSet, $location) {
 
 	//Set default value of text input
 	$scope.ticket = 123;
+	$scope.active = true;
 	
 	//Called by Submit Input
 	$scope.addUser = function() {
-		//console.log(typeof parseInt($scope.ticket));
 		console.log($scope.ticket.length);
 		$location.path('/lobby');
 	}
 
-	window.onkeypress = function(){
+	//Keep checking the field whenever there is input
+	$scope.changeLength = function() {
 		if($scope.ticket.length > 2){
-			console.log("yup");
+			$scope.active = false;
 		}else{
-			console.log("nope");
+			$scope.active = true;
 		}
-	}
-
+    };
 	socket.on('CP', function(data) {$location.path(data)});
 }
 
 controllers.lobby = function($scope, socket, UserSet, $location) {
 
-	$scope.timer = {}
+	var scope = angular.element(main_container).scope();
+
+	scope.countdown = "00 : 00 : 00";
 
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth() + 1; //January is 0!
 	var yyyy = today.getFullYear();
-	var startTime = "16:08:00";
+	var startTime = "23:08:00";
 
 	var target_date = new Date(mm + " " + dd + ", " + yyyy + ", " + startTime).getTime();
 	var hours, minutes, seconds;
@@ -231,11 +236,11 @@ controllers.lobby = function($scope, socket, UserSet, $location) {
 		dots: false,
 		arrows: false,
 		infinite: true,
-		speed: 300,
+		speed: 200,
 		slidesToShow: 1,
 		slidesToScroll: 1,
 		autoplay: true,
-		autoplaySpeed: 2000
+		autoplaySpeed: 3000
 	});
 
 	var timerId = setInterval(function() {
@@ -249,12 +254,13 @@ controllers.lobby = function($scope, socket, UserSet, $location) {
 		minutes = parseInt(seconds_left / 60);
 		seconds = parseInt(seconds_left % 60);
 
-		timer.innerHTML = ("0" + hours).slice(-2) + " : " + ("0" + minutes).slice(-2) + " : " + ("0" + seconds).slice(-2);
+		scope.$apply(function() {
+			scope.countdown = ("0" + hours).slice(-2) + " : " + ("0" + minutes).slice(-2) + " : " + ("0" + seconds).slice(-2);;
+		})
 
 		if (hours <= 0 && minutes <= 0 && seconds <= 0) {
 
 			timer.innerHTML = "00 : 00 : 00";
-			console.log("PARTY TIME!");
 
 			clearInterval(timerId);
 		}
