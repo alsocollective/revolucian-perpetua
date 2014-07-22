@@ -13,8 +13,8 @@ body{
 	letter-spacing: 0.02em;
 }
 
+//Keep this sacred
 .container{
-	//display:table;
 	width: 100%;
 	height: 100%;
 	padding: 0;
@@ -71,3 +71,35 @@ table{
 .slick-slide{
 	height: 300px !important;
 }
+
+//Shaker specific styles
+#shaker{
+	text-align: center;
+	button{
+		border-radius: 6em;
+		margin: 1em;
+		padding: 6em;
+		border: none;
+	}
+}
+
+.hide{
+	display:none;
+}
+
+.fade{
+		-webkit-animation: towhite 2s; /* Chrome, Safari, Opera */
+		animation: towhite 2s;
+	}
+
+	/* Chrome, Safari, Opera */
+	@-webkit-keyframes towhite {
+		from {opacity: 0;}
+		to {opacity: 1;}
+	}
+
+	/* Standard syntax */
+	@keyframes towhite {
+		from {opacity: 0;}
+		to {opacity: 1;}
+	}

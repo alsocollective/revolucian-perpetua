@@ -43,15 +43,17 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 	$scope.colourSelect = {}
 	$scope.active = true;
 
+	$scope.controls = false;
+
 	//$scope.colourSelect
 
-	/*$scope.colourSelect.colour1 = "000";
-	$scope.colourSelect.colour2 = "000";
+	$scope.colourSelect.colour1 = null;
+	$scope.colourSelect.colour2 = null;
 
-	var colour1 = [0, 0, 0];
-	var colour2 = [0, 0, 0];
+	var colour1 = [50, 50, 50];
+	var colour2 = [50, 50, 50];
 
-	console.log("Get Shak'nnnn wwwwwwoooo!");
+	console.log("Get Shak'n");
 
 	$scope.addColour1 = function(value) {
 		console.log("colour1 " + value);
@@ -65,9 +67,12 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 	}
 
 	function checker() {
-		if ($scope.colourSelect.colour2 != "000" && $scope.colourSelect.colour1 != "000") {
+		if ($scope.colourSelect.colour2 != null && $scope.colourSelect.colour1 != null) {
 			console.log("success");
-			document.getElementById("colorSelect").remove();
+			
+			//document.getElementById("colorSelector").remove();
+
+			$scope.controls = true;
 
 			var array1 = $scope.colourSelect.colour1.split(',').map(Number);
 			var array2 = $scope.colourSelect.colour2.split(',').map(Number);
@@ -82,8 +87,9 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 		var min = 0,
 			max = 0,
 			current = 0;
-		// colour1 = "#ff0000",
-		// colour2 = "#0000ff";
+
+		//output.style.color = [255,255,255];
+
 		console.log(colour1);
 		window.ondevicemotion = function(event) {
 			if (event.accelerationIncludingGravity.z) {
@@ -97,6 +103,7 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 					max = current;
 				}
 				output.style.backgroundColor = mapColour(current, min, max, colour1, colour2);
+				output.style.color = mapColour(current, min, max, colour2, colour1);
 			}
 		}
 	}
@@ -108,11 +115,8 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 
 	function map255(percent,c1,c2,c){
 		return Math.floor(percent*(c2[c]-c1[c])+c1[c])
-	}*/
-
-	socket.on('CP', function(data) {
-		$location.path(data)
-	});
+	}
+	socket.on('CP', function(data) {$location.path(data)});
 }
 
 controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
