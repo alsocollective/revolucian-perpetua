@@ -201,10 +201,10 @@ controllers.login = function($scope, socket, UserSet, $location) {
 	}
 
 	window.onkeypress = function(){
-		if($scope.ticket.length != 3){
-			console.log("nope");
-		}else{
+		if($scope.ticket.length > 2){
 			console.log("yup");
+		}else{
+			console.log("nope");
 		}
 	}
 
