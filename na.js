@@ -3,9 +3,10 @@ var express = require('express'),
 	views = require('./my_nodes/views'),
 	socket = require('./my_nodes/socket'),
 	// SerialPort = require("serialport").SerialPort,
-	dgram = require("dgram"),
-	udp = dgram.createSocket("udp4"),
-	StringDecoder = require('string_decoder').StringDecoder;
+	// dgram = require("dgram"),
+	// udp = dgram.createSocket("udp4"),
+	StringDecoder = require('string_decoder').StringDecoder,
+	net = require('net');
 
 app
 	.set('views', __dirname + '/views')
@@ -33,22 +34,27 @@ socket.io.on('connection', socket.connect);
 // 	baudrate: 9600
 // });
 
-var TDSocket = null;
+
 var decoder = new StringDecoder('utf8');
-//UDP
-udp.on("listening",function(){
-	console.log("UDP server running at port 5000\n");
-});
-udp.on("message",function(msg,info){
-	var msg = decoder.write(msg);
-	msg = msg.substring(24,msg.length);
-	if(msg.substring(0,2) == "CP"){
-		socket.io.sockets.emit("CP",msg.substring(3,msg.length-2))
-	}
-	console.log(msg)
+var tcp = net.createServer(function(sock) {
+	socket.setTCP(sock);
+	console.log('server connected');
+	sock.on('end', function() {
+		console.log('server disconnected');
+		socket.setTCP(null);
+	});
+
+	sock.on('data', function(data) {
+		var msg = decoder.write(data);
+		if(msg.substring(0,2) == "CP"){
+			socket.io.sockets.emit("CP",msg.substring(3,msg.length-2))
+		}
+	});
 });
 
-udp.bind(5000)
+tcp.listen(5000, function() { 
+	console.log('TCP running at port 5000\n');
+});
 
 
 console.log("HTTP server running at port 8000\n");

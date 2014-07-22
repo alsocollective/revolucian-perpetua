@@ -1,6 +1,6 @@
 var http = null,
 	io = null,
-	udp = null;
+	tcp = null;
 
 
 exports.setup = function(app) {
@@ -11,7 +11,9 @@ exports.setup = function(app) {
 	exports.io = io;
 }
 
-
+exports.setTCP = function(tcpin){
+	tcp = tcpin;
+}
 
 exports.connect = function(socket) {
 	io.sockets.emit('setup', {
@@ -24,14 +26,13 @@ exports.connect = function(socket) {
 	})
 
 	socket.on("tapped",function(msg){
-		console.log("tapped "+msg)
+		tcp.write("tapped "+msg['device'])
 	})
 
 
 	socket.on("repeat", function(msg) {
 		console.log(msg)
 		io.sockets.emit(msg.header, msg.msg);
-		// io.sockets.emit()
 	})
 }
 
