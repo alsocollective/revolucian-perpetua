@@ -122,7 +122,7 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 						scope.active = false;
 						// console.log(scope.socket.on)
 						scope.socket.emit('tapped', {
-							"device": 233
+							"device": 10
 						})
 					})
 					$timeout(function() {
@@ -146,7 +146,7 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 		if (nTime - time > 300) {
 			$scope.active = false;
 			socket.emit('tapped', {
-				"device": 233
+				"device": 11
 			})
 			$timeout(function() {
 				$scope.active = true;
