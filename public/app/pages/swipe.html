@@ -1,4 +1,41 @@
 <div class="container">
 	<h1>Swipe</h1>
-    <h1>{{message}}</h1>
+
+	<ul >
+		<li ng-repeat="user in users" class="usersswippe"><div class="name">{{user}}</div><div class="no-name">NONE</div></li>
+	</ul>
+
+	<style type="text/css">
+	.container{
+		display: block;
+	}
+	ul{
+		padding: 0;
+		margin: 0;
+	}
+	li{
+		margin-bottom: 0;
+	}
+	.usersswippe{
+		display: block;
+		width: 100%;
+	}
+	.slick-slide{
+		height: auto !important;
+	}
+	.slick-slider{
+		margin-bottom: 0;
+	}
+
+	.name{
+		padding: 2em 0;
+		text-align: center;
+		background: #ccc;
+	}
+	.no-name{
+		padding: 2em 0;
+		text-align: center;		
+		background: #000;
+	}
+	</style>
 </div>
