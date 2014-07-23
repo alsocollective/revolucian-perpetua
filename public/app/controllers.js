@@ -180,6 +180,10 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 
 controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 	console.log("started tapping controller");
+	// $scope.userID = UserSet.ticket;
+	// if( UserSet.ticket == null){
+	// 	$location.path("/")
+	// }
 
 	$scope.socket = socket;
 
@@ -201,7 +205,7 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 	}
 
 
-	function deviceTapDetect(event, socket) {
+	function deviceTapDetect(event) {
 		if (event.accelerationIncludingGravity.z) {
 			var current = Math.floor(event.accelerationIncludingGravity.z * 1000);
 			if ((average - current > 500 && average - current < 3000) && current < averageList[avLength]) {
@@ -212,7 +216,7 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 						scope.active = false;
 						// console.log(scope.socket.on)
 						scope.socket.emit('tapped', {
-							"device": 10
+							"device": 03
 						})
 					})
 					$timeout(function() {
@@ -317,7 +321,7 @@ controllers.lobby = function($scope, socket, UserSet, $location) {
 	var dd = today.getDate();
 	var mm = today.getMonth() + 1; //January is 0!
 	var yyyy = today.getFullYear();
-	var startTime = "23:08:00";
+	var startTime = "18:40:00";
 
 	var target_date = new Date(mm + " " + dd + ", " + yyyy + ", " + startTime).getTime();
 	var hours, minutes, seconds;
