@@ -185,7 +185,20 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 	// 	$location.path("/")
 	// }
 
-	$scope.socket = socket;
+	function handleMotionEvent(event) {
+
+    var x = event.accelerationIncludingGravity.x;
+    var y = event.accelerationIncludingGravity.y;
+    var z = event.accelerationIncludingGravity.z;
+
+    console.log(x,y,z);
+}
+
+window.addEventListener("devicemotion", handleMotionEvent, true);
+
+//We need orientation combined with a highpass filter to make this work.
+
+	/*$scope.socket = socket;
 
 	var averageList = [0, 0, 0, 0, 0],
 		avLength = averageList.length,
@@ -280,8 +293,7 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 	});
 	socket.on('CP', function(data) {
 		$location.path(data)
-	});
-
+	});*/
 }
 
 
