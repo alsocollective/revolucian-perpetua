@@ -178,19 +178,71 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 	socket.on('CP', function(data) {$location.path(data)});
 }
 
+
+
+
 controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
+	
 	console.log("started tapping controller");
+
+	var rawArray = [];
+	var time = (new Date()).getTime()
 
 	function handleMotionEvent(event) {
 
-    var x = event.accelerationIncludingGravity.x;
-    var y = event.accelerationIncludingGravity.y;
-    var z = event.accelerationIncludingGravity.z;
+	    //var x = event.accelerationIncludingGravity.x;
+	    //var y = event.accelerationIncludingGravity.y;
+	    var z = event.accelerationIncludingGravity.z;
 
-    console.log(x,y,z);
-}
+	    rawArray.push(z);
+
+	    //Make array, only begin if 100+ values have been collected
+	    if(rawArray.length > 100){
+	    	HIGHPASS(rawArray,100,time);
+	    	//console.log(rawArray.length + " Val: " + rawArray[50]);
+	    }else{
+	    	console.log("Not enough data.");
+	    }
+	}
 
 window.addEventListener("devicemotion", handleMotionEvent, true);
+
+function HIGHPASS (dataIn,timeInterval,constantTime) {
+	var liveData = dataIn[0];
+	//???
+	y[0] = x[0];
+
+	for(i=0; i < n.length; i++){
+		y[i] := α * y[i-1] + α * (x[i] - x[i-1])
+	}
+
+	return y
+
+	console.log(rawArray.length + " Val: " + rawArray[50]);
+}
+
+
+// function HIGHPASS (real[x],DT,RC) {
+// 	var real[0];
+// 	//lowpass smooths high pass isolates peaks
+
+// 	
+
+// 	//α is ALPHA
+// }
+
+// Return RC high-pass filter output samples, given input samples,
+ // time interval dt, and time constant RC
+ 
+ /*function highpass(real[0..n] x, real dt, real RC)
+   var real[0..n] y
+   var real α := RC / (RC + dt)
+   y[0] := x[0]
+   for i from 1 to n
+     y[i] := α * y[i-1] + α * (x[i] - x[i-1])
+   return y*/
+
+
 
 //We need orientation combined with a highpass filter to make this work.
 
