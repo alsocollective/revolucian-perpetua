@@ -4,6 +4,8 @@ TASKS:
 - Device orientation
 - Icon sets with animations and better copy
 
+== Sensor Diagnostic Graph Added ==
+- Needs to connect via Node
 
 == Colours/Shaking ==
 - sets of colours
@@ -16,6 +18,10 @@ TASKS:
 == tapping ==
 if tapping not working well, focus on just tap
 website not selectable
+
+- Tapping has been optimized since last demo, but could use some more work (because why not?)
+
+- Should add a tapper level breakpoint. If they don't tap hard enough, we should tell them.
 
 == dead screen ==
 
