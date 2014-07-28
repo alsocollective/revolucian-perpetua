@@ -1,0 +1,63 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+
+var mvAvgList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	mvListLength = mvAvgList.length,
+	mvAvg = 0,
+	mvAvgX = 0,
+	mvAvgY = 0,
+	tc = 0.4,
+	diffArr = [0,0]
+
+function handleMotionEvent(event) {
+
+		var x = event.accelerationIncludingGravity.x;
+	    var y = event.accelerationIncludingGravity.y;
+	    var z = event.accelerationIncludingGravity.z;
+
+	    // add new Value to array and remove oldest
+		mvAvgList.shift();
+		mvAvgList[mvListLength] = y;
+
+		// Find average of array 10 values
+		var sum = mvAvgList.reduce(function(a, b) { return a + b });
+		var avgNow = sum / mvAvgList.length;
+
+		//avgNow = (y*tc)+(avgNow*(1.0-tc));
+
+		// Exponentially decaying moving average
+	    mvAvg = (y*tc)+(mvAvg*(1.0-tc));
+
+	    diffArr.shift();
+		diffArr[diffArr.length] = mvAvg;
+
+
+	    function diff(a,b){return Math.abs(a-b);}
+
+	    console.log(diff(diffArr[0],diffArr[1]));
+
+	    //console.log(Math.abs(mvAvg)+","+Math.abs(avgNow));
+
+
+	    /*
+
+	    TRY NORMALIZING THE DATA
+
+	    */
+
+	    // Low pass filter test 1
+	    /*if (abs(z - avgNow) > 20 || ) {
+    		thisValue = averageOfLast10Values;
+		}*/
+	}
+
+window.addEventListener("devicemotion", handleMotionEvent, true);
+
+</script>
+</html>
