@@ -1,32 +1,52 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
- 
-svg {
-  font: 10px sans-serif;
-}
- 
-.line {
-  fill: none;
-  stroke: #00f;
-  stroke-width: 1.5px;
-}
- 
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
- 
-</style>
+<html>
+
+<head>
+  <style>
+   
+  svg {
+    font: 10px sans-serif;
+  }
+   
+  .line {
+    fill: none;
+    stroke: #00f;
+    stroke-width: 1.5px;
+  }
+   
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+   
+  </style>
+</head>
+
 <body>
+  <div id="visualization"></div>
+
+  <button id="movingAverage">Moving Average</button>
+  <button id="differenceValue">Difference Value</button>
+</body>
+
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
 
 var newPosition = null;
+
+//filters
+var mvAvg = 0,
+    tc = 0.4,
+    diffArr = [0,0];
+
+//filter controls
+var movingAverage = false,
+    differenceValue = false;
  
-var n = 40,
+var n = 160,
     data = d3.range(n).map(function(){
       for(i=0;i<40;i++){
         return i;
@@ -34,7 +54,7 @@ var n = 40,
     });
 
 var margin = {top: 20, right: 20, bottom: 20, left: 40},
-    width = 600 - margin.left - margin.right,
+    width = 900 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
  
 var x = d3.scale.linear()
@@ -42,14 +62,14 @@ var x = d3.scale.linear()
     .range([0, width]);
  
 var y = d3.scale.linear()
-    .domain([-2, 2])
+    .domain([-1.5, 1.5])
     .range([height, 0]);
  
 var line = d3.svg.line()
     .x(function(d, i) { return x(i); })
     .y(function(d, i) { return y(d); });
  
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#visualization").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -60,11 +80,6 @@ svg.append("defs").append("clipPath")
     .append("rect")
     .attr("width", width)
     .attr("height", height);
- 
-//svg.append("g")
-    //.attr("class", "x axis")
-    //.attr("transform", "translate(0," + y() + ")")
-    //.call(d3.svg.axis().scale(x).orient("bottom"));
  
 svg.append("g")
     .attr("class", "y axis")
@@ -88,7 +103,7 @@ function tick() {
       .attr("d", line)
       .attr("transform", null)
     .transition()
-      .duration(500)
+      .duration(50)
       .ease("linear")
       .attr("transform", "translate(" + x(-1) + ",0)")
       .each("end", tick);
@@ -98,10 +113,54 @@ function tick() {
 }
 
 function deviceMotionHandler(eventData) {
-  var accl = event.accelerationIncludingGravity.x;
+  var accl = event.accelerationIncludingGravity.y;
+
   newPosition = accl;
+
+  if(movingAverage){
+    // Exponentially decaying moving average
+    mvAvg = (accl*tc)+(mvAvg*(1.0-tc));
+
+    newPosition = mvAvg;
+  }
+  
+  if(differenceValue){
+    // Exponentially decaying moving average
+    mvAvg = (accl*tc)+(mvAvg*(1.0-tc));
+  
+    diffArr.shift();
+    diffArr[diffArr.length] = mvAvg;
+
+    function diff(a,b){return Math.abs(a-b);}
+
+    newPosition = diff(diffArr[0],diffArr[1]);
+  }
+
+  /*
+
+      TRY NORMALIZING THE DATA
+
+      ALSO TRY INCORPORATING TIME
+
+      */
+
+      // Low pass filter test 1
+      /*if (abs(z - avgNow) > 20 || ) {
+        thisValue = averageOfLast10Values;
+    }*/
+
 }
 
 window.addEventListener('devicemotion', deviceMotionHandler, false);
 
+d3.select('#movingAverage').on('click', function() {
+  movingAverage = true;
+});
+
+d3.select('#differenceValue').on('click', function() {
+  differenceValue = true;
+  movingAverage = false;
+});
+
 </script>
+</html>
