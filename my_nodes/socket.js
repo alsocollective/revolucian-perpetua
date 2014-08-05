@@ -33,9 +33,8 @@ exports.connect = function(socket) {
 	//diagnostics
 	socket.on("diagnostics", function(msg) {
 		//console.log(msg, "data");
-		io.sockets.emit('livedata', {
-			"tap": x
-	})
+		io.sockets.emit('livedata', msg);
+	});
 
 	socket.on("repeat", function(msg) {
 		console.log(msg)

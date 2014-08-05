@@ -194,7 +194,7 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 	if(debug){
 		socket.emit('diagnostics', {
 			"tap": y
-		})		
+		});
 	}
 }
 
@@ -320,7 +320,11 @@ controllers.diagnostics = function($scope, socket) {
 
 	var mvAvg = 0,
 	    tc = 0.4,
+	    alph = 1.0,
 	    diffArr = [0,0];
+
+	$scope.tcValue = tc;
+	$scope.alphVal = alph;
 
 	var movingAverage = false,
 	    differenceValue = false;
@@ -341,7 +345,7 @@ controllers.diagnostics = function($scope, socket) {
 	    .range([0, width]);
 	 
 	var y = d3.scale.linear()
-	    .domain([-10, 10])
+	    .domain([-4, 4])
 	    .range([height, 0]);
 	 
 	var line = d3.svg.line()
@@ -379,13 +383,13 @@ controllers.diagnostics = function($scope, socket) {
 	 
 	  // redraw the line, and slide it to the left
 	  path
-	      .attr("d", line)
-	      .attr("transform", null)
-	    .transition()
-	      .duration(50)
-	      .ease("linear")
-	      .attr("transform", "translate(" + x(-1) + ",0)")
-	      .each("end", tick);
+	  	.attr("d", line)
+		.attr("transform", null)
+		.transition()
+		.duration(50)
+		.ease("linear")
+		.attr("transform", "translate(" + x(-1) + ",0)")
+		.each("end", tick);
 	 
 	  // pop the old data point off the front
 	  data.shift();
@@ -395,20 +399,17 @@ controllers.diagnostics = function($scope, socket) {
 
 		var accl = data.tap;
 
-		console.log(accl);
-
 		newPosition = accl;
 
 		if(movingAverage){
 			// Exponentially decaying moving average
-			mvAvg = (accl*tc)+(mvAvg*(1.0-tc));
-
+			mvAvg = (accl*tc)+(mvAvg*(alph-tc));
 			newPosition = mvAvg;
 		}
 
 		if(differenceValue){
 			// Exponentially decaying moving average
-			mvAvg = (accl*tc)+(mvAvg*(1.0-tc));
+			mvAvg = (accl*tc)+(mvAvg*(alph-tc));
 
 			diffArr.shift();
 			diffArr[diffArr.length] = mvAvg;
@@ -419,6 +420,7 @@ controllers.diagnostics = function($scope, socket) {
 		}
 	})
 	
+	//I DON'T NEED THESE WHEN USING ANGULAR
 	d3.select('#movingAverage').on('click', function() {
 	  movingAverage = true;
 	});
@@ -427,6 +429,15 @@ controllers.diagnostics = function($scope, socket) {
 	  differenceValue = true;
 	  movingAverage = false;
 	});
+
+	$scope.alphChange = function() {
+		alph = $scope.alphVal;
+	}
+
+	//Keep checking the field whenever there is input
+	$scope.changeLength = function() {
+		tc = $scope.tcValue;
+	};
 }
 
 timeApp.controller(controllers);
