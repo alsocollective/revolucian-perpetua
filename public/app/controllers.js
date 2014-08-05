@@ -1,5 +1,6 @@
 var controllers = {},
-	scope = null;
+	scope = null,
+	debug = true;
 
 controllers.sync = function($scope, $location, socket, UserSet) {
 	console.log("strted sync");
@@ -178,111 +179,26 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 	socket.on('CP', function(data) {$location.path(data)});
 }
 
+
+
+//TAPPING
+
 controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 	console.log("started tapping controller");
 
 	function handleMotionEvent(event) {
 
-    var x = event.accelerationIncludingGravity.x;
     var y = event.accelerationIncludingGravity.y;
-    var z = event.accelerationIncludingGravity.z;
 
-    console.log(x,y,z);
+    //console.log(x,y,z);
+	if(debug){
+		socket.emit('diagnostics', {
+			"tap": y
+		})		
+	}
 }
 
 window.addEventListener("devicemotion", handleMotionEvent, true);
-
-//We need orientation combined with a highpass filter to make this work.
-
-	$scope.socket = socket;
-
-	var averageList = [0, 0, 0, 0, 0],
-		avLength = averageList.length,
-		average = 0,
-		difference = 500,
-		time = (new Date()).getTime(),
-		arrayOfDiff = [],
-		diffLength = avLength,
-		diffAvg = 0,
-		diffoffSet = 0;
-
-	$scope.active = true;
-
-
-	if (window.DeviceMotionEvent) {
-		window.ondevicemotion = deviceTapDetect;
-	}
-
-
-	function deviceTapDetect(event, socket) {
-		if (event.accelerationIncludingGravity.z) {
-			var current = Math.floor(event.accelerationIncludingGravity.z * 1000);
-			if ((average - current > 500 && average - current < 3000) && current < averageList[avLength]) {
-				var nTime = (new Date()).getTime();
-				if (nTime - time > 500) {
-					var scope = angular.element(main_container).scope();
-					scope.$apply(function() {
-						scope.active = false;
-						// console.log(scope.socket.on)
-						scope.socket.emit('tapped', {
-							"device": 10
-						})
-					})
-					$timeout(function() {
-						scope.$apply(function() {
-							var scope = angular.element(main_container).scope();
-						})
-						scope.active = true;
-					}, 50);
-					time = nTime;
-				}
-			}
-			//add new Value to array and remove oldest
-			averageList.shift();
-			averageList[avLength] = current;
-			findAverage();
-		}
-	}
-
-	$scope.triggerTapped = function() {
-		var nTime = (new Date()).getTime();
-		if (nTime - time > 300) {
-			$scope.active = false;
-			socket.emit('tapped', {
-				"device": 11
-			})
-			$timeout(function() {
-				$scope.active = true;
-			}, 50);
-			time = nTime;
-		}
-	}
-
-	function findAverage() {
-		var a = 0,
-			preAv = average,
-			diffadding = 0;
-
-		average = 0,
-		difference = 0;
-		for (a = 0; a < avLength; ++a) {
-			average += averageList[a];
-			difference += preAv - averageList[a]
-			diffadding += arrayOfDiff[a];
-		}
-		difference = Math.floor(difference / avLength);
-		average = Math.floor(average / avLength);
-
-		arrayOfDiff.shift();
-		arrayOfDiff[diffLength] = difference;
-		diffAvg = Math.floor(diffadding / diffLength)
-		diffoffSet = difference - diffAvg
-
-
-		if (!average) {
-			average = 0;
-		}
-	}
 
 	$scope.$on("$destroy", function() {
 		window.ondevicemotion = null;
@@ -396,6 +312,121 @@ controllers.admin = function($scope, socket, UserSet, $location) {
 		console.log("got: " + data)
 		//$location.path(data);
 	})
+}
+
+controllers.diagnostics = function($scope, socket) {
+
+	var newPosition = null;
+
+	var mvAvg = 0,
+	    tc = 0.4,
+	    diffArr = [0,0];
+
+	var movingAverage = false,
+	    differenceValue = false;
+	 
+	var n = 160,
+	    data = d3.range(n).map(function(){
+	      for(i=0;i<40;i++){
+	        return i;
+	      }
+	    });
+
+	var margin = {top: 20, right: 20, bottom: 20, left: 40},
+	    width = 900 - margin.left - margin.right,
+	    height = 500 - margin.top - margin.bottom;
+	 
+	var x = d3.scale.linear()
+	    .domain([0, n - 1])
+	    .range([0, width]);
+	 
+	var y = d3.scale.linear()
+	    .domain([-10, 10])
+	    .range([height, 0]);
+	 
+	var line = d3.svg.line()
+	    .x(function(d, i) { return x(i); })
+	    .y(function(d, i) { return y(d); });
+	 
+	var svg = d3.select("#visualization").append("svg")
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom)
+	    .append("g")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	 
+	svg.append("defs").append("clipPath")
+	    .attr("id", "clip")
+	    .append("rect")
+	    .attr("width", width)
+	    .attr("height", height);
+	 
+	svg.append("g")
+	    .attr("class", "y axis")
+	    .call(d3.svg.axis().scale(y).orient("left"));
+	 
+	var path = svg.append("g")
+	    .attr("clip-path", "url(#clip)")
+	    .append("path")
+	    .datum(data)
+	    .attr("class", "line")
+	    .attr("d", line);
+	 
+	tick();
+	 
+	function tick() {
+	  // push a new data point onto the back
+	  data.push(newPosition);
+	 
+	  // redraw the line, and slide it to the left
+	  path
+	      .attr("d", line)
+	      .attr("transform", null)
+	    .transition()
+	      .duration(50)
+	      .ease("linear")
+	      .attr("transform", "translate(" + x(-1) + ",0)")
+	      .each("end", tick);
+	 
+	  // pop the old data point off the front
+	  data.shift();
+	}
+
+	socket.on('livedata', function(data) {
+
+		var accl = data.tap;
+
+		console.log(accl);
+
+		newPosition = accl;
+
+		if(movingAverage){
+			// Exponentially decaying moving average
+			mvAvg = (accl*tc)+(mvAvg*(1.0-tc));
+
+			newPosition = mvAvg;
+		}
+
+		if(differenceValue){
+			// Exponentially decaying moving average
+			mvAvg = (accl*tc)+(mvAvg*(1.0-tc));
+
+			diffArr.shift();
+			diffArr[diffArr.length] = mvAvg;
+
+			function diff(a,b){return Math.abs(a-b);}
+
+			newPosition = diff(diffArr[0],diffArr[1]);
+		}
+	})
+	
+	d3.select('#movingAverage').on('click', function() {
+	  movingAverage = true;
+	});
+
+	d3.select('#differenceValue').on('click', function() {
+	  differenceValue = true;
+	  movingAverage = false;
+	});
 }
 
 timeApp.controller(controllers);

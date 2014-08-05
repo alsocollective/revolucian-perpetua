@@ -19,7 +19,8 @@ exports.connect = function(socket) {
 	io.sockets.emit('setup', {
 		"msg": "WELCOME"
 	});
-	console.log("some one connected");
+
+	console.log("someone connected");
 	socket.on("set ID", function(msg) {
 		this.id = msg;
 		console.log(msg, "connected");
@@ -29,6 +30,12 @@ exports.connect = function(socket) {
 		tcp.write("tapped "+msg['device'])
 	})
 
+	//diagnostics
+	socket.on("diagnostics", function(msg) {
+		//console.log(msg, "data");
+		io.sockets.emit('livedata', {
+			"tap": x
+	})
 
 	socket.on("repeat", function(msg) {
 		console.log(msg)
