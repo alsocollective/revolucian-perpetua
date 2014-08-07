@@ -188,12 +188,14 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 
 	function handleMotionEvent(event) {
 
+    var x = event.accelerationIncludingGravity.x;
     var y = event.accelerationIncludingGravity.y;
+    var z = event.accelerationIncludingGravity.z;
 
     //console.log(x,y,z);
 	if(debug){
-		socket.emit('diagnostics', {
-			"tap": y
+		socket.emit('dg', {
+			"x": x, "y": y, "z": z
 		});
 	}
 }
@@ -345,7 +347,7 @@ controllers.diagnostics = function($scope, socket) {
 	    .range([0, width]);
 	 
 	var y = d3.scale.linear()
-	    .domain([-4, 4])
+	    .domain([-2, 1])
 	    .range([height, 0]);
 	 
 	var line = d3.svg.line()
@@ -395,9 +397,9 @@ controllers.diagnostics = function($scope, socket) {
 	  data.shift();
 	}
 
-	socket.on('livedata', function(data) {
+	socket.on('lv', function(data) {
 
-		var accl = data.tap;
+		var accl = data.y;
 
 		newPosition = accl;
 

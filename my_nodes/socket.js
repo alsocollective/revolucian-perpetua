@@ -31,9 +31,9 @@ exports.connect = function(socket) {
 	})
 
 	//diagnostics
-	socket.on("diagnostics", function(msg) {
+	socket.on("dg", function(msg) {
 		//console.log(msg, "data");
-		io.sockets.emit('livedata', msg);
+		io.sockets.emit('lv', msg);
 	});
 
 	socket.on("repeat", function(msg) {
