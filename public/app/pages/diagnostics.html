@@ -18,21 +18,33 @@
     stroke: #000;
     /*shape-rendering: geometricPrecision;*/
   }
+
+  #x path{
+    stroke: #505;
+  }
+
+  #y path{
+    stroke: #410;
+  }
+
+  #z path{
+    stroke: #f04;
+  }
    
   </style>
 
 	<div id="visualization"></div>
 
-	<!-- <h1><br/>{{speed}}</h1> -->
+	<h1><br/>{{speed}}</h1>
 
 	<form class="control_panel">
 
-		<!-- <button id="movingAverage">Moving Average</button>
+		<button id="movingAverage">Moving Average</button>
   		<button id="differenceValue">Difference Value</button>
 
   		<input type="text" minlength="3" maxlength="4" ng-model="tcValue" ng-change="changeLength()" ng-click="tcValue=''"><br/>
 
-  		<input type="text" minlength="3" maxlength="4" ng-model="alphVal" ng-change="alphChange()" ng-click="alphVal=''"><br/> -->
+  		<input type="text" minlength="3" maxlength="4" ng-model="alphVal" ng-change="alphChange()" ng-click="alphVal=''"><br/>
 
   	</form>
 

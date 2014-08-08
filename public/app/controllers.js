@@ -129,7 +129,7 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 	function checker() {
 		if ($scope.colourSelect.colour2 != null && $scope.colourSelect.colour1 != null) {
 			console.log("success");
-			
+
 			//document.getElementById("colorSelector").remove();
 
 			$scope.controls = true;
@@ -173,38 +173,55 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 		return "rgb(" + map255(percent, c1, c2, 0) + "," + map255(percent, c1, c2, 1) + "," + map255(percent, c1, c2, 2) + ")"
 	}
 
-	function map255(percent,c1,c2,c){
-		return Math.floor(percent*(c2[c]-c1[c])+c1[c])
+	function map255(percent, c1, c2, c) {
+		return Math.floor(percent * (c2[c] - c1[c]) + c1[c])
 	}
-	socket.on('CP', function(data) {$location.path(data)});
+	socket.on('CP', function(data) {
+		$location.path(data)
+	});
 }
 
 
 
 //TAPPING
 
+controllers.testTap = function($scope, UserSet, socket, $timeout) {
+	console.log("test tap page");
+
+	$scope.tap = function() {
+		socket.emit('tap', 1);
+		console.log("tapp");
+	}
+
+	socket.on('CP', function(data) {
+		console.log(data);
+	});
+}
+
 controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 	console.log("started tapping controller");
 
 	function handleMotionEvent(event) {
 
-    var x = event.accelerationIncludingGravity.x;
-    var y = event.accelerationIncludingGravity.y;
-    var z = event.accelerationIncludingGravity.z;
+		var x = event.accelerationIncludingGravity.x;
+		var y = event.accelerationIncludingGravity.y;
+		var z = event.accelerationIncludingGravity.z;
 
-    //console.log(x,y,z);
-	if(debug){
-		/*socket.emit('dg', {
+		//console.log(x,y,z);
+		if (debug) {
+			/*socket.emit('dg', {
 			"x": x, "y": y, "z": z
 		});*/
 
-		socket.emit('dg', {
-			"y": y
-		});
+			socket.emit('dg', {
+				"x": x,
+				"y": y,
+				"z": z
+			});
+		}
 	}
-}
 
-window.addEventListener("devicemotion", handleMotionEvent, true);
+	window.addEventListener("devicemotion", handleMotionEvent, true);
 
 	$scope.$on("$destroy", function() {
 		window.ondevicemotion = null;
@@ -322,82 +339,155 @@ controllers.admin = function($scope, socket, UserSet, $location) {
 
 controllers.diagnostics = function($scope, socket) {
 
-	var feed = [[{"x":3.31},{"y":2.56},{"z":1.54}],
-		[{"x":3.31},{"y":2.56},{"z":1.54}],
-		[{"x":3.31},{"y":2.56},{"z":1.54}]];
+	var newPosition = null;
+
+	var mvAvg = 0,
+		tc = 0.4,
+		alph = 1.0,
+		per = 1000,
+		dat = null,
+		diffArr = [0, 0],
+		spd = [0, 0];
+
+	$scope.tcValue = tc;
+	$scope.alphVal = alph;
+
+	$scope.speed = 0;
+
+	var movingAverage = false,
+		differenceValue = false;
 
 	var n = 160,
-	    data = d3.range(n).map(function(){
-	      for(i=0;i<40;i++){
-	        return i;
-	      }
-	    });
+		data = [{
+			"name": "x",
+			"values": [1, 2, 3, 4, 5]
+		}, {
+			"name": "y",
+			"values": [6, 3, 2, 1, 0]
+		}, {
+			"name": "z",
+			"values": [2, 6, 2, 3, 3]
+		}];
 
-	var margin = {top: 20, right: 20, bottom: 20, left: 40},
-	    width = 600 - margin.left - margin.right,
-	    height = 300 - margin.top - margin.bottom;
-	 
+	var margin = {
+			top: 20,
+			right: 20,
+			bottom: 20,
+			left: 40
+		},
+		width = 900 - margin.left - margin.right,
+		height = 500 - margin.top - margin.bottom;
+
+	//D'fuq
 	var x = d3.scale.linear()
-	    .domain([0, n - 1])
-	    .range([0, width]);
-	 
+		.domain([0, n - 1])
+		.range([0, width]);
+
 	var y = d3.scale.linear()
-	    .domain([-0.5, 0.5])
-	    .range([height, 0]);
-	 
+		.domain([-2, 10])
+		.range([height, 0]);
+
 	var line = d3.svg.line()
-	    .x(function(d, i) { return x(i); })
-	    .y(function(d, i) { return y(d); });
-	 
+		.x(function(d, i) {
+			return x(i);
+		})
+		.y(function(d, i) {
+			return y(d);
+		});
+
 	var svg = d3.select("#visualization").append("svg")
-	    .attr("width", width + margin.left + margin.right)
-	    .attr("height", height + margin.top + margin.bottom)
-	    .append("g")
-	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	 
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	//?
 	svg.append("defs").append("clipPath")
-	    .attr("id", "clip")
-	    .append("rect")
-	    .attr("width", width)
-	    .attr("height", height);
-	 
+		.attr("id", "clip")
+		.append("rect")
+		.attr("width", width)
+		.attr("height", height);
+
 	svg.append("g")
-	    .attr("class", "y axis")
-	    .call(d3.svg.axis().scale(y).orient("left"));
-	 
-	var path = svg.append("g")
-	    .attr("clip-path", "url(#clip)")
-	    .append("path")
-	    .datum(data)
-	    .attr("class", "line")
-	    .attr("d", line);
-	 
+		.attr("class", "y axis")
+		.attr("id", "thisG")
+		.call(d3.svg.axis().scale(y).orient("left"));
+
+	var orient = svg.selectAll(".orient")
+		.data(data)
+		.enter().append("g")
+		.attr("class", "orient")
+		.attr("id", function(d) {
+			return d.name
+		});
+
+	orient.append("path")
+		.attr("class", "line")
+		.attr("d", function(d) {
+			return line(d.values);
+		});
 
 	tick();
-	 
-	function tick() {
-	  // push a new data point onto the back
 
-	  //Maybe emply the .length technique here as well? Can't be variable though.
-	  //data.push(newPosition);
-	  data.push(0);
-	 
-	  // redraw the line, and slide it to the left
-	  path
-	  	.attr("d", line)
-		.attr("transform", null)
-		.transition()
-		.duration(40)
-		.ease("linear")
-		.attr("transform", "translate(" + x(-1) + ",0)")
-		.each("end", tick);
-	 
-	  // pop the old data point off the front
-	  data.shift();
+	function tick() {
+		// push a new data point onto the back
+
+		//Maybe emply the .length technique here as well? Can't be variable though.
+		if (newPosition) {
+			data[0].values.push(newPosition.x);
+			data[1].values.push(newPosition.y);
+			data[2].values.push(newPosition.z);
+			newPosition = null;
+
+			// pop the old data point off the front
+			if (data[0].values.length > 160) {
+				data[0].values.shift();
+				data[1].values.shift();
+				data[2].values.shift();
+
+				orient.selectAll(".line")
+					.attr("d", function(d) {
+						return line(d.values);
+					})
+					.attr("transform", null)
+					.transition()
+					.duration(40)
+					.ease("linear")
+					.attr("transform", "translate(" + x(-1) + ",0)")
+					.each("end", tick);
+			} else {
+				orient.selectAll(".line")
+					.attr("d", function(d) {
+						return line(d.values);
+					})
+					.attr("transform", null)
+					.transition()
+					.duration(40)
+					.ease("linear")
+					.each("end", tick);
+			}
+		} else {
+			setTimeout(tick, 40);
+		}
 	}
 
-	//console.log(line);
-	
+	socket.on('lv', function(newData) {
+
+		newPosition = newData;
+
+		if (newData) {
+			if (dat < 100) {
+				dat++
+			} else {
+				dat = 0;
+				spd.shift();
+				spd[spd.length] = Date.now();
+				$scope.speed = 100 / (Math.abs(spd[0] - spd[1]) / per);
+			}
+		} else {
+			$scope.speed = 0.0;
+		}
+	});
 }
 
 timeApp.controller(controllers);

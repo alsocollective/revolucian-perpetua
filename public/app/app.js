@@ -33,4 +33,8 @@ var timeApp = angular.module("timeApp", ['ngRoute', 'ngCookies', 'ngAnimate'])
 				controller: "diagnostics",
 				templateUrl: 'public/app/pages/diagnostics.html'
 			})
+			.when('/testtap', {
+				controller: "testTap",
+		templateUrl: 'public/app/pages/testtap.html'
+			})
 	});

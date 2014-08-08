@@ -2,7 +2,7 @@ var http = null,
 	io = null,
 	tcp = null,
 	dat = null,
-	spd = [0,0];
+	spd = [0, 0];
 
 
 exports.setup = function(app) {
@@ -13,7 +13,7 @@ exports.setup = function(app) {
 	exports.io = io;
 }
 
-exports.setTCP = function(tcpin){
+exports.setTCP = function(tcpin) {
 	tcp = tcpin;
 }
 
@@ -28,8 +28,21 @@ exports.connect = function(socket) {
 		console.log(msg, "connected");
 	})
 
-	socket.on("tapped",function(msg){
-		tcp.write("tapped "+msg['device'])
+	socket.on("tapped", function(msg) {
+		tcp.write("tapped " + msg['device'])
+	})
+
+	//for test tapping
+	socket.on("tap", function(msg) {
+
+		console.log(socket.client.conn.id);
+
+		// for (key in io.sockets.connected) {
+		// 	console.log(key);
+		// }
+		// console.log(io.sockets.connected);
+
+		tcp.write("tap " + msg + " " + socket.client.conn.id + "\n");
 	})
 
 	//diagnostics
@@ -51,7 +64,7 @@ exports.connect = function(socket) {
 			return sizeInBytes;
 		};
 
-		var msgSize = getUTF8Size( mgg ); // 410 bytes
+		var msgSize = getUTF8Size( mgg );
 
 		console.log(msgSize);*/
 
@@ -75,7 +88,7 @@ exports.connect = function(socket) {
 	})
 }
 
-exports.dissconect = function(socket) {
-
+exports.disconnect = function(socket) {
+	console.log(socket);
+	cosnole.log("disconnected");
 }
-
