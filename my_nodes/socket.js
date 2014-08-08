@@ -1,6 +1,8 @@
 var http = null,
 	io = null,
-	tcp = null;
+	tcp = null,
+	dat = null,
+	spd = [0,0];
 
 
 exports.setup = function(app) {
@@ -34,6 +36,37 @@ exports.connect = function(socket) {
 	socket.on("dg", function(msg) {
 		//console.log(msg, "data");
 		io.sockets.emit('lv', msg);
+
+		/*var mgg = JSON.stringify( msg );
+
+		var getUTF8Size = function( str ) {
+			
+			var sizeInBytes = str.split('').map(function( ch ) {
+				return ch.charCodeAt(0);
+		}).map(function( uchar ) {
+			return uchar < 128 ? 1 : 2;
+		}).reduce(function( curr, next ) {
+			return curr + next;
+		});
+			return sizeInBytes;
+		};
+
+		var msgSize = getUTF8Size( mgg ); // 410 bytes
+
+		console.log(msgSize);*/
+
+		/*if(msg){
+
+			if(dat < 100){
+				dat++
+			}else{
+				dat = 0;
+				spd.shift();
+				spd[spd.length] = Date.now();
+
+				console.log(100 / (Math.abs(spd[0] - spd[1]) / 1000));
+			}
+		}*/
 	});
 
 	socket.on("repeat", function(msg) {

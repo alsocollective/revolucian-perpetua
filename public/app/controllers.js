@@ -194,8 +194,12 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 
     //console.log(x,y,z);
 	if(debug){
-		socket.emit('dg', {
+		/*socket.emit('dg', {
 			"x": x, "y": y, "z": z
+		});*/
+
+		socket.emit('dg', {
+			"y": y
 		});
 	}
 }
@@ -318,19 +322,10 @@ controllers.admin = function($scope, socket, UserSet, $location) {
 
 controllers.diagnostics = function($scope, socket) {
 
-	var newPosition = null;
+	var feed = [[{"x":3.31},{"y":2.56},{"z":1.54}],
+		[{"x":3.31},{"y":2.56},{"z":1.54}],
+		[{"x":3.31},{"y":2.56},{"z":1.54}]];
 
-	var mvAvg = 0,
-	    tc = 0.4,
-	    alph = 1.0,
-	    diffArr = [0,0];
-
-	$scope.tcValue = tc;
-	$scope.alphVal = alph;
-
-	var movingAverage = false,
-	    differenceValue = false;
-	 
 	var n = 160,
 	    data = d3.range(n).map(function(){
 	      for(i=0;i<40;i++){
@@ -339,15 +334,15 @@ controllers.diagnostics = function($scope, socket) {
 	    });
 
 	var margin = {top: 20, right: 20, bottom: 20, left: 40},
-	    width = 900 - margin.left - margin.right,
-	    height = 500 - margin.top - margin.bottom;
+	    width = 600 - margin.left - margin.right,
+	    height = 300 - margin.top - margin.bottom;
 	 
 	var x = d3.scale.linear()
 	    .domain([0, n - 1])
 	    .range([0, width]);
 	 
 	var y = d3.scale.linear()
-	    .domain([-2, 1])
+	    .domain([-0.5, 0.5])
 	    .range([height, 0]);
 	 
 	var line = d3.svg.line()
@@ -377,18 +372,22 @@ controllers.diagnostics = function($scope, socket) {
 	    .attr("class", "line")
 	    .attr("d", line);
 	 
+
 	tick();
 	 
 	function tick() {
 	  // push a new data point onto the back
-	  data.push(newPosition);
+
+	  //Maybe emply the .length technique here as well? Can't be variable though.
+	  //data.push(newPosition);
+	  data.push(0);
 	 
 	  // redraw the line, and slide it to the left
 	  path
 	  	.attr("d", line)
 		.attr("transform", null)
 		.transition()
-		.duration(50)
+		.duration(40)
 		.ease("linear")
 		.attr("transform", "translate(" + x(-1) + ",0)")
 		.each("end", tick);
@@ -397,49 +396,8 @@ controllers.diagnostics = function($scope, socket) {
 	  data.shift();
 	}
 
-	socket.on('lv', function(data) {
-
-		var accl = data.y;
-
-		newPosition = accl;
-
-		if(movingAverage){
-			// Exponentially decaying moving average
-			mvAvg = (accl*tc)+(mvAvg*(alph-tc));
-			newPosition = mvAvg;
-		}
-
-		if(differenceValue){
-			// Exponentially decaying moving average
-			mvAvg = (accl*tc)+(mvAvg*(alph-tc));
-
-			diffArr.shift();
-			diffArr[diffArr.length] = mvAvg;
-
-			function diff(a,b){return Math.abs(a-b);}
-
-			newPosition = diff(diffArr[0],diffArr[1]);
-		}
-	})
+	//console.log(line);
 	
-	//I DON'T NEED THESE WHEN USING ANGULAR
-	d3.select('#movingAverage').on('click', function() {
-	  movingAverage = true;
-	});
-
-	d3.select('#differenceValue').on('click', function() {
-	  differenceValue = true;
-	  movingAverage = false;
-	});
-
-	$scope.alphChange = function() {
-		alph = $scope.alphVal;
-	}
-
-	//Keep checking the field whenever there is input
-	$scope.changeLength = function() {
-		tc = $scope.tcValue;
-	};
 }
 
 timeApp.controller(controllers);
