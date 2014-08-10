@@ -9,7 +9,7 @@ body,html{
 
 body{
 	text-transform: uppercase;
-	color: #333;
+	//color: #333;
 	letter-spacing: 0.02em;
 }
 
@@ -40,7 +40,7 @@ body{
 	display: inline !important;
 }
 
-input{
+/*input{
 	-webkit-appearance: none;
 	font-family: 'Oswald', sans-serif;
 	border: none;
@@ -67,7 +67,7 @@ table{
 	width: 100%;
 	border:0;
 	height:30%;
-}
+}*/
 
 .testing{
 	color: #eee !important;
@@ -108,3 +108,67 @@ table{
 		from {opacity: 0;}
 		to {opacity: 1;}
 	}
+
+
+//DIAGNOSTICS PAGE
+
+#panel-left, #panel-right{
+	display: inline-block;
+}
+
+  svg {
+  }
+   
+  .line {
+    fill: none;
+    stroke-width: 2px;
+    shape-rendering: optimizeSpeed;
+  }
+   
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  #x path{
+    stroke: #f00;
+  }
+
+  #y path{
+    stroke: #0f0;
+  }
+
+  #z path{
+    stroke: #00f;
+  }
+
+  #x {
+    color: #f00;
+  }
+
+  #y {
+    color: #0f0;
+  }
+
+  #z {
+    color: #00f;
+  }
+
+  .container {
+    background-color: #999;
+  }
+
+  .control_panel {
+    background-color: #000;
+    color: #fff;
+  }
+
+  .grid .tick {
+    stroke: #777;
+  }
+
+  .grid path {
+      stroke-width: 2px;
+  }

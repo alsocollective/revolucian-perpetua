@@ -1,51 +1,34 @@
 <div class="container">
-	<style>
-   
-  svg {
-    font: 10px sans-serif;
-  }
-   
-  .line {
-    fill: none;
-    stroke: #00f;
-    stroke-width: 1.5px;
-    /*shape-rendering: geometricPrecision;*/
-  }
-   
-  .axis path,
-  .axis line {
-    fill: none;
-    stroke: #000;
-    /*shape-rendering: geometricPrecision;*/
-  }
 
-  #x path{
-    stroke: #505;
-  }
-
-  #y path{
-    stroke: #410;
-  }
-
-  #z path{
-    stroke: #f04;
-  }
-   
-  </style>
+  <h1>Diagnostics Page</h1>
 
 	<div id="visualization"></div>
 
-	<h1><br/>{{speed}}</h1>
+  <div id="panel-left">
 
-	<form class="control_panel">
+    <ul>
+      <li>Msgs/Sec: {{speed}}</li>
+    </ul>
+
+    <h3><br/>Tapped: {{tapped}}</h3>
+
+    <ul>
+      <li id="x">X Axis</li>
+      <li id="y">Y Axis</li>
+      <li id="z">Z Axis</li>
+    </ul>
+
+  </div>
+
+  <div id="panel-right">
 
 		<button id="movingAverage">Moving Average</button>
-  		<button id="differenceValue">Difference Value</button>
 
-  		<input type="text" minlength="3" maxlength="4" ng-model="tcValue" ng-change="changeLength()" ng-click="tcValue=''"><br/>
+  		<li>Timing: <input type="text" minlength="3" maxlength="4" ng-model="tcValue" ng-change="changeLength()" ng-click="tcValue=''"></li>
 
-  		<input type="text" minlength="3" maxlength="4" ng-model="alphVal" ng-change="alphChange()" ng-click="alphVal=''"><br/>
+  		<li>Smoothing: <input type="text" minlength="3" maxlength="4" ng-model="alphVal" ng-change="alphChange()" ng-click="alphVal=''"></li>
 
-  	</form>
+      <li>Threshold: <input type="text" minlength="1" maxlength="3" ng-model="threshValue" ng-change="threshold()" ng-click="threshValue=''"></li>
 
+  </div>
 </div>

@@ -209,9 +209,6 @@ controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
 
 		//console.log(x,y,z);
 		if (debug) {
-			/*socket.emit('dg', {
-			"x": x, "y": y, "z": z
-		});*/
 
 			socket.emit('dg', {
 				"x": x,
@@ -341,16 +338,23 @@ controllers.diagnostics = function($scope, socket) {
 
 	var newPosition = null;
 
-	var mvAvg = 0,
+	var mvAvgX = 0,
+		mvAvgY = 0,
+		mvAvgZ = 0,
+		thresh = 15,
 		tc = 0.4,
 		alph = 1.0,
 		per = 1000,
 		dat = null,
-		diffArr = [0, 0],
+		diffArrX = [0, 0],
+		diffArrY = [0, 0],
+		diffArrZ = [0, 0],
 		spd = [0, 0];
 
 	$scope.tcValue = tc;
 	$scope.alphVal = alph;
+	$scope.threshValue = thresh;
+	$scope.tapped = false;
 
 	$scope.speed = 0;
 
@@ -360,13 +364,13 @@ controllers.diagnostics = function($scope, socket) {
 	var n = 160,
 		data = [{
 			"name": "x",
-			"values": [1, 2, 3, 4, 5]
+			"values": [0]
 		}, {
 			"name": "y",
-			"values": [6, 3, 2, 1, 0]
+			"values": [0]
 		}, {
 			"name": "z",
-			"values": [2, 6, 2, 3, 3]
+			"values": [0]
 		}];
 
 	var margin = {
@@ -376,7 +380,7 @@ controllers.diagnostics = function($scope, socket) {
 			left: 40
 		},
 		width = 900 - margin.left - margin.right,
-		height = 500 - margin.top - margin.bottom;
+		height = 400 - margin.top - margin.bottom;
 
 	//D'fuq
 	var x = d3.scale.linear()
@@ -384,7 +388,7 @@ controllers.diagnostics = function($scope, socket) {
 		.range([0, width]);
 
 	var y = d3.scale.linear()
-		.domain([-2, 10])
+		.domain([-2.0, 20])
 		.range([height, 0]);
 
 	var line = d3.svg.line()
@@ -396,7 +400,7 @@ controllers.diagnostics = function($scope, socket) {
 		});
 
 	var svg = d3.select("#visualization").append("svg")
-		.attr("width", width + margin.left + margin.right)
+		.attr("width", width + margin.left + margin.right + 10)
 		.attr("height", height + margin.top + margin.bottom)
 		.append("g")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -409,8 +413,8 @@ controllers.diagnostics = function($scope, socket) {
 		.attr("height", height);
 
 	svg.append("g")
-		.attr("class", "y axis")
-		.attr("id", "thisG")
+		.attr("class", "y axis left")
+		.attr("id", "y-left")
 		.call(d3.svg.axis().scale(y).orient("left"));
 
 	var orient = svg.selectAll(".orient")
@@ -426,6 +430,25 @@ controllers.diagnostics = function($scope, socket) {
 		.attr("d", function(d) {
 			return line(d.values);
 		});
+
+	function make_y_axis() {        
+    	return d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .ticks(10)
+	}
+
+	svg.append("g")         
+        .attr("class", "grid")
+        .call(make_y_axis()
+        .tickSize(-width, 0, 0)
+        .tickFormat(""));
+
+    svg.append("g")
+		.attr("class", "y axis right")
+		.attr("id", "y-right")
+		.attr("transform","translate("+width+")")
+		.call(d3.svg.axis().scale(y).orient("right"));
 
 	tick();
 
@@ -475,6 +498,48 @@ controllers.diagnostics = function($scope, socket) {
 
 		newPosition = newData;
 
+		if(movingAverage){
+			// Exponentially decaying moving average
+
+			var filterX = newPosition.x;
+			var filterY = newPosition.y;
+			var filterZ = newPosition.z;
+
+			mvAvgX = (newPosition.x*tc)+(mvAvgX*(alph-tc));
+			mvAvgY = (newPosition.y*tc)+(mvAvgY*(alph-tc));
+			mvAvgZ = (newPosition.z*tc)+(mvAvgZ*(alph-tc));
+			
+			newPosition.x = diff(mvAvgX,filterX);
+			newPosition.y = diff(mvAvgY,filterY);
+			newPosition.z = diff(mvAvgZ,filterZ);
+
+			if(newPosition.z > thresh){
+				console.log("tapped");
+				$scope.tapped = true;
+			}else{
+				$scope.tapped = false;
+			}
+		}
+
+		/*if(differenceValue){
+			// Exponentially decaying moving average
+			mvAvgX = (newPosition.x*tc)+(mvAvgX*(alph-tc));
+			mvAvgY = (newPosition.y*tc)+(mvAvgY*(alph-tc));
+			mvAvgZ = (newPosition.z*tc)+(mvAvgZ*(alph-tc));
+			
+			diffArrX.shift();
+			diffArrY.shift();
+			diffArrZ.shift();
+
+			diffArrX[diffArrX.length] = mvAvgX;
+			diffArrY[diffArrY.length] = mvAvgY;
+			diffArrZ[diffArrZ.length] = mvAvgZ;
+
+			newPosition.x = diff(diffArrX[0],diffArrX[1]);
+			newPosition.y = diff(diffArrY[0],diffArrY[1]);
+			newPosition.z = diff(diffArrZ[0],diffArrZ[1]);
+		}*/
+
 		if (newData) {
 			if (dat < 100) {
 				dat++
@@ -488,6 +553,34 @@ controllers.diagnostics = function($scope, socket) {
 			$scope.speed = 0.0;
 		}
 	});
+
+	function diff(a,b){return Math.abs(a-b);}
+
+	//I DON'T NEED THESE WHEN USING ANGULAR
+	d3.select('#movingAverage').on('click', function() {
+	  movingAverage = true;
+	  console.log("We are filtering (MvAVG + Diff)");
+	});
+
+	/*d3.select('#differenceValue').on('click', function() {
+	  differenceValue = true;
+	  movingAverage = false;
+	});
+
+	*/
+
+	$scope.alphChange = function() {
+		alph = $scope.alphVal;
+	}
+
+	//Keep checking the field whenever there is input
+	$scope.changeLength = function() {
+		tc = $scope.tcValue;
+	};
+
+	$scope.threshold = function() {
+		thresh = $scope.threshValue;
+	};
 }
 
 timeApp.controller(controllers);
