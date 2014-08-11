@@ -187,7 +187,12 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 
 controllers.tap = function($scope, socket, UserSet, $location, $timeout) {
 
-	console.log("Tapping Controller Started");
+	UserSet.checkUser();
+
+	$scope.tap = function() {
+		socket.emit('tap', 1);
+		console.log("tapp");
+	}
 
 	var mvgAvg = null,
 		tapCol = 1,
@@ -242,6 +247,7 @@ controllers.login = function($scope, socket, UserSet, $location) {
 	//Called by Submit Input
 	$scope.addUser = function() {
 		console.log($scope.ticket.length);
+		UserSet.setUserId($scope.ticket);
 		$location.path('/lobby');
 	}
 
