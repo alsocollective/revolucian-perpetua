@@ -29,20 +29,24 @@ exports.connect = function(socket) {
 	})
 
 	socket.on("tapped", function(msg) {
-		tcp.write("tapped " + msg['device'])
+		//tcp.write("tapped " + msg['device'])
+		io.sockets.emit('cTap', msg);
 	})
+
 
 	//for test tapping
 	socket.on("tap", function(msg) {
 
-		console.log(socket.client.conn.id);
+		//console.log(socket.client.conn.id);
+
+		console.log("tap: " + msg);
 
 		// for (key in io.sockets.connected) {
 		// 	console.log(key);
 		// }
 		// console.log(io.sockets.connected);
 
-		tcp.write("tap " + msg + " " + socket.client.conn.id + "\n");
+		//tcp.write("tap " + msg + " " + socket.client.conn.id + "\n");
 	})
 
 	//diagnostics
