@@ -1,0 +1,43 @@
+<div class="container " ng-class="{fade : tap}" ng-click="tapped();">
+	<div class="modal">
+	<h1>tapping</h1>
+	<h2>{{tap}}</h2>
+	<style type="text/css">
+
+	.fade{
+		-webkit-animation: decaywhite 0.7s; /* Chrome, Safari, Opera */
+		animation: decaywhite 0.7s;
+	}
+
+	/* Chrome, Safari, Opera */
+	@-webkit-keyframes decaywhite {
+		from {background: #000;}
+		to {background: #fff;}
+	}
+
+	/* Standard syntax */
+	@keyframes decaywhite {
+		from {background: #000;}
+		to {background: #fff;}
+	}
+
+	.fade-red{
+		-webkit-animation: decayred 0.7s; /* Chrome, Safari, Opera */
+		animation: decayred 0.7s;
+	}
+
+	/* Chrome, Safari, Opera */
+	@-webkit-keyframes decayred {
+		from {background: #000;}
+		to {background: #fff;}
+	}
+
+	/* Standard syntax */
+	@keyframes decayred {
+		from {background: #000;}
+		to {background: #fff;}
+	}	
+
+	</style>
+</div>
+</div>
