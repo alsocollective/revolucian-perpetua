@@ -4,6 +4,11 @@
 	<h2>{{tap}}</h2>
 	<style type="text/css">
 
+	.container {
+		background-color: #000;
+		color: #fff;
+	}
+
 	.fade{
 		-webkit-animation: decaywhite 0.7s; /* Chrome, Safari, Opera */
 		animation: decaywhite 0.7s;
@@ -11,14 +16,14 @@
 
 	/* Chrome, Safari, Opera */
 	@-webkit-keyframes decaywhite {
-		from {background: #000;}
-		to {background: #fff;}
+		from {background: #fff;}
+		to {background: #000;}
 	}
 
 	/* Standard syntax */
 	@keyframes decaywhite {
-		from {background: #000;}
-		to {background: #fff;}
+		from {background: #fff;}
+		to {background: #000;}
 	}
 
 	.fade-red{
@@ -28,14 +33,14 @@
 
 	/* Chrome, Safari, Opera */
 	@-webkit-keyframes decayred {
-		from {background: #000;}
-		to {background: #fff;}
+		from {background: #f00;}
+		to {background: #000;}
 	}
 
 	/* Standard syntax */
 	@keyframes decayred {
-		from {background: #000;}
-		to {background: #fff;}
+		from {background: #f00;}
+		to {background: #000;}
 	}	
 
 	</style>

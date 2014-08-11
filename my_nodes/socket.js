@@ -36,7 +36,9 @@ exports.connect = function(socket) {
 	//for test tapping
 	socket.on("tap", function(msg) {
 		console.log(this.id);
-		tcp.write("tap " + msg + " " + this.id + "\n");
+		if (tcp) {
+			tcp.write("tap " + msg + " " + this.id + "\n");
+		}
 	})
 
 	//diagnostics
@@ -80,10 +82,12 @@ exports.connect = function(socket) {
 		console.log(msg)
 		io.sockets.emit(msg.header, msg.msg);
 	})
-	socket.on("disconnect",function(msg){
-		console.log("disconnect");
-		console.log(this.id);
-		tcp.write("left " + ". "+ this.id + "\n");
-		console.log("should of sent message");
+	socket.on("disconnect", function(msg) {
+		if (tcp) {
+			console.log("disconnect");
+			console.log(this.id);
+			tcp.write("left " + ". " + this.id + "\n");
+			console.log("should of sent message");
+		}
 	})
 }
