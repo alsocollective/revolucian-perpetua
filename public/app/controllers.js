@@ -8,7 +8,7 @@ controllers.sync = function($scope, $location, socket, UserSet) {
 		console.log("get setup...")
 		console.log(data.msg);
 		$scope.message = data.msg;
-		$location.path('/tapping');
+		$location.path('/tap');
 	});
 
 	socket.on('CP', function(data) {
@@ -185,8 +185,7 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 
 //TAPPING
 
-controllers.testTap = function($scope, UserSet, socket, $timeout) {
-	console.log("test tap page");
+controllers.tap = function($scope, socket, UserSet, $location, $timeout) {
 
 	UserSet.checkUser();
 
@@ -195,33 +194,40 @@ controllers.testTap = function($scope, UserSet, socket, $timeout) {
 		console.log("tapp");
 	}
 
-	socket.on('CP', function(data) {
-		console.log(data);
-	});
-}
+	var mvgAvg = null,
+		tapCol = 1,
+		scope = angular.element(main_container).scope();
 
-controllers.tapping = function($scope, socket, UserSet, $location, $timeout) {
-	console.log("started tapping controller");
+	$scope.tap = false;
+
+	$scope.tapped = function() {
+		socket.emit('tapped', true);
+	}
 
 	function handleMotionEvent(event) {
 
-		var x = event.accelerationIncludingGravity.x;
-		var y = event.accelerationIncludingGravity.y;
 		var z = event.accelerationIncludingGravity.z;
 
-		//console.log(x,y,z);
-		if (debug) {
+		mvgAvg = (z * 0.4) + (mvgAvg * (1 - 0.4));
 
-			socket.emit('dg', {
-				"x": x,
-				"y": y,
-				"z": z
+		if ((Math.abs(mvgAvg - z)) > 6) {
+			scope.$apply(function() {
+				$scope.tap = true;
+			});
+			socket.emit('tap', tapCol);
+		} else {
+			scope.$apply(function() {
+				$scope.tap = false;
 			});
 		}
 	}
 
 	window.addEventListener("devicemotion", handleMotionEvent, true);
 
+	socket.on('cTap', function(data) {
+		tapCol = 2;
+		$scope.col = "?????";
+	});
 	$scope.$on("$destroy", function() {
 		window.ondevicemotion = null;
 	});
@@ -434,23 +440,23 @@ controllers.diagnostics = function($scope, socket) {
 			return line(d.values);
 		});
 
-	function make_y_axis() {        
-    	return d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        .ticks(10)
+	function make_y_axis() {
+		return d3.svg.axis()
+			.scale(y)
+			.orient("left")
+			.ticks(10)
 	}
 
-	svg.append("g")         
-        .attr("class", "grid")
-        .call(make_y_axis()
-        .tickSize(-width, 0, 0)
-        .tickFormat(""));
+	svg.append("g")
+		.attr("class", "grid")
+		.call(make_y_axis()
+			.tickSize(-width, 0, 0)
+			.tickFormat(""));
 
-    svg.append("g")
+	svg.append("g")
 		.attr("class", "y axis right")
 		.attr("id", "y-right")
-		.attr("transform","translate("+width+")")
+		.attr("transform", "translate(" + width + ")")
 		.call(d3.svg.axis().scale(y).orient("right"));
 
 	tick();
@@ -501,25 +507,25 @@ controllers.diagnostics = function($scope, socket) {
 
 		newPosition = newData;
 
-		if(movingAverage){
+		if (movingAverage) {
 			// Exponentially decaying moving average
 
 			var filterX = newPosition.x;
 			var filterY = newPosition.y;
 			var filterZ = newPosition.z;
 
-			mvAvgX = (newPosition.x*tc)+(mvAvgX*(alph-tc));
-			mvAvgY = (newPosition.y*tc)+(mvAvgY*(alph-tc));
-			mvAvgZ = (newPosition.z*tc)+(mvAvgZ*(alph-tc));
-			
-			newPosition.x = diff(mvAvgX,filterX);
-			newPosition.y = diff(mvAvgY,filterY);
-			newPosition.z = diff(mvAvgZ,filterZ);
+			mvAvgX = (newPosition.x * tc) + (mvAvgX * (alph - tc));
+			mvAvgY = (newPosition.y * tc) + (mvAvgY * (alph - tc));
+			mvAvgZ = (newPosition.z * tc) + (mvAvgZ * (alph - tc));
 
-			if(newPosition.z > thresh){
+			newPosition.x = diff(mvAvgX, filterX);
+			newPosition.y = diff(mvAvgY, filterY);
+			newPosition.z = diff(mvAvgZ, filterZ);
+
+			if (newPosition.z > thresh) {
 				console.log("tapped");
 				$scope.tapped = true;
-			}else{
+			} else {
 				$scope.tapped = false;
 			}
 		}
@@ -557,12 +563,14 @@ controllers.diagnostics = function($scope, socket) {
 		}
 	});
 
-	function diff(a,b){return Math.abs(a-b);}
+	function diff(a, b) {
+		return Math.abs(a - b);
+	}
 
 	//I DON'T NEED THESE WHEN USING ANGULAR
 	d3.select('#movingAverage').on('click', function() {
-	  movingAverage = true;
-	  console.log("We are filtering (MvAVG + Diff)");
+		movingAverage = true;
+		console.log("We are filtering (MvAVG + Diff)");
 	});
 
 	/*d3.select('#differenceValue').on('click', function() {

@@ -5,9 +5,9 @@ var timeApp = angular.module("timeApp", ['ngRoute', 'ngCookies', 'ngAnimate'])
 				controller: "login",
 				templateUrl: 'public/app/pages/login.html'
 			})
-			.when('/tapping', {
-				controller: "tapping",
-				templateUrl: 'public/app/pages/tapping.html'
+			.when('/tap', {
+				controller: "tap",
+				templateUrl: 'public/app/pages/tap.html'
 			})
 			.when('/shaker', {
 				controller: "shaker",
@@ -35,6 +35,6 @@ var timeApp = angular.module("timeApp", ['ngRoute', 'ngCookies', 'ngAnimate'])
 			})
 			.when('/testtap', {
 				controller: "testTap",
-		templateUrl: 'public/app/pages/testtap.html'
+				templateUrl: 'public/app/pages/testtap.html'
 			})
 	});

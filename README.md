@@ -4,8 +4,31 @@ TASKS:
 - Device orientation
 - Icon sets with animations and better copy
 
-== Sensor Diagnostic Graph Added ==
-- Needs to connect via Node
+== General ==
+
++ GZip
++ Compress all libraries and packages
++ Browser caching of all content
++ Combine external JavaScript
++ Enable gzip compression
++ Leverage browser caching
++ Minimize cookie size
++ Put CSS in the document head
++ Remove unused CSS rules
+
+
+== Device Independent Diagnostic Page ==
+
+- Connects through node
+- Shows x,y,z with gravity
+- Infinite moving average filter implemented
+- Controls for timing, alpha, and thresholds has been added
+- Socket messages bandwidth readout
+
++ User agent data needed
++ Add other sensors if available
++ 
+
 
 == Colours/Shaking ==
 - sets of colours
@@ -15,19 +38,24 @@ TASKS:
 	- stregth of each range
 - different axis
 
+
 == tapping ==
-if tapping not working well, focus on just tap
-website not selectable
 
-- Tapping has been optimized since last demo, but could use some more work (because why not?)
+- if tapping not working well, focus on just tap
+- website not selectable?
+- Tapping has been optimized, however thresholds are device dependent meaning we need to track user agents and set thresholds for each device.
+- We should coach them through an initial tapping exercise
 
-- Should add a tapper level breakpoint. If they don't tap hard enough, we should tell them.
++ Perhaps we need a setTimeout for tapping so it only sends within a small window. This will avoid taps being registered on the decay of a tap.
+
 
 == dead screen ==
 
 
 == swipe == 
-is out!
+
+- Is out for now.
+
 
 == video selection == 
 
@@ -55,7 +83,7 @@ Interaction
 	- tapping
 Music
 Interaction
-	- shaking
+	- shaking "I really feel as though this needs to be a group thing. Like colour sets control the screen if they all coordinate together. This may require an additional readout on the client screen that cues a user about how 'out of sync' they are"
 Closer
 	- louder
 	- animation

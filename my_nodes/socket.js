@@ -29,7 +29,8 @@ exports.connect = function(socket) {
 	})
 
 	socket.on("tapped", function(msg) {
-		tcp.write("tapped " + msg['device'])
+		//tcp.write("tapped " + msg['device'])
+		io.sockets.emit('cTap', msg);
 	})
 
 	//for test tapping
