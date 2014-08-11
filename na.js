@@ -25,7 +25,6 @@ var server = app.listen(8000);
 //SOCKET io
 socket.setup(app);
 socket.io.on('connection', socket.connect);
-socket.io.on('disconnected', socket.disconnect);
 
 //SerialPort
 
@@ -45,6 +44,7 @@ var tcp = net.createServer(function(sock) {
 
 	sock.on('data', function(data) {
 		var msg = decoder.write(data);
+		console.log(data);
 		if (msg.substring(0, 2) == "CP") {
 			socket.io.sockets.emit("CP", msg.substring(3, msg.length - 2))
 		}

@@ -188,6 +188,8 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 controllers.testTap = function($scope, UserSet, socket, $timeout) {
 	console.log("test tap page");
 
+	UserSet.checkUser();
+
 	$scope.tap = function() {
 		socket.emit('tap', 1);
 		console.log("tapp");
@@ -239,6 +241,7 @@ controllers.login = function($scope, socket, UserSet, $location) {
 	//Called by Submit Input
 	$scope.addUser = function() {
 		console.log($scope.ticket.length);
+		UserSet.setUserId($scope.ticket);
 		$location.path('/lobby');
 	}
 

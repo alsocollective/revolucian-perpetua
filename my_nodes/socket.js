@@ -23,7 +23,7 @@ exports.connect = function(socket) {
 	});
 
 	console.log("someone connected");
-	socket.on("set ID", function(msg) {
+	socket.on("setID", function(msg) {
 		this.id = msg;
 		console.log(msg, "connected");
 	})
@@ -34,15 +34,8 @@ exports.connect = function(socket) {
 
 	//for test tapping
 	socket.on("tap", function(msg) {
-
-		console.log(socket.client.conn.id);
-
-		// for (key in io.sockets.connected) {
-		// 	console.log(key);
-		// }
-		// console.log(io.sockets.connected);
-
-		tcp.write("tap " + msg + " " + socket.client.conn.id + "\n");
+		console.log(this.id);
+		tcp.write("tap " + msg + " " + this.id + "\n");
 	})
 
 	//diagnostics
@@ -86,9 +79,10 @@ exports.connect = function(socket) {
 		console.log(msg)
 		io.sockets.emit(msg.header, msg.msg);
 	})
-}
-
-exports.disconnect = function(socket) {
-	console.log(socket);
-	cosnole.log("disconnected");
+	socket.on("disconnect",function(msg){
+		console.log("disconnect");
+		console.log(this.id);
+		tcp.write("left " + ". "+ this.id + "\n");
+		console.log("should of sent message");
+	})
 }
