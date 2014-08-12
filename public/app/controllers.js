@@ -182,6 +182,8 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 }
 
 
+//
+
 
 //TAPPING
 
