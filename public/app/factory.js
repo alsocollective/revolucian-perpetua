@@ -1,7 +1,7 @@
 var factories = {};
 
 factories.socket = function($rootScope, $location) {
-	var socket = io.connect("192.168.0.158:3000");
+	var socket = io.connect("107.161.159.46:3000");
 	return {
 		on: function(eventName, callback) {
 			socket.on(eventName, function(msg) {
