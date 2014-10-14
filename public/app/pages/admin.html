@@ -4,8 +4,15 @@
 		<h1>ADMIN</h1>
 
 		<input type="text" ng-model="msg.id" value="repeat">
-		<input type="text" ng-model="msg.header" value="setpage">	
-		<input type="text" ng-model="msg.msg" value="/">
+		<input type="text" ng-model="msg.header" value="setpage">
+		<select ng-model="msg.msg">
+			<option value="lobby">lobby</option>
+			<option value="shaker">shaker</option>
+			<option value="tap">tap</option>
+			<option value="swipe">swipe</option>
+			<option value="admin">admin</option>
+		</select>
+		
 		<button ng-click="sendMsg()"></button>
 
 
@@ -13,15 +20,15 @@
 		<hr>
 		<h3>Colours - roate phone</h3>
 		<p>Select colour is {{colours.colour}}</p>
-		<a href="/colours">link</a>
+		<a href="#/shaker">link</a>
 
 		<hr>
 		<h3>Dash - tap phone</h3>
-		<a href="/tapping">link</a>
+		<a href="#/tap">link</a>
 
 		<hr>
-		<h3>Image - select gif</h3>
-		<a href="/image">link</a>
+		<h3>Swipe</h3>
+		<a href="#/swipe">link</a>
 
 		<hr>
 	</div>
