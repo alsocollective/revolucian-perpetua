@@ -182,17 +182,14 @@ controllers.shaker = function($scope, socket, UserSet, $location) {
 }
 
 
+//
+
 
 //TAPPING
 
 controllers.tap = function($scope, socket, UserSet, $location, $timeout) {
 
 	UserSet.checkUser();
-
-	$scope.tap = function() {
-		socket.emit('tap', 1);
-		console.log("tapp");
-	}
 
 	var mvgAvg = null,
 		tapCol = 1,
