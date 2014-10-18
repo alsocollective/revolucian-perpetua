@@ -86,7 +86,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-notify');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 
-	grunt.registerTask('w', ['watch', 'notify:watch', 'notify', 'concat:css', 'sass'])
-	grunt.registerTask('default', ['concat', 'uglify', 'imagemin']);
-	grunt.registerTask('scss', ['concat:css', 'sass']);
+	// grunt.registerTask('w', ['watch', 'notify:watch', 'notify', 'concat:css', 'sass'])
+	grunt.registerTask('default', ['concat:css', 'sass']);
+	// grunt.registerTask('scss', ['concat:css', 'sass']);
+
 };
