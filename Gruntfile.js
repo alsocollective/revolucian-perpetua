@@ -11,14 +11,10 @@ module.exports = function(grunt) {
 			},
 			css: {
 				src: [
-					'application/src/scss/reset.scss',
-					'application/src/scss/base.scss',
-					'application/src/scss/print.scss'
+					'public/css/style.css',
+					'public/css/animate.css'
 				],
-				dest: 'application/static/css/screen.scss',
-				options: {
-					message: 'Concat css'
-				}
+				dest: 'public/css/style.min.css',
 			}
 		},
 		uglify: {
@@ -39,9 +35,6 @@ module.exports = function(grunt) {
 		},
 		sass: {
 			dist: {
-				options: {
-					style: 'compressed',
-				},
 				files: {
 					'public/css/style.css': 'public/sass/*.scss',
 				}
@@ -57,7 +50,7 @@ module.exports = function(grunt) {
 			},*/
 			css: {
 				files: ['public/sass/*.scss'],
-				tasks: ['sass', 'notify:css'],
+				tasks: ['sass', 'concat:css', 'notify:css'],
 				options: {
 					spawn: false,
 				}
@@ -87,7 +80,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 
 	// grunt.registerTask('w', ['watch', 'notify:watch', 'notify', 'concat:css', 'sass'])
-	grunt.registerTask('default', ['concat:css', 'sass']);
+	grunt.registerTask('default', ['watch']);
 	// grunt.registerTask('scss', ['concat:css', 'sass']);
 
 };
