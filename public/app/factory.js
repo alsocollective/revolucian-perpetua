@@ -1,7 +1,7 @@
 var factories = {};
 
-factories.socket = function($rootScope, $location) {
-	var socket = io.connect("107.161.159.46:3000");
+factories.Socket = function($rootScope, $location) {
+	var socket = io.connect("http://localhost:3000");
 	return {
 		on: function(eventName, callback) {
 			socket.on(eventName, function(msg) {
@@ -23,7 +23,7 @@ factories.socket = function($rootScope, $location) {
 	};
 }
 
-factories.UserSet = function($cookies, socket, socket, $location) {
+factories.Userset = function($cookies, Socket, $location) {
 	var factory = {};
 	factory.ticket = null;
 

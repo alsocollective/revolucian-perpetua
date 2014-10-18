@@ -2,9 +2,6 @@ var express = require('express'),
 	app = express(),
 	views = require('./my_nodes/views'),
 	socket = require('./my_nodes/socket'),
-	// SerialPort = require("serialport").SerialPort,
-	// dgram = require("dgram"),
-	// udp = dgram.createSocket("udp4"),
 	StringDecoder = require('string_decoder').StringDecoder,
 	net = require('net');
 
