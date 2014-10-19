@@ -18,15 +18,35 @@ exports.setTCP = function(tcpin) {
 }
 
 exports.connect = function(socket) {
-	console.log("setup");
-	io.sockets.emit('setup', {
-		"id": socket.id
+
+	//LOGIN
+	socket.on("getID", function(msg) {
+		console.log("gave ID:\t..\t" + msg);
+		socket.emit("setID", socket.id);
+	});
+	socket.on("setID", function(msg) {
+		socket.id = msg;
+		console.log("set ID:\t..\t" + msg);
+	});
+	socket.on("ID", function(msg) {
+		console.log("saying ID:\t..\t" + msg);
+		socket.emit("ID", socket.id);
 	});
 
-	socket.on("setID", function(msg) {
-		this.id = msg;
-		console.log(msg, "connected");
+
+	//ADMIN
+	socket.on("CP", function(msg) {
+		console.log("Change Page:\t" + msg);
+		io.sockets.emit("CP", msg);
 	})
+
+
+
+
+
+
+
+
 
 	//for test tapping
 	socket.on("tap", function(msg) {
@@ -41,9 +61,9 @@ exports.connect = function(socket) {
 	});
 
 	socket.on("repeat", function(msg) {
-		console.log(msg)
 		io.sockets.emit(msg.header, msg.msg);
 	})
+
 	socket.on("disconnect", function(msg) {
 		if (tcp) {
 			console.log("disconnect");
