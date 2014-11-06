@@ -41,6 +41,17 @@ exports.connect = function(socket) {
 	})
 
 
+	//TO TD////
+	socket.on("tap", function(msg) {
+		console.log("tap:\t..\t" + msg)
+		if (tcp) {
+			console.log("\t\t\tforwarding message to TD")
+		} else {
+			console.log("\t\t\tNo TCP connected");
+		}
+	})
+
+
 
 
 

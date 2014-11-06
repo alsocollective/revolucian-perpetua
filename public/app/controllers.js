@@ -35,8 +35,12 @@ timeApp.communication = {
 			location.path("/" + msg);
 		})
 		timeApp.communication.pageChange = true;
+	},
+	sendTap: function(Socket, Userset) {
+		Socket.emit("tap", Userset.ticket);
 	}
 }
+
 
 timeApp.allfunc = {
 	firstvisit: function(cookie, location) {
@@ -57,6 +61,7 @@ controllers.tap = function($scope, $cookies, $location, Socket, Userset) {
 	timeApp.allfunc.firstvisit($cookies, $location); //return to lobby if no cookie
 	timeApp.communication.setupPageChange(Socket, $location); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
+	timeApp.communication.sendTap(Socket, Userset)
 }
 
 controllers.shake = function($scope, $cookies, $location, Socket, Userset) {
