@@ -26,6 +26,31 @@ html, body {
 #shake h1 {
   color: #f00; }
 
+#tap #modal {
+  position: absolute;
+  top: 10%;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-family: 'Anonymous Pro';
+  color: #fff;
+  font-size: 1em; }
+  #tap #modal img {
+    width: 60%;
+    height: auto; }
+#tap #xx {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  background-image: url("/../../content/close-x-wht.png");
+  width: 30px;
+  height: 30px; }
+#tap .close {
+  display: none; }
+
+.bgWhite {
+  background-color: #f00; }
+
 #content div {
   position: absolute;
   width: 100%;

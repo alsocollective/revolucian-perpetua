@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		// document.getElementById("hrs").innerHTML = ("h: "+j).toString();
 
 		if (j + 1 === 10) {
-			console.log("NOPE!");
+			// console.log("NOPE!");
 			document.getElementById(("s4-0").toString()).style.visibility = "visible";
 		} else {
 			document.getElementById(("s4-" + (j + 1)).toString()).style.visibility = "visible";
