@@ -39,6 +39,14 @@ exports.connect = function(socket) {
 		console.log("Change Page:\t" + msg);
 		io.sockets.emit("CP", msg);
 	})
+	socket.on("diagdata", function(msg) {
+		if (typeof msg == "object") {
+			console.log("diagnostic data: x:" + parseInt(msg.x) + "\ty:" + parseInt(msg.y) + "\tz:" + parseInt(msg.z))
+		} else {
+			console.log("diagnostic data:" + msg);
+		}
+		io.sockets.emit("diagdata", msg);
+	})
 
 
 	//TO TD////

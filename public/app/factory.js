@@ -1,7 +1,7 @@
 var factories = {};
 
 factories.Socket = function($rootScope, $location) {
-	var socket = io.connect("http://localhost:3000");
+	var socket = io.connect("http://192.168.0.107:3000");
 	return {
 		on: function(eventName, callback) {
 			socket.on(eventName, function(msg) {
@@ -9,6 +9,9 @@ factories.Socket = function($rootScope, $location) {
 					callback.apply(socket, [msg]);
 				});
 			});
+		},
+		onunbind: function(eventName) {
+			socket.removeAllListeners(eventName);
 		},
 		emit: function(eventName, data, callback) {
 			socket.emit(eventName, data, function() {

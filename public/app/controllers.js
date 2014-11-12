@@ -26,18 +26,21 @@ timeApp.communication = {
 		})
 	},
 	pageChange: false,
+	exitfunction: null,
 	setupPageChange: function(Socket, location) {
 		if (timeApp.communication.pageChange) {
 			return false;
 		}
 		Socket.on("CP", function(msg) {
 			console.log(msg);
+			if (timeApp.communication.exitfunction) {
+				console.log("coms exit");
+				timeApp.communication.exitfunction(Socket)
+				timeApp.communication.exitfunction = null;
+			}
 			location.path("/" + msg);
 		})
 		timeApp.communication.pageChange = true;
-	},
-	sendTap: function(Socket, Userset) {
-		Socket.emit("tap", Userset.ticket);
 	}
 }
 
@@ -61,7 +64,13 @@ controllers.tap = function($scope, $cookies, $location, Socket, Userset) {
 	timeApp.allfunc.firstvisit($cookies, $location); //return to lobby if no cookie
 	timeApp.communication.setupPageChange(Socket, $location); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
-	timeApp.communication.sendTap(Socket, Userset)
+
+
+	if (timeApp.diagnostics) {
+		timeApp.diagnostics.addTiltEventListener(Socket);
+		timeApp.communication.exitfunction = timeApp.diagnostics.onexit;
+		//timeApp.diagnostics.createDiagnosticButton(Socket);
+	}
 }
 
 controllers.shake = function($scope, $cookies, $location, Socket, Userset) {
@@ -76,13 +85,19 @@ controllers.admin = function($scope, $cookies, $location, Socket, Userset) {
 	$scope.id = Userset.ticket || $cookies.ticket;
 
 	$scope.submitted = function() {
-		console.log("yep");
 		Socket.emit("CP", $scope.msg);
 	}
 }
 
 controllers.diagnostics = function($scope, $cookies, $location, Socket, Userset) {
+	timeApp.allfunc.firstvisit($cookies, $location); //return to lobby if no cookie
+	timeApp.communication.setupPageChange(Socket, $location); //changepage on message
+	$scope.id = Userset.ticket || $cookies.ticket;
 
+	if (timeApp.diagnostics) {
+		timeApp.communication.exitfunction = timeApp.diagnostics.onexit;
+		timeApp.diagnostics.init(Socket);
+	}
 }
 
 timeApp.controller(controllers);
