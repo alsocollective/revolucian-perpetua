@@ -53,10 +53,23 @@ exports.connect = function(socket) {
 	socket.on("tap", function(msg) {
 		console.log("tap:\t..\t" + msg)
 		if (tcp) {
-			console.log("\t\t\tforwarding message to TD")
+			console.log("\t\t\tforwarding message to TD");
+			tcp.write("tap " + msg + " " + this.id + "\n");
 		} else {
 			console.log("\t\t\tNo TCP connected");
 		}
+	})
+	socket.on("sha", function(msg) {
+		console.log("shake:\t..\t" + msg)
+
+	})
+
+
+
+	//FROM TD////
+	socket.on("simulatePush", function(msg) {
+		console.log("push:\t..\t" + msg)
+		io.sockets.emit("push", msg);
 	})
 
 

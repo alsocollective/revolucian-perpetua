@@ -13,6 +13,10 @@ var timeApp = angular.module("timeApp", ['ngRoute', 'ngCookies', 'ngAnimate'])
 				controller: "shake",
 				templateUrl: 'public/app/pages/shake.html'
 			})
+			.when('/pushedpage', {
+				controller: "pushedpage",
+				templateUrl: 'public/app/pages/pushedpage.html'
+			})
 			.when('/admin', {
 				controller: 'admin',
 				templateUrl: 'public/app/pages/admin.html'
@@ -21,4 +25,5 @@ var timeApp = angular.module("timeApp", ['ngRoute', 'ngCookies', 'ngAnimate'])
 				controller: "diagnostics",
 				templateUrl: 'public/app/pages/diagnostics.html'
 			})
+
 	});

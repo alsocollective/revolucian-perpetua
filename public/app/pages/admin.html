@@ -1,4 +1,16 @@
 <h3>Admin</h3>
-<input type="text" ng-model="msg">
+<select ng-model="msg">
+	<option value="">lobby</option>
+	<option value="tap">tap</option>
+	<option value="shake">shake</option>
+	<option value="diagnostics">diagnostics</option>	
+</select>
 <button ng-click="submitted()">Submit</button>
+<select ng-model="msg2">
+	<option value="song1" selected>song1</option>
+	<option value="song2">song2</option>
+	<option value="song3">song3</option>
+</select>
+<button ng-click="pushPage()">Submit</button>
+
 <h4>{{id}}</h4>
