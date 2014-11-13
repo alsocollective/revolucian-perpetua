@@ -2,7 +2,8 @@ var http = null,
 	io = null,
 	tcp = null,
 	dat = null,
-	spd = [0, 0];
+	spd = [0, 0],
+	currentpage = "";
 
 
 exports.setup = function(app) {
@@ -23,21 +24,25 @@ exports.connect = function(socket) {
 	socket.on("getID", function(msg) {
 		console.log("gave ID:\t..\t" + msg);
 		socket.emit("setID", socket.id);
+		socket.emit("CP", currentpage);
 	});
 	socket.on("setID", function(msg) {
 		socket.id = msg;
 		console.log("set ID:\t..\t" + msg);
+		socket.emit("CP", currentpage);
 	});
 	socket.on("ID", function(msg) {
 		console.log("saying ID:\t..\t" + msg);
 		socket.emit("ID", socket.id);
+		socket.emit("CP", currentpage);
 	});
 
 
 	//ADMIN
 	socket.on("CP", function(msg) {
 		console.log("Change Page:\t" + msg);
-		io.sockets.emit("CP", msg);
+		currentpage = msg;
+		io.sockets.emit("CP", currentpage);
 	})
 	socket.on("diagdata", function(msg) {
 		if (typeof msg == "object") {

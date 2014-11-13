@@ -13,6 +13,10 @@ var timeApp = angular.module("timeApp", ['ngRoute', 'ngCookies', 'ngAnimate'])
 				controller: "shake",
 				templateUrl: 'public/app/pages/shake.html'
 			})
+			.when('/song', {
+				controller: "song",
+				templateUrl: 'public/app/pages/song.html'
+			})
 			.when('/pushedpage', {
 				controller: "pushedpage",
 				templateUrl: 'public/app/pages/pushedpage.html'
