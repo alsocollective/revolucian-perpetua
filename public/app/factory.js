@@ -1,7 +1,7 @@
 var factories = {};
 
 factories.Socket = function($rootScope, $location) {
-	var socket = io.connect("http://192.168.0.107:3000");
+	var socket = io.connect("http://192.168.0.126:3000");
 	return {
 		on: function(eventName, callback) {
 			socket.on(eventName, function(msg) {
@@ -53,7 +53,7 @@ factories.Userset = function($cookies, Socket, $location, SongSets) {
 		if (factory.subuser) {
 			return factory.subuser;
 		} else {
-			factory.subuser = "-" + (parseInt(factory.ticket.match(/[0-9]/i)[0]) % 2);
+			factory.subuser = "-" + (factory.ticket.charCodeAt(0) % 2);
 			factory.downloadImages(factory.subuser);
 			return factory.subuser;
 		}

@@ -17,5 +17,4 @@ timeApp.cAdmin = {
 			timeApp.cAdmin.settings.socket.emit("simulatePush", timeApp.cAdmin.settings.scope.msg2);
 		}
 	}
-
 }

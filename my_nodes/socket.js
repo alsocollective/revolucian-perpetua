@@ -4,7 +4,9 @@ var http = null,
 	dat = null,
 	spd = [0, 0],
 	currentpage = "",
-	meta = "";
+	meta = "",
+	simpleId = {},
+	simpleIdCount = 0;
 
 
 exports.setup = function(app) {
@@ -19,34 +21,59 @@ exports.setTCP = function(tcpin) {
 	tcp = tcpin;
 }
 
+exports.setCurrentPage = function(newPage){
+	currentpage = newPage;
+}
+exports.setMeta = function(newMeta){
+	meta =newMeta;
+}
+
+
 exports.connect = function(socket) {
 
 	//LOGIN
 	socket.on("getID", function(msg) {
 		console.log("gave ID:\t..\t" + msg);
+		if(simpleId[msg]){
+			socket.simpleId = simpleId[msg];
+		} else {
+			simpleIdCount += 1;
+			socket.simpleId = simpleIdCount;
+			simpleId[msg] = simpleIdCount;
+		}
 		socket.emit("setID", socket.id);
+
 		socket.emit("CP", currentpage);
 		socket.emit("meta", meta)
 	});
+	
 	socket.on("setID", function(msg) {
 		socket.id = msg;
+		if(simpleId[msg]){
+			socket.simpleId = simpleId[msg];
+		} else {
+			simpleIdCount += 1;
+			socket.simpleId = simpleIdCount;
+			simpleId[msg] = simpleIdCount;
+		}		
 		console.log("set ID:\t..\t" + msg);
 		socket.emit("CP", currentpage);
 		socket.emit("meta", meta)
 	});
+
 	socket.on("ID", function(msg) {
 		console.log("saying ID:\t..\t" + msg);
+		simpleIdCount += 1;
+		socket.simpleId = simpleIdCount;
+		simpleId[socket.id] = simpleIdCount;	
+
 		socket.emit("ID", socket.id);
 		socket.emit("CP", currentpage);
 		socket.emit("meta", meta)
 	});
 	socket.on("getmeta", function(msg, one, two) {
-		console.log("0000000000")
-		console.log(msg)
-		console.log(one(meta))
-		console.log(two)
+		one(meta);
 		socket.emit("meta", meta)
-		console.log("0000000000")
 	})
 
 
@@ -58,9 +85,9 @@ exports.connect = function(socket) {
 	})
 	socket.on("diagdata", function(msg) {
 		if (typeof msg == "object") {
-			console.log("diagnostic data: x:" + parseInt(msg.x) + "\ty:" + parseInt(msg.y) + "\tz:" + parseInt(msg.z))
+			// console.log("diagnostic data: x:" + parseInt(msg.x) + "\ty:" + parseInt(msg.y) + "\tz:" + parseInt(msg.z))
 		} else {
-			console.log("diagnostic data:" + msg);
+			// console.log("diagnostic data:" + msg);
 		}
 		io.sockets.emit("diagdata", msg);
 	})
@@ -70,8 +97,8 @@ exports.connect = function(socket) {
 	socket.on("tap", function(msg) {
 		console.log("tap:\t..\t" + msg)
 		if (tcp) {
-			console.log("\t\t\tforwarding message to TD");
-			tcp.write("tap " + msg + " " + this.id + "\n");
+			console.log("\ttap " + msg + " " + this.simpleId + "\n")
+			tcp.write("tap " + msg + " " + this.simpleId + "\n");
 		} else {
 			console.log("\t\t\tNo TCP connected");
 		}
@@ -100,11 +127,11 @@ exports.connect = function(socket) {
 
 
 	//for test tapping
-	socket.on("tap", function(msg) {
-		if (tcp) {
-			tcp.write("tap " + msg + " " + this.id + "\n");
-		}
-	})
+	// socket.on("tap", function(msg) {
+	// 	if (tcp) {
+	// 		tcp.write("tap " + msg + " " + this.simpleId + "\n");
+	// 	}
+	// })
 
 	//diagnostics
 	socket.on("dg", function(msg) {
@@ -117,10 +144,8 @@ exports.connect = function(socket) {
 
 	socket.on("disconnect", function(msg) {
 		if (tcp) {
-			console.log("disconnect");
-			console.log(this.id);
-			tcp.write("left " + ". " + this.id + "\n");
-			console.log("should of sent message");
+			console.log("dis:\t..\t" + this.id);
+			tcp.write("left " + ". " + this.simpleId + "\n");
 		}
 	})
 }

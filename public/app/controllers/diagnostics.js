@@ -159,6 +159,7 @@ timeApp.diagnostics = {
 		$("#main_container")[0].appendChild(button);
 		var senddata = function(event) {
 			console.log(event.timeStamp)
+			Socket.emit("tap","1");
 			Socket.emit("diagdata", event.timeStamp);
 		}
 		$(button).click(senddata);
