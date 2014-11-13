@@ -1,6 +1,9 @@
 var controllers = {};
 
 timeApp.communication = {
+	settings: {
+
+	},
 	setupbol: false,
 	setup: function(Socket, Cookie, Userset) {
 		if (timeApp.communication.setupbol) {
@@ -18,6 +21,14 @@ timeApp.communication = {
 				console.log(msg);
 			})
 		}
+
+		//TODO start the download of all the associated images
+
+
+
+		//TODO retrive the what page the user is suppose to be on
+		//should be pushed to the CurrentPage
+		//be sure to run exit script when changing pages
 	},
 	test: function(Socket) {
 		Socket.emit("ID");
@@ -27,42 +38,55 @@ timeApp.communication = {
 	},
 	pageChange: false,
 	exitfunction: null,
-	setupPageChange: function(Socket, location) {
+	setupPageChange: function(Socket, location, CurrentPage) {
 		if (timeApp.communication.pageChange) {
 			return false;
 		}
+		timeApp.communication.settings.socket = Socket;
 		Socket.on("CP", function(msg) {
-			console.log(msg);
-			if (timeApp.communication.exitfunction) {
-				console.log("coms exit");
-				timeApp.communication.exitfunction(Socket)
-				timeApp.communication.exitfunction = null;
-			}
+			timeApp.communication.pageExitFunction();
 			location.path("/" + msg);
+			CurrentPage.page = msg;
+		})
+		Socket.on("push", function(msg) {
+			timeApp.communication.pageExitFunction();
+			location.path("/pushedpage");
+			CurrentPage.page = "pushedpage";
+			CurrentPage.meta = msg;
+			console.log(CurrentPage);
 		})
 		timeApp.communication.pageChange = true;
+	},
+	pageExitFunction: function() {
+		if (timeApp.communication.exitfunction) {
+			console.log("coms exit");
+			timeApp.communication.exitfunction(timeApp.communication.settings.socket)
+			timeApp.communication.exitfunction = null;
+		}
 	}
 }
 
 
 timeApp.allfunc = {
-	firstvisit: function(cookie, location) {
+	firstvisit: function(cookie, location, Userset) {
 		if (!cookie.ticket) {
 			location.path("/");
+		} else {
+			Userset.ticket = cookie.ticket;
 		}
 	}
 }
 
 
-controllers.lobby = function($scope, $cookies, $location, Socket, Userset) {
+controllers.lobby = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
 	timeApp.communication.setup(Socket, $cookies, Userset); //setup initiall message
-	timeApp.communication.setupPageChange(Socket, $location); //changepage on message
+	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
 }
 
-controllers.tap = function($scope, $cookies, $location, Socket, Userset) {
-	timeApp.allfunc.firstvisit($cookies, $location); //return to lobby if no cookie
-	timeApp.communication.setupPageChange(Socket, $location); //changepage on message
+controllers.tap = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
+	timeApp.allfunc.firstvisit($cookies, $location, Userset); //return to lobby if no cookie
+	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
 
 
@@ -73,25 +97,49 @@ controllers.tap = function($scope, $cookies, $location, Socket, Userset) {
 	}
 }
 
-controllers.shake = function($scope, $cookies, $location, Socket, Userset) {
-	timeApp.allfunc.firstvisit($cookies, $location); //return to lobby if no cookie
-	timeApp.communication.setupPageChange(Socket, $location); //changepage on message
+controllers.shake = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
+	timeApp.allfunc.firstvisit($cookies, $location, Userset); //return to lobby if no cookie
+	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
 }
 
 
-controllers.admin = function($scope, $cookies, $location, Socket, Userset) {
-	timeApp.allfunc.firstvisit($cookies, $location);
+controllers.pushedpage = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
+	timeApp.allfunc.firstvisit($cookies, $location, Userset);
+	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message	
 	$scope.id = Userset.ticket || $cookies.ticket;
 
-	$scope.submitted = function() {
-		Socket.emit("CP", $scope.msg);
+	if (timeApp.pushedpage) {
+		timeApp.pushedpage.init(CurrentPage);
+		timeApp.communication.exitfunction = timeApp.pushedpage.onexit;
 	}
 }
 
-controllers.diagnostics = function($scope, $cookies, $location, Socket, Userset) {
-	timeApp.allfunc.firstvisit($cookies, $location); //return to lobby if no cookie
-	timeApp.communication.setupPageChange(Socket, $location); //changepage on message
+controllers.newSong = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
+	timeApp.allfunc.firstvisit($cookies, $location, Userset);
+	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message	
+	$scope.id = Userset.ticket || $cookies.ticket;
+
+	//TODO Add rest of new song set up
+	//add to app.js
+	//add page to pages... html
+	//make a factory to contain what song we are on... maybe place it in current page
+}
+
+
+controllers.admin = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
+	timeApp.allfunc.firstvisit($cookies, $location, Userset);
+	$scope.id = Userset.ticket || $cookies.ticket;
+
+	if (timeApp.cAdmin) {
+		timeApp.cAdmin.init($scope, Socket);
+	}
+}
+
+
+controllers.diagnostics = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
+	timeApp.allfunc.firstvisit($cookies, $location, Userset); //return to lobby if no cookie
+	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
 
 	if (timeApp.diagnostics) {
