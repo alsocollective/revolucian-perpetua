@@ -11,7 +11,7 @@ timeApp.pushedpage = {
 			var d = document.createElement("div");
 			element.appendChild(d);
 			d.style.visibility = "hidden";
-			d.style.backgroundImage = "url(/public/content/" + song + "/s4-" + i + ".png)";
+			d.style.backgroundImage = "url(/public/content/" + song + "/" + i + ".png)";
 			d.id = "s4-" + i;
 		}
 
