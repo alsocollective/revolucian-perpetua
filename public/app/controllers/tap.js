@@ -13,6 +13,17 @@ document.addEventListener("DOMContentLoaded", function() {
 	// 	modal.className = "close";
 	// };
 
+	// TODO-SO Maybe use video to keep phone from dimming
+	// Get rid of URL header
+	// Get rid of undo.
+
+	// Battery
+	// Brightness?
+	// Flashing
+	// Beta
+
+	// *is there a popup dialogue to add to hone screen
+
 	console.log("Tap JS Init");
 
 	var mvgAvg = null;
