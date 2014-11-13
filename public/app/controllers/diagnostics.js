@@ -17,6 +17,7 @@ timeApp.diagnostics = {
 		pathz: null
 	},
 	init: function(Socket) {
+		console.log("diagnostics...")
 		if (!Socket) {
 			console.log("you need to pass socket into the diagnostics init");
 			return false;
@@ -70,7 +71,7 @@ timeApp.diagnostics = {
 
 		//set up the document
 		var margins = 100;
-		var svg = d3.select("#main_container").append("svg")
+		var svg = d3.select("#datalocation").append("svg")
 			.attr("width", timeApp.diagnostics.settings.width + margins)
 			.attr("height", timeApp.diagnostics.settings.height + margins)
 

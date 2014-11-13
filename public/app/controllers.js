@@ -12,13 +12,14 @@ timeApp.communication = {
 		timeApp.communication.setupbol = true;
 		if (Cookie.ticket) {
 			Userset.ticket = Cookie.ticket;
+			Userset.getUserSub();
 			Socket.emit("setID", Cookie.ticket);
 		} else {
 			Socket.emit("getID", "I have no id");
 			Socket.on("setID", function(msg) {
 				Userset.ticket = msg;
 				Cookie.ticket = msg;
-				console.log(msg);
+				Userset.getUserSub();
 			})
 		}
 
@@ -50,10 +51,9 @@ timeApp.communication = {
 		})
 		Socket.on("push", function(msg) {
 			timeApp.communication.pageExitFunction();
-			location.path("/pushedpage");
-			CurrentPage.page = "pushedpage";
+			location.path("/song");
+			CurrentPage.page = "song";
 			CurrentPage.meta = msg;
-			console.log(CurrentPage);
 		})
 		timeApp.communication.pageChange = true;
 	},
@@ -73,6 +73,7 @@ timeApp.allfunc = {
 			location.path("/");
 		} else {
 			Userset.ticket = cookie.ticket;
+			Userset.getUserSub();
 		}
 	}
 }
@@ -80,6 +81,7 @@ timeApp.allfunc = {
 
 controllers.lobby = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
 	timeApp.communication.setup(Socket, $cookies, Userset); //setup initiall message
+	timeApp.allfunc.firstvisit($cookies, $location, Userset); //return to lobby if no cookie	
 	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
 }
