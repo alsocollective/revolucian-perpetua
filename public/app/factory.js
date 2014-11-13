@@ -32,9 +32,10 @@ factories.CurrentPage = function(Socket, Userset) {
 	factory.meta = null;
 	factory.getMeta = function() {
 		if (!factory.meta) {
-			//TODO retrive current meta tag from Node
-			console.log("meta: " + factory.meta)
-			return "song1" + Userset.getUserSub();
+			// Socket.emit("getmeta", "")
+			// console.log("meta: " + factory.meta)
+			// return "song1" + Userset.getUserSub();
+			return "";
 		} else {
 			return factory.meta + Userset.getUserSub();
 		}

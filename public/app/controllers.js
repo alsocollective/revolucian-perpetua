@@ -23,10 +23,6 @@ timeApp.communication = {
 			})
 		}
 
-		//TODO start the download of all the associated images
-
-
-
 		//TODO retrive the what page the user is suppose to be on
 		//should be pushed to the CurrentPage
 		//be sure to run exit script when changing pages
@@ -55,6 +51,9 @@ timeApp.communication = {
 			CurrentPage.page = "song";
 			CurrentPage.meta = msg;
 		})
+		Socket.on("meta", function(msg) {
+			CurrentPage.meta = msg;
+		})
 		timeApp.communication.pageChange = true;
 	},
 	pageExitFunction: function() {
@@ -68,10 +67,14 @@ timeApp.communication = {
 
 
 timeApp.allfunc = {
-	firstvisit: function(cookie, location, Userset) {
+	firstvisit: function(cookie, location, Userset, CurrentPage) {
 		if (!cookie.ticket) {
 			location.path("/");
+
+		} else if (location.path() == "/pushedpage" && (!CurrentPage.meta)) {
+			location.path("/song")
 		} else {
+			console.log(location.path())
 			Userset.ticket = cookie.ticket;
 			Userset.getUserSub();
 		}
@@ -81,13 +84,13 @@ timeApp.allfunc = {
 
 controllers.lobby = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
 	timeApp.communication.setup(Socket, $cookies, Userset); //setup initiall message
-	timeApp.allfunc.firstvisit($cookies, $location, Userset); //return to lobby if no cookie	
+	timeApp.allfunc.firstvisit($cookies, $location, Userset, CurrentPage); //return to lobby if no cookie	
 	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
 }
 
 controllers.tap = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
-	timeApp.allfunc.firstvisit($cookies, $location, Userset); //return to lobby if no cookie
+	timeApp.allfunc.firstvisit($cookies, $location, Userset, CurrentPage); //return to lobby if no cookie
 	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
 
@@ -100,14 +103,14 @@ controllers.tap = function($scope, $cookies, $location, Socket, Userset, Current
 }
 
 controllers.shake = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
-	timeApp.allfunc.firstvisit($cookies, $location, Userset); //return to lobby if no cookie
+	timeApp.allfunc.firstvisit($cookies, $location, Userset, CurrentPage); //return to lobby if no cookie
 	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
 }
 
 
 controllers.pushedpage = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
-	timeApp.allfunc.firstvisit($cookies, $location, Userset);
+	timeApp.allfunc.firstvisit($cookies, $location, Userset, CurrentPage);
 	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message	
 	$scope.id = Userset.ticket || $cookies.ticket;
 
@@ -117,20 +120,19 @@ controllers.pushedpage = function($scope, $cookies, $location, Socket, Userset, 
 	}
 }
 
-controllers.newSong = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
-	timeApp.allfunc.firstvisit($cookies, $location, Userset);
+controllers.newSong = function($scope, $cookies, $location, Socket, Userset, CurrentPage, SongSets) {
+	timeApp.allfunc.firstvisit($cookies, $location, Userset, CurrentPage);
 	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message	
 	$scope.id = Userset.ticket || $cookies.ticket;
 
-	//TODO Add rest of new song set up
-	//add to app.js
-	//add page to pages... html
-	//make a factory to contain what song we are on... maybe place it in current page
+	if (timeApp.newSong) {
+		timeApp.newSong.init($scope, CurrentPage, SongSets, $location, Socket)
+	}
 }
 
 
 controllers.admin = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
-	timeApp.allfunc.firstvisit($cookies, $location, Userset);
+	timeApp.allfunc.firstvisit($cookies, $location, Userset, CurrentPage);
 	$scope.id = Userset.ticket || $cookies.ticket;
 
 	if (timeApp.cAdmin) {
@@ -140,7 +142,7 @@ controllers.admin = function($scope, $cookies, $location, Socket, Userset, Curre
 
 
 controllers.diagnostics = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
-	timeApp.allfunc.firstvisit($cookies, $location, Userset); //return to lobby if no cookie
+	timeApp.allfunc.firstvisit($cookies, $location, Userset, CurrentPage); //return to lobby if no cookie
 	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
 

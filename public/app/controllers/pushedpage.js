@@ -4,6 +4,9 @@ timeApp.pushedpage = {
 		interval: null
 	},
 	init: function(CurrentPage) {
+		if (!CurrentPage.meta) {
+			return false;
+		}
 		var element = document.getElementById("content");
 		var song = CurrentPage.getMeta();
 

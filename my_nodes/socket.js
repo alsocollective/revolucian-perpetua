@@ -3,7 +3,8 @@ var http = null,
 	tcp = null,
 	dat = null,
 	spd = [0, 0],
-	currentpage = "";
+	currentpage = "",
+	meta = "";
 
 
 exports.setup = function(app) {
@@ -25,17 +26,28 @@ exports.connect = function(socket) {
 		console.log("gave ID:\t..\t" + msg);
 		socket.emit("setID", socket.id);
 		socket.emit("CP", currentpage);
+		socket.emit("meta", meta)
 	});
 	socket.on("setID", function(msg) {
 		socket.id = msg;
 		console.log("set ID:\t..\t" + msg);
 		socket.emit("CP", currentpage);
+		socket.emit("meta", meta)
 	});
 	socket.on("ID", function(msg) {
 		console.log("saying ID:\t..\t" + msg);
 		socket.emit("ID", socket.id);
 		socket.emit("CP", currentpage);
+		socket.emit("meta", meta)
 	});
+	socket.on("getmeta", function(msg, one, two) {
+		console.log("0000000000")
+		console.log(msg)
+		console.log(one(meta))
+		console.log(two)
+		socket.emit("meta", meta)
+		console.log("0000000000")
+	})
 
 
 	//ADMIN
@@ -74,6 +86,8 @@ exports.connect = function(socket) {
 	//FROM TD////
 	socket.on("simulatePush", function(msg) {
 		console.log("push:\t..\t" + msg)
+		currentpage = "song";
+		meta = msg;
 		io.sockets.emit("push", msg);
 	})
 
