@@ -4,6 +4,7 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
+  height: 100vh;
   font-family: 'IM Fell English', serif;
   background-color: #333; }
 
@@ -26,7 +27,33 @@ html, body {
 #shake h1 {
   color: #f00; }
 
-#tap #modal {
+@-webkit-keyframes tapCol {
+  from {
+    background: #fff; }
+
+  to {
+    background: #333; } }
+#tap {
+  overflow: hidden; }
+  #tap h1 {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    font-size: 5em;
+    -webkit-transform: rotate(-90deg); }
+  #tap div {
+    width: 100%;
+    height: 100%;
+    display: table;
+    overflow: hidden; }
+
+.bgWhite {
+  -webkit-animation: tapCol 0.7s;
+  animation: tapCol 0.7s; }
+
+#modal {
   position: absolute;
   top: 10%;
   width: 100%;
@@ -35,21 +62,20 @@ html, body {
   font-family: 'Anonymous Pro';
   color: #fff;
   font-size: 1em; }
-  #tap #modal img {
-    width: 60%;
+  #modal img {
+    width: 100px;
     height: auto; }
-#tap #xx {
+
+#xx {
   position: absolute;
   right: 4px;
   top: 4px;
   background-image: url("/../../content/close-x-wht.png");
   width: 30px;
   height: 30px; }
-#tap .close {
-  display: none; }
 
-.bgWhite {
-  background-color: #f00; }
+.close {
+  display: none; }
 
 #content {
   position: absolute;
