@@ -5,8 +5,8 @@ timeApp.diagnostics = {
 		tiltEvent: null,
 		data: [],
 		lastEvent: 0,
-		width: 1000,
-		height: 500,
+		width: 1800,
+		height: 700,
 		yscale: null,
 		xscale: null,
 		linex: null,
@@ -41,7 +41,7 @@ timeApp.diagnostics = {
 			.domain([0, timeApp.diagnostics.settings.data.length - 1])
 			.range([0, timeApp.diagnostics.settings.width]);
 		timeApp.diagnostics.settings.yscale = d3.scale.linear()
-			.domain([-18, 18])
+			.domain([-30, 30])
 			.range([timeApp.diagnostics.settings.height, 0]);
 
 
@@ -71,6 +71,9 @@ timeApp.diagnostics = {
 
 		//set up the document
 		var margins = 100;
+		var xCol = "#f00";
+		var yCol = "#0f0";
+		var zCol = "#00f";
 		var svg = d3.select("#datalocation").append("svg")
 			.attr("width", timeApp.diagnostics.settings.width + margins)
 			.attr("height", timeApp.diagnostics.settings.height + margins)
@@ -79,7 +82,8 @@ timeApp.diagnostics = {
 		// GRID LINES
 		var yAxis = d3.svg.axis()
 			.scale(timeApp.diagnostics.settings.yscale)
-			.orient("left");
+			.orient("left")
+			.ticks(20);
 		var xAxis = d3.svg.axis()
 			.scale(timeApp.diagnostics.settings.xscale)
 			.orient("top");
@@ -89,7 +93,6 @@ timeApp.diagnostics = {
 		svg.append("g")
 			.attr("transform", "translate(" + margins + "," + margins + ")")
 			.call(xAxis);
-
 
 		// add the parent element of all the lines
 		svg = svg.append("g")
@@ -103,7 +106,10 @@ timeApp.diagnostics = {
 			.attr("class", "line")
 			.attr("d", timeApp.diagnostics.settings.linex)
 			.attr("fill", "none")
-			.attr("stroke", "#fff");
+			.attr("stroke", xCol);
+
+
+
 		timeApp.diagnostics.settings.pathy = svg.append("g")
 			.attr("clip-path", "url(#clip)")
 			.append("path")
@@ -111,7 +117,8 @@ timeApp.diagnostics = {
 			.attr("class", "line")
 			.attr("d", timeApp.diagnostics.settings.liney)
 			.attr("fill", "none")
-			.attr("stroke", "#f0f");
+			.attr("stroke", yCol);
+
 		timeApp.diagnostics.settings.pathz = svg.append("g")
 			.attr("clip-path", "url(#clip)")
 			.append("path")
@@ -119,7 +126,7 @@ timeApp.diagnostics = {
 			.attr("class", "line")
 			.attr("d", timeApp.diagnostics.settings.linez)
 			.attr("fill", "none")
-			.attr("stroke", "#f00");
+			.attr("stroke", zCol);
 	},
 	datain: function(msg) {
 		if (typeof timeApp.diagnostics.settings.data[0] != typeof msg) {

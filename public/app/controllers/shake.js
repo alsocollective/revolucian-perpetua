@@ -4,23 +4,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	console.log("Shake JS Init");
 
+	var test = document.getElementById("test");
+
 	var mvgAvg = null;
 
 	function handleMotionEvent(event) {
 
 		console.log("Sensor Called");
 
-		var z = event.accelerationIncludingGravity.z;
+		var x = event.accelerationIncludingGravity.x;
+		var y = event.accelerationIncludingGravity.y;
 
-		mvgAvg = (z * 0.4) + (mvgAvg * (1 - 0.4));
+		console.log("x:" + x + " y:" + y);
 
-		if ((Math.abs(mvgAvg - z)) > 6) {
+		if (x > 8) {
+			test.innerHTML = "X: " + x + "<br/>Y: " + y;
+		} else {
+			test.innerHTML = "";
+		}
+
+		// test.innerHTML = "X: " + x + "<br/>Y: " + y;
+
+		//mvgAvg = (z * 0.4) + (mvgAvg * (1 - 0.4));
+
+		/*if ((Math.abs(mvgAvg - z)) > 6) {
 			//emit tap with id
 			console.log("true");
 		} else {
 			//do nothing
 			console.log("false");
-		}
+		}*/
 	}
 
 	window.addEventListener("devicemotion", handleMotionEvent, true);

@@ -6,26 +6,26 @@ html, body {
   height: 100%;
   height: 100vh;
   font-family: 'IM Fell English', serif;
-  background-color: #333; }
+  background-color: #ff4100;
+  overflow-x: hidden;
+  color: #fff; }
 
 #lobby {
-  color: #fff; }
-  #lobby div {
-    -webkit-transform: rotate3d(1, 0, 1, 10deg);
-    width: 80%;
-    font-size: 6em; }
+  background: url("/../../content/tst.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+  #lobby #openStmt {
+    -webkit-transform: rotate(-0.5deg);
+    width: 90%;
+    font-size: 2em; }
   #lobby h1 {
     font-family: "Anonymous Pro";
-    font-size: 2em; }
-  #lobby img {
-    width: 100%;
-    height: auto;
-    position: fixed;
-    top: 0;
-    opacity: 0.5; }
+    font-size: 0.8em; }
 
 #shake h1 {
-  color: #f00; }
+  color: #333; }
 
 @-webkit-keyframes tapCol {
   from {
@@ -33,49 +33,73 @@ html, body {
 
   to {
     background: #333; } }
-#tap {
+#tap h1 {
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  font-size: 5em;
+  -webkit-transform: rotate(-90deg); }
+#tap #tap-speech {
+  width: 100%;
+  height: 100%;
+  display: table;
   overflow: hidden; }
-  #tap h1 {
-    text-align: center;
-    display: table-cell;
-    vertical-align: middle;
-    margin: 0 0 0 0;
-    padding: 0 0 0 0;
-    font-size: 5em;
-    -webkit-transform: rotate(-90deg); }
-  #tap div {
-    width: 100%;
-    height: 100%;
-    display: table;
-    overflow: hidden; }
 
 .bgWhite {
-  -webkit-animation: tapCol 0.7s;
-  animation: tapCol 0.7s; }
+  -webkit-animation: tapCol 1.75s;
+  animation: tapCol 1.75s;
+  color: #333; }
 
 #modal {
   position: absolute;
-  top: 10%;
-  width: 100%;
+  top: 2%;
+  left: 2%;
+  width: 96%;
+  height: 90%;
+  height: 96vh;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.85);
   font-family: 'Anonymous Pro';
   color: #fff;
-  font-size: 1em; }
+  font-size: 1em;
+  padding: 0;
+  margin: 0;
+  -webkit-filter: blur(0px); }
+  #modal #xx {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background-image: url("/../../content/close-x-wht.png");
+    width: 30px;
+    height: 30px; }
+  #modal #modal-content {
+    margin: 75px 5% 0;
+    padding: 0; }
   #modal img {
     width: 100px;
     height: auto; }
-
-#xx {
-  position: absolute;
-  right: 4px;
-  top: 4px;
-  background-image: url("/../../content/close-x-wht.png");
-  width: 30px;
-  height: 30px; }
+  #modal ul {
+    text-align: left;
+    font-size: 0.4em;
+    margin: 0;
+    padding: 0; }
+  #modal li {
+    margin: 0 0 0.8em 0;
+    padding: 0; }
 
 .close {
   display: none; }
+
+#help {
+  background-image: url("/../../content/help.png");
+  background-color: #333;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px; }
 
 #content {
   position: absolute;
