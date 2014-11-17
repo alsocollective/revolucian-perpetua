@@ -5,121 +5,102 @@ document.addEventListener("DOMContentLoaded", function() {
 	console.log("Shake JS Init");
 
 	var test = document.getElementById("test");
+	var back = document.getElementById("shake");
 
-	var mvgAvg = null;
+	var mvgAvgx = null;
+	var mvgAvgy = null;
+
+	var min = -800,
+		max = 800,
+		current = 0,
+		counter = 0;
+
+	var col = [
+		[
+			[200, 0, 255],
+			[255, 255, 0]
+		],
+		[
+			[255, 0, 0],
+			[255, 0, 255]
+		]
+	];
+
+	diffArr = [0, 0];
+
+	console.log(col[0]);
+	console.log(col[1]);
+
 
 	function handleMotionEvent(event) {
 
-		console.log("Sensor Called");
-
 		var x = event.accelerationIncludingGravity.x;
-		var y = event.accelerationIncludingGravity.y;
 
-		console.log("x:" + x + " y:" + y);
+		mvgAvgx = (x * 0.4) + (mvgAvgx * (1 - 0.4));
 
-		if (x > 8) {
-			test.innerHTML = "X: " + x + "<br/>Y: " + y;
-		} else {
-			test.innerHTML = "";
+		diffArr.shift();
+		diffArr[diffArr.length] = current;
+
+		current = (Math.floor(mvgAvgx.toFixed(2) * 1000));
+
+		if (current < min && current < 8000) {
+			min = current;
+		} else if (current > max && current < 8000) {
+			max = current;
 		}
 
-		// test.innerHTML = "X: " + x + "<br/>Y: " + y;
-
-		//mvgAvg = (z * 0.4) + (mvgAvg * (1 - 0.4));
-
-		/*if ((Math.abs(mvgAvg - z)) > 6) {
-			//emit tap with id
-			console.log("true");
-		} else {
-			//do nothing
-			console.log("false");
-		}*/
-	}
-
-	window.addEventListener("devicemotion", handleMotionEvent, true);
-
-});
-
-/*
-controllers.shaker = function($scope, socket, UserSet, $location) {
-
-	$scope.colourSelect = {}
-	$scope.active = true;
-
-	$scope.controls = false;
-
-	//$scope.colourSelect
-
-	$scope.colourSelect.colour1 = null;
-	$scope.colourSelect.colour2 = null;
-
-	var colour1 = [50, 50, 50];
-	var colour2 = [50, 50, 50];
-
-	console.log("Get Shak'n");
-
-	$scope.addColour1 = function(value) {
-		console.log("colour1 " + value);
-		$scope.colourSelect.colour1 = value;
-		checker();
-	}
-	$scope.addColour2 = function(value) {
-		console.log("colour2 " + value);
-		$scope.colourSelect.colour2 = value;
-		checker();
-	}
-
-	function checker() {
-		if ($scope.colourSelect.colour2 != null && $scope.colourSelect.colour1 != null) {
-			console.log("success");
-
-			//document.getElementById("colorSelector").remove();
-
-			$scope.controls = true;
-
-			var array1 = $scope.colourSelect.colour1.split(',').map(Number);
-			var array2 = $scope.colourSelect.colour2.split(',').map(Number);
-
-			colour1 = array1;
-			colour2 = array2;
-			screenfull.request();
+		if ((diff(diffArr[0], diffArr[1])) > 100) {
+			back.style.backgroundColor = mapColour(current, min, max, col[0][0], col[0][1]);
+			//Debug
+			//test.innerHTML = "Cur: " + current + "<br/>x: " + x.toFixed(2) + "<br/>Min: " + min + " Max: " + max + "<br/>Diff: " + (diff(diffArr[0], diffArr[1])) + "<br/><br/>Col: " + (mapColour(current, min, max, col[0][0], col[0][1]));
 		}
-	}
 
-	if (window.DeviceMotionEvent) {
-		var min = 0,
-			max = 0,
-			current = 0;
-
-		//output.style.color = [255,255,255];
-
-		console.log(colour1);
-		window.ondevicemotion = function(event) {
-			if (event.accelerationIncludingGravity.z) {
-				//real it back in...
-				min += 50;
-				max -= 50;
-				current = (Math.floor(event.accelerationIncludingGravity.x * 1000));
-				if (current < min) {
-					min = current;
-				} else if (current > max) {
-					max = current;
-				}
-				output.style.backgroundColor = mapColour(current, min, max, colour1, colour2);
-				output.style.color = mapColour(current, min, max, colour2, colour1);
+		//Touch Designer Data
+		if (current > 5000) {
+			if (current > max || current < min) {
+				counter++
+				test.innerHTML = "counter: " + counter;
 			}
 		}
 	}
+	window.addEventListener("devicemotion", handleMotionEvent, true);
 
-	function mapColour(cur, min, max, c1, c2) {
-		var percent = (cur - min) / (max - min);
-		return "rgb(" + map255(percent, c1, c2, 0) + "," + map255(percent, c1, c2, 1) + "," + map255(percent, c1, c2, 2) + ")"
-	}
+	var goFS = document.getElementById("goFS");
 
-	function map255(percent, c1, c2, c) {
-		return Math.floor(percent * (c2[c] - c1[c]) + c1[c])
+	//VERY HACK FULLSCREEN FOR NOW
+	/*goFS.onclick = function() {
+		toggleFullScreen();
+	};*/
+
+});
+
+
+//VERY HACK FULLSCREEN FOR NOW
+/*function toggleFullScreen() {
+	var doc = window.document;
+	var docEl = doc.documentElement;
+
+	var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+	var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+	if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+		requestFullScreen.call(docEl);
+	} else {
+		cancelFullScreen.call(doc);
 	}
-	socket.on('CP', function(data) {
-		$location.path(data)
-	});
 }*/
+
+window.scrollTo(0, 1);
+
+function diff(a, b) {
+	return Math.abs(a - b);
+}
+
+function mapColour(cur, min, max, c1, c2) {
+	var percent = (cur - min) / (max - min);
+	return "rgb(" + map(percent, c1, c2, 0) + "," + map(percent, c1, c2, 1) + "," + map(percent, c1, c2, 2) + ")"
+}
+
+function map(percent, c1, c2, c) {
+	return Math.floor(percent * (c2[c] - c1[c]) + c1[c])
+}
