@@ -68,6 +68,7 @@ timeApp.communication = {
 
 timeApp.allfunc = {
 	firstvisit: function(cookie, location, Userset, CurrentPage, Socket) {
+		timeApp.modal.close();
 		if (!cookie.ticket) {
 			location.path("/");
 		} else if (location.path() == "/pushedpage" && (!CurrentPage.meta)) {
@@ -95,7 +96,7 @@ controllers.tap = function($scope, $cookies, $location, Socket, Userset, Current
 	$scope.id = Userset.ticket || $cookies.ticket;
 
 
-	timeApp.tap.init();
+	timeApp.tap.init(Socket);
 
 	// if (timeApp.diagnostics) {
 	// 	timeApp.diagnostics.addTiltEventListener(Socket);
@@ -108,6 +109,8 @@ controllers.shake = function($scope, $cookies, $location, Socket, Userset, Curre
 	timeApp.allfunc.firstvisit($cookies, $location, Userset, CurrentPage, Socket); //return to lobby if no cookie
 	timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
+
+	timeApp.shake.init(Socket)
 }
 
 

@@ -27,8 +27,10 @@ html, body {
     font-family: "Anonymous Pro";
     font-size: 0.8em; }
 
-#shake h1 {
-  color: #333; }
+#shake {
+  height: 100vh; }
+  #shake h1 {
+    color: #333; }
 
 @-webkit-keyframes tapCol {
   from {
