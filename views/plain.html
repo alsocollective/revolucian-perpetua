@@ -11,6 +11,16 @@
 <body>
 <div id="main_container" data-ng-view="">
 </div>
+<div id="modal" class="close">
+	<div id="modal-content">
+		<h2>Tap your phone to the beat on your hip or hand.</h2>
+	</div>
+	<!-- <img src="/../../content/tap-tmp.gif"> -->
+	<div id="xx"></div>
+</div>
+
+<div id="help"><!--The ? for help if need be--></div>
+
 
 <script type="text/javascript" src="/public/js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="/public/js/jquery-migrate-1.2.1.min.js"></script>
@@ -23,11 +33,12 @@
 <script type="text/javascript" src="/public/js/angular-cookies.min.js"></script>
 <script type="text/javascript" src="/public/js/angular-animate.min.js"></script>
 
-<script type="text/javascript" src="http://192.168.0.113:3000/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="http://192.168.0.107:3000/socket.io/socket.io.js"></script>
 
 <script type="text/javascript" src="/public/app/app.js"></script>
 <script type="text/javascript" src="/public/app/controllers/song.js"></script>
 <script type="text/javascript" src="/public/app/controllers/pushedpage.js"></script>
+<script type="text/javascript" src="/public/app/controllers/tap.js"></script>
 <script type="text/javascript" src="/public/app/controllers/diagnostics.js"></script>
 <script type="text/javascript" src="/public/app/controllers/admin.js"></script>
 <script type="text/javascript" src="/public/app/controllers.js"></script>

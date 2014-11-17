@@ -10,6 +10,9 @@ html, body {
   overflow-x: hidden;
   color: #fff; }
 
+.hidden {
+  display: none; }
+
 #lobby {
   background: url("/../../content/tst.png") no-repeat center center fixed;
   -webkit-background-size: cover;
