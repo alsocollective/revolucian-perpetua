@@ -53,6 +53,8 @@ timeApp.shake = {
 			timeApp.shake.settings.back.style.backgroundColor = timeApp.shake.mapColour(timeApp.shake.settings.current, timeApp.shake.settings.min, timeApp.shake.settings.max, timeApp.shake.settings.col[0][0], timeApp.shake.settings.col[0][1]);
 		}
 
+		//TODO-BA: Add colour select by ID group
+
 		//Touch Designer Data
 		if (timeApp.shake.settings.current > 5000) {
 			if (timeApp.shake.settings.current > timeApp.shake.settings.max || timeApp.shake.settings.current < timeApp.shake.settings.min) {
