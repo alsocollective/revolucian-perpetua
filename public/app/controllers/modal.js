@@ -10,6 +10,7 @@ timeApp.modal = {
 		timeApp.modal.settings.modal = document.getElementById("modal");
 		timeApp.modal.settings.help = document.getElementById("help");
 		timeApp.modal.settings.content = document.getElementById("modal-content");
+		//timeApp.modal.settings.endless = document.getElementById("endless");
 
 		timeApp.modal.settings.close.onclick = timeApp.modal.close;
 		timeApp.modal.settings.help.onclick = timeApp.modal.help;
@@ -21,7 +22,7 @@ timeApp.modal = {
 		timeApp.modal.settings.modal.className = "close";
 
 		//Fullscreen
-		var doc = window.document;
+		/*var doc = window.document;
 		var docEl = doc.documentElement;
 
 		var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
@@ -31,7 +32,17 @@ timeApp.modal = {
 			requestFullScreen.call(docEl);
 		} else {
 			cancelFullScreen.call(doc);
-		}
+		}*/
+
+		var stayAwake = setInterval(function() {
+			location.href = location.href; //try refreshing
+			window.setTimeout(window.stop, 0); //stop it soon after
+			console.log("TIME");
+		}, 30000);
+
+		// console.log(timeApp.modal.settings.endless);
+
+		// timeApp.modal.settings.endless.play();
 	},
 	help: function() {
 		timeApp.modal.settings.modal.className = "";

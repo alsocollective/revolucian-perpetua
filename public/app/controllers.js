@@ -1,7 +1,5 @@
 var controllers = {};
 
-
-
 controllers.lobby = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
 	timeApp.communication.setup(Socket, $cookies, Userset, $location, CurrentPage); //setup initiall message
 	// timeApp.allfunc.firstvisit($cookies, $location, Userset, CurrentPage, Socket); //return to lobby if no cookie	

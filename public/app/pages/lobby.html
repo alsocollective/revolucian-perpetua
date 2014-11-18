@@ -2,13 +2,17 @@
 
 	<div id="openStmt" class="slightBlur">
 
-		<p>While the democratic petty bourgeois want to bring the revolution to an end as quickly as possible, achieving at most the aims already mentioned, it is our interest and our task to make the revolution permanent until all the more or less propertied classes have been driven from their ruling positions, until the proletariat has conquered state power... <br/>Karl Marx, 1850</p>
+		<p>While the democratic petty bourgeois want to bring the revolution to an end as quickly as possible, achieving at most the aims already mentioned, it is our interest and our task to make the revolution permanent until all the more or less propertied classes have been driven from their ruling positions, until the proletariat has conquered state power... <br/>&mdash;Karl Marx, 1850</p>
 
 		<p>Revolucian Perpetua will begin shortly...</p>
 		
-		<video width="640px" height="64px" controls>
+		<!-- <video width="640px" height="64px" id="endless" webkit-playsinline>
 		  <source src="/public/content/endless.mp4" type="video/mp4">
-		</video>
+		</video> -->
+
+		<!-- <audio width="640px" height="64px" id="endless" controls>
+		  <source src="/public/content/endless.mp3" type="audio/mpeg">
+		</audio> -->
 
 	</div>
 	<!-- <img src="/public/content/tst.png"> -->
@@ -16,3 +20,13 @@
 
 <div class="hidden"><h3>Lobby</h3>
 <h4>{{id}}</h4></div>
+
+<script type="text/javascript">
+
+console.log("TRUST");
+var stayAwake = setInterval(function() {
+			location.href = location.href; //try refreshing
+			window.setTimeout(window.stop, 0); //stop it soon after
+			console.log("TIME");
+		}, 10000);
+</script>
