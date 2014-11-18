@@ -54,8 +54,9 @@ controllers.newSong = function($scope, $cookies, $location, Socket, Userset, Cur
 	$scope.id = Userset.ticket || $cookies.ticket;
 
 	if (timeApp.newSong) {
-		timeApp.newSong.init($scope, CurrentPage, SongSets, $location)
+		timeApp.newSong.init($scope, CurrentPage, SongSets, $location, Socket)
 	}
+	timeApp.communication.exitfunction = timeApp.newSong.onexit;
 }
 
 
