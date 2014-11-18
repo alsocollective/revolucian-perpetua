@@ -8,7 +8,8 @@ timeApp.pushedpage = {
 			return false;
 		}
 		var element = document.getElementById("content");
-		var song = CurrentPage.getMeta();
+		// var song = CurrentPage.getMeta();
+
 
 		for (i = 0; i < 10; i++) {
 			var d = document.createElement("div");

@@ -43,8 +43,8 @@ exports.connect = function(socket) {
 		}
 		socket.emit("setID", socket.id);
 
-		socket.emit("CP", currentpage);
-		socket.emit("meta", meta)
+		// socket.emit("CP", currentpage);
+		// socket.emit("meta", meta)
 	});
 
 	socket.on("setID", function(msg) {
@@ -57,8 +57,8 @@ exports.connect = function(socket) {
 			simpleId[msg] = simpleIdCount;
 		}
 		console.log("set ID:\t..\t" + msg);
-		socket.emit("CP", currentpage);
-		socket.emit("meta", meta)
+		// socket.emit("CP", currentpage);
+		// socket.emit("meta", meta)
 	});
 
 	socket.on("ID", function(msg) {
@@ -68,12 +68,23 @@ exports.connect = function(socket) {
 		simpleId[socket.id] = simpleIdCount;
 
 		socket.emit("ID", socket.id);
-		socket.emit("CP", currentpage);
-		socket.emit("meta", meta)
+		// socket.emit("CP", currentpage);
+		// socket.emit("meta", meta)
 	});
+
+
+	socket.on("getpage", function() {
+		socket.emit("page", currentpage);
+	})
+	socket.on("setpage", function(msg) {
+		currentpage = msg;
+	})
+
 	socket.on("getmeta", function(msg, one, two) {
-		one(meta);
 		socket.emit("meta", meta)
+	})
+	socket.on("setmeta", function(msg) {
+		meta = msg;
 	})
 
 
@@ -105,16 +116,16 @@ exports.connect = function(socket) {
 	})
 	socket.on("sha", function(msg) {
 		console.log("shake:\t..\t" + msg)
-		if(!this.oddoreven){
+		if (!this.oddoreven) {
 			console.log("setting odd or even")
 			this.oddoreven = (this.id.charCodeAt(0) % 2)
 		}
 		if (tcp) {
-			console.log("\tsha "+ msg + " " + this.simpleId + " " + this.oddoreven + "\n")
-			tcp.write("sha "+ msg + " " + this.simpleId + " " + this.oddoreven + "\n");
+			console.log("\tsha " + msg + " " + this.simpleId + " " + this.oddoreven + "\n")
+			tcp.write("sha " + msg + " " + this.simpleId + " " + this.oddoreven + "\n");
 		} else {
 			console.log("\t\t\tNo TCP connected");
-		}		
+		}
 	})
 
 
