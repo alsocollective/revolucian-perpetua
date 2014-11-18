@@ -1,4 +1,19 @@
 /* Comment */
+/*
+TODO-SO:
+
+- Background images fixed
+- Fix undo for iOS
+- Add fullscreen button for lobby modal
+- Add video (or alternative) to maintain screen
+- Add animations (modal, buttons, screens, tap)
+- Add static fonts (probably only one, and the other could be local, either way let's make them light weight)
+- Make content for "Content"
+- Write all copy, and instructions
+- Make slides (1280 x 720) Intro, outro, don't include our names
+
+
+*/
 html, body {
   margin: 0;
   padding: 0;
@@ -14,7 +29,7 @@ html, body {
   display: none; }
 
 #lobby {
-  background: url("/../../content/tst.png") no-repeat center center fixed;
+  background: url("/public/content/tst.png") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -76,7 +91,7 @@ html, body {
     position: absolute;
     right: 15px;
     top: 15px;
-    background-image: url("/../../content/close-x-wht.png");
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NDkxMSwgMjAxMy8xMC8yOS0xMTo0NzoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjYzM0EwM0E0NjM4MDExRTQ5ODJFRDBFMTUwRTA0MDU1IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjYzM0EwM0E1NjM4MDExRTQ5ODJFRDBFMTUwRTA0MDU1Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDRCMzUzQUY2MjI5MTFFNDk4MkVEMEUxNTBFMDQwNTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDRCMzUzQjA2MjI5MTFFNDk4MkVEMEUxNTBFMDQwNTUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz58PjCFAAAApklEQVR42tSXXQqAIBCEl87Sq/c/hpfwoVuYwgoRWv7sNLSwID7MJ6XjKDFGl9qn3gVcmaEsJzrIFZBwhQZl+fsEBN5kIOGv2gh4t6YlfFjLAj6tsQJfXviMgNmvGhEy35w9grDj+CQMN6Aa4AvXq8EPbbjPX+EFWBYwDN3kD0X51JTNRTlOFAOhWCblkqBci5QgQIk+lLBHibe0QM98wlAebacAAwB3zs1ECS/lswAAAABJRU5ErkJggg==);
     width: 30px;
     height: 30px; }
   #modal #modal-content {
@@ -98,7 +113,7 @@ html, body {
   display: none; }
 
 #help {
-  background-image: url("/../../content/help.png");
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NDkxMSwgMjAxMy8xMC8yOS0xMTo0NzoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjYzM0EwM0E4NjM4MDExRTQ5ODJFRDBFMTUwRTA0MDU1IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjYzM0EwM0E5NjM4MDExRTQ5ODJFRDBFMTUwRTA0MDU1Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NjMzQTAzQTY2MzgwMTFFNDk4MkVEMEUxNTBFMDQwNTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NjMzQTAzQTc2MzgwMTFFNDk4MkVEMEUxNTBFMDQwNTUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6nnWG7AAABWElEQVR42mL8//8/w0AAxhFnMRNeVzEywjEQcAJxNhDvBuI3QAxy8R8gfgjES4HYGU09fgDyMS6MpMYLiF/9Jww2ADE/IXPBZhOyGEj7AfHf/8SDQ0DMRJHFQCwAxG/RDF4IxAZAzAfERkC8DovlSZRaXIFm4AIsUQVKoDux+Joiiw+jGaiAI524oan7QshiJgJpTxeJ/QCYWh/gUHcfjc9NKFGzEJA/gMS+jUedIhr/M1WyEwH9oDjejhbUmyjOTgQsZQHiWWiWgrKeNc0sBhUUQLwHzdJ/QJxJlQIEh6WcQHwSzdJvQBxETBRSYnE7mqWvgdiY2LRDlsVAcWa00gwUpxakJFpyLdZA8+0qUnMLMQUINiCOxt9FTn3MQoYeUKn0EYn/iOotEKIqdDwFE9ktkAFr+uDwCajG+oCEp9ErjnmBmB+Jz0UXHw9YUI826EctJhYABBgAednkB5AZGcsAAAAASUVORK5CYII=);
   background-color: #333;
   width: 30px;
   height: 30px;
