@@ -35,15 +35,14 @@ controllers.shake = function($scope, $cookies, $location, Socket, Userset, Curre
 }
 
 
-controllers.pushedpage = function($scope, $cookies, $location, Socket, Userset, CurrentPage) {
+controllers.betweenpages = function($scope, $cookies, $location, Socket, Userset, CurrentPage, SongSets) {
 	// timeApp.allfunc.firstvisit($cookies, $location, Userset, CurrentPage, Socket);
 	timeApp.communication.setup(Socket, $cookies, Userset, $location, CurrentPage); //setup initiall message
-
 	$scope.id = Userset.ticket || $cookies.ticket;
 
-	if (timeApp.pushedpage) {
-		timeApp.pushedpage.init(CurrentPage);
-		timeApp.communication.exitfunction = timeApp.pushedpage.onexit;
+	if (timeApp.betweenpages) {
+		timeApp.betweenpages.init($scope, SongSets, CurrentPage, Socket);
+		timeApp.communication.exitfunction = timeApp.betweenpages.onexit;
 	}
 }
 
@@ -55,6 +54,7 @@ controllers.newSong = function($scope, $cookies, $location, Socket, Userset, Cur
 	if (timeApp.newSong) {
 		timeApp.newSong.init($scope, CurrentPage, SongSets, $location, Socket)
 	}
+	timeApp.communication.exitfunction = timeApp.newSong.onexit;
 }
 
 

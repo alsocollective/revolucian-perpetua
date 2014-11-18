@@ -47,6 +47,13 @@ timeApp.modal = {
 	help: function() {
 		timeApp.modal.settings.modal.className = "";
 	},
+	setTextHidden: function(text) {
+		if (timeApp.modal.settings.modal == null) {
+			timeApp.modal.init();
+		}
+		timeApp.modal.settings.modal.className = "close";
+		timeApp.modal.settings.content.innerHTML = text;
+	},
 	alert: function(text) {
 		if (timeApp.modal.settings.modal == null) {
 			timeApp.modal.init();

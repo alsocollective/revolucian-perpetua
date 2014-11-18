@@ -4,7 +4,8 @@ timeApp.communication = {
 		pageChange: false,
 		socket: null,
 		location: null,
-		currentPage: null
+		currentPage: null,
+		heartbeatPage: null
 	},
 
 	setup: function(Socket, Cookie, Userset, location, CurrentPage) {
@@ -63,6 +64,8 @@ timeApp.communication = {
 
 		// make sure everything is set correctly...
 		timeApp.communication.checkforupdates();
+		timeApp.communication.settings.heartbeatPage = setInterval(timeApp.communication.checkforupdates, 10000);
+		$(window).focus(timeApp.communication.checkforupdates);
 
 		// Socket.on("push", function(msg) {
 		// 	timeApp.communication.pageExitFunction();

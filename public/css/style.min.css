@@ -16,6 +16,48 @@ DONE
 
 
 */
+/* Animation */
+.ng-enter {
+  -webkit-animation: enter 1s ease-out;
+  animation: enter 1s ease-out; }
+
+.ng-leave {
+  -webkit-animation: exit 1s ease-out;
+  animation: exit 1s ease-out; }
+
+@-webkit-keyframes enter {
+  0% {
+    left: 100%; }
+
+  100% {
+    left: 0%; } }
+@keyframes enter {
+  0% {
+    left: 100%; }
+
+  100% {
+    left: 0%; } }
+@-webkit-keyframes exit {
+  100% {
+    left: -100%; }
+
+  0% {
+    left: 0%; } }
+@keyframes exit {
+  100% {
+    left: -100%; }
+
+  0% {
+    left: 0%; } }
+.animate-enter {
+  -webkit-transition: 1s linear all;
+  /* Chrome */
+  transition: 1s linear all;
+  opacity: 0; }
+
+.animate-enter.animate-leave {
+  opacity: 0; }
+
 html, body {
   margin: 0;
   padding: 0;
@@ -52,6 +94,7 @@ html, body {
 @-webkit-keyframes tapCol {
   from {
     background: #fff; }
+
   to {
     background: #333; } }
 #tap h1 {
@@ -141,8 +184,6 @@ html, body {
     position: absolute;
     top: 0;
     left: 0; }
-
-/*# sourceMappingURL=style.css.map */
 
 @charset "UTF-8";
 

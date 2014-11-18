@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="/public/css/style.css"/>
 </head>
 <body>
-<div id="main_container" data-ng-view="">
+<div id="main_container" data-ng-view="" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
 </div>
 <div id="modal" class="close">
 	<div id="modal-content">
@@ -28,6 +28,7 @@
 
 
 <!-- ANGULAR LOCAL -->
+
 <script type="text/javascript" src="/public/js/angular.min.js"></script>
 <script type="text/javascript" src="/public/js/angular-route.min.js"></script>
 <script type="text/javascript" src="/public/js/angular-cookies.min.js"></script>
@@ -39,7 +40,7 @@
 
 <script type="text/javascript" src="/public/app/app.js"></script>
 <script type="text/javascript" src="/public/app/controllers/song.js"></script>
-<script type="text/javascript" src="/public/app/controllers/pushedpage.js"></script>
+<script type="text/javascript" src="/public/app/controllers/betweenpages.js"></script>
 <script type="text/javascript" src="/public/app/controllers/util.js"></script>
 <script type="text/javascript" src="/public/app/controllers/modal.js"></script>
 <script type="text/javascript" src="/public/app/controllers/tap.js"></script>
