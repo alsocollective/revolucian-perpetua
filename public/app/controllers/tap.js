@@ -20,6 +20,8 @@ timeApp.tap = {
 	motionEvent: function(event) {
 		var z = event.accelerationIncludingGravity.z;
 
+		event.preventDefault();
+
 		timeApp.tap.settings.mvgAvg = (z * 0.4) + (timeApp.tap.settings.mvgAvg * (1 - 0.4));
 
 		if ((Math.abs(timeApp.tap.settings.mvgAvg - z)) > 6) {

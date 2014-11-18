@@ -29,8 +29,6 @@ timeApp.shake = {
 		timeApp.shake.settings.diffArr = [0, 0];
 		timeApp.modal.alert("<h2>Shake your phone, becasue it's all about the bass.</h2>")
 
-		window.scrollTo(0, 1);
-
 		window.addEventListener("devicemotion", timeApp.shake.motionEvent, true);
 	},
 	motionEvent: function(event) {
@@ -78,20 +76,3 @@ timeApp.shake = {
 		return Math.floor(percent * (c2[c] - c1[c]) + c1[c])
 	}
 }
-
-
-
-//VERY HACK FULLSCREEN FOR NOW
-/*function toggleFullScreen() {
-	var doc = window.document;
-	var docEl = doc.documentElement;
-
-	var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-	var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-	if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-		requestFullScreen.call(docEl);
-	} else {
-		cancelFullScreen.call(doc);
-	}
-}*/
