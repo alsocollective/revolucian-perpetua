@@ -12,7 +12,6 @@ timeApp.communication = {
 			return false;
 		}
 
-
 		timeApp.communication.setupbol = true;
 		if (Cookie.ticket) {
 			Userset.ticket = Cookie.ticket;
@@ -29,9 +28,9 @@ timeApp.communication = {
 
 		timeApp.communication.settings.setupbol = true;
 
+		timeApp.communication.settings.socket = Socket;
 		timeApp.communication.settings.location = location;
 		timeApp.communication.settings.currentPage = CurrentPage;
-
 
 		if (location.path() == "/admin") {
 			return false;
@@ -56,10 +55,14 @@ timeApp.communication = {
 		}
 		timeApp.communication.settings.socket = Socket;
 		Socket.on("CP", timeApp.communication.changePage)
+
 		Socket.on("meta", function(msg) {
 			CurrentPage.meta = msg;
 		})
 
+
+		// make sure everything is set correctly...
+		timeApp.communication.checkforupdates();
 
 		// Socket.on("push", function(msg) {
 		// 	timeApp.communication.pageExitFunction();
@@ -70,11 +73,16 @@ timeApp.communication = {
 		timeApp.communication.settings.pageChange = true;
 	},
 	changePage: function(msg) {
-		if (timeApp.communication.settings.location.path() != ("/" + msg)) {
+		console.log("changePage: " + msg);
+		if (timeApp.communication.settings.currentPage.page != msg || timeApp.communication.settings.location.path() != ("/" + msg)) {
 			timeApp.communication.pageExitFunction();
 			timeApp.communication.settings.location.path("/" + msg);
 		}
 		timeApp.communication.settings.currentPage.page = msg;
+	},
+	checkforupdates: function() {
+		timeApp.communication.settings.socket.emit("getmeta");
+		timeApp.communication.settings.socket.emit("getpage");
 	},
 
 	pageExitFunction: function() {
