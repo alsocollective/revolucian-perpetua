@@ -21,11 +21,11 @@ exports.setTCP = function(tcpin) {
 	tcp = tcpin;
 }
 
-exports.setCurrentPage = function(newPage){
+exports.setCurrentPage = function(newPage) {
 	currentpage = newPage;
 }
-exports.setMeta = function(newMeta){
-	meta =newMeta;
+exports.setMeta = function(newMeta) {
+	meta = newMeta;
 }
 
 
@@ -34,7 +34,7 @@ exports.connect = function(socket) {
 	//LOGIN
 	socket.on("getID", function(msg) {
 		console.log("gave ID:\t..\t" + msg);
-		if(simpleId[msg]){
+		if (simpleId[msg]) {
 			socket.simpleId = simpleId[msg];
 		} else {
 			simpleIdCount += 1;
@@ -46,16 +46,16 @@ exports.connect = function(socket) {
 		socket.emit("CP", currentpage);
 		socket.emit("meta", meta)
 	});
-	
+
 	socket.on("setID", function(msg) {
 		socket.id = msg;
-		if(simpleId[msg]){
+		if (simpleId[msg]) {
 			socket.simpleId = simpleId[msg];
 		} else {
 			simpleIdCount += 1;
 			socket.simpleId = simpleIdCount;
 			simpleId[msg] = simpleIdCount;
-		}		
+		}
 		console.log("set ID:\t..\t" + msg);
 		socket.emit("CP", currentpage);
 		socket.emit("meta", meta)
@@ -65,7 +65,7 @@ exports.connect = function(socket) {
 		console.log("saying ID:\t..\t" + msg);
 		simpleIdCount += 1;
 		socket.simpleId = simpleIdCount;
-		simpleId[socket.id] = simpleIdCount;	
+		simpleId[socket.id] = simpleIdCount;
 
 		socket.emit("ID", socket.id);
 		socket.emit("CP", currentpage);
@@ -97,8 +97,8 @@ exports.connect = function(socket) {
 	socket.on("tap", function(msg) {
 		console.log("tap:\t..\t" + msg)
 		if (tcp) {
-			console.log("\ttap " + msg + " " + this.simpleId + "\n")
-			tcp.write("tap " + msg + " " + this.simpleId + "\n");
+			console.log("\ttap 1 " + this.simpleId + "\n")
+			tcp.write("tap 1 " + this.simpleId + "\n");
 		} else {
 			console.log("\t\t\tNo TCP connected");
 		}
