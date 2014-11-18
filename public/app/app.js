@@ -17,9 +17,9 @@ var timeApp = angular.module("timeApp", ['ngRoute', 'ngCookies', 'ngAnimate'])
 				controller: "newSong",
 				templateUrl: 'public/app/pages/song.html'
 			})
-			.when('/pushedpage', {
-				controller: "pushedpage",
-				templateUrl: 'public/app/pages/pushedpage.html'
+			.when('/betweenpages', {
+				controller: "betweenpages",
+				templateUrl: 'public/app/pages/betweenpages.html'
 			})
 			.when('/admin', {
 				controller: 'admin',
