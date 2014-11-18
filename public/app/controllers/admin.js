@@ -14,7 +14,7 @@ timeApp.cAdmin = {
 
 		timeApp.cAdmin.settings.scope.msg2 = "song1"; //set the default value
 		scope.pushPage = function() {
-			timeApp.cAdmin.settings.socket.emit("simulatePush", timeApp.cAdmin.settings.scope.msg2);
+			timeApp.cAdmin.settings.socket.emit("setmeta", timeApp.cAdmin.settings.scope.msg2);
 		}
 	}
 }

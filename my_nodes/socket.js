@@ -74,7 +74,7 @@ exports.connect = function(socket) {
 
 
 	socket.on("getpage", function() {
-		socket.emit("page", currentpage);
+		socket.emit("CP", currentpage);
 	})
 	socket.on("setpage", function(msg) {
 		currentpage = msg;
