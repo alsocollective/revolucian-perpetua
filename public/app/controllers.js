@@ -17,6 +17,7 @@ controllers.tap = function($scope, $cookies, $location, Socket, Userset, Current
 	$scope.id = Userset.ticket || $cookies.ticket;
 
 	timeApp.tap.init(Socket);
+	timeApp.communication.exitfunction = timeApp.tap.onexit;
 
 	// if (timeApp.diagnostics) {
 	// 	timeApp.diagnostics.addTiltEventListener(Socket);
@@ -31,6 +32,8 @@ controllers.shake = function($scope, $cookies, $location, Socket, Userset, Curre
 	$scope.id = Userset.ticket || $cookies.ticket;
 
 	timeApp.shake.init(Socket)
+	timeApp.communication.exitfunction = timeApp.shake.onexit;
+
 }
 
 

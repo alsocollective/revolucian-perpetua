@@ -3,7 +3,7 @@ timeApp.modal = {
 		close: null,
 		modal: null,
 		help: null,
-		content: null,
+		content: null
 	},
 	init: function() {
 		timeApp.modal.settings.close = document.getElementById("xx");

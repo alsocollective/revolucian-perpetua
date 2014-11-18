@@ -105,7 +105,16 @@ exports.connect = function(socket) {
 	})
 	socket.on("sha", function(msg) {
 		console.log("shake:\t..\t" + msg)
-
+		if(!this.oddoreven){
+			console.log("setting odd or even")
+			this.oddoreven = (this.id.charCodeAt(0) % 2)
+		}
+		if (tcp) {
+			console.log("\tsha "+ msg + " " + this.simpleId + " " + this.oddoreven + "\n")
+			tcp.write("sha "+ msg + " " + this.simpleId + " " + this.oddoreven + "\n");
+		} else {
+			console.log("\t\t\tNo TCP connected");
+		}		
 	})
 
 

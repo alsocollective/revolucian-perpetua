@@ -39,8 +39,10 @@ timeApp.communication = {
 		}
 		timeApp.communication.settings.socket = Socket;
 		Socket.on("CP", function(msg) {
-			timeApp.communication.pageExitFunction();
-			location.path("/" + msg);
+			if(location.path() != ("/" + msg)){
+				timeApp.communication.pageExitFunction();
+				location.path("/" + msg);
+			}
 			CurrentPage.page = msg;
 		})
 		Socket.on("push", function(msg) {
@@ -56,7 +58,6 @@ timeApp.communication = {
 	},
 	pageExitFunction: function() {
 		if (timeApp.communication.exitfunction) {
-			console.log("coms exit");
 			timeApp.communication.exitfunction(timeApp.communication.settings.socket)
 			timeApp.communication.exitfunction = null;
 		}
