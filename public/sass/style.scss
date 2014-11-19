@@ -105,6 +105,10 @@ html,body{
 	}
 }
 
+.red #tap #tap-speech{
+	background: #f00;
+}
+
 .bgWhite {
 	-webkit-animation: tapCol 1.75s; //This fade doesn't work unfortunately, but should be tweaked to work. TODO-SO
     animation: tapCol 1.75s;

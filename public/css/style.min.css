@@ -215,6 +215,9 @@ html, body {
   display: table;
   overflow: hidden; }
 
+.red #tap #tap-speech {
+  background: #f00; }
+
 .bgWhite {
   -webkit-animation: tapCol 1.75s;
   animation: tapCol 1.75s;

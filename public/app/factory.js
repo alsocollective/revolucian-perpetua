@@ -52,11 +52,11 @@ factories.Userset = function($cookies, Socket, $location, SongSets) {
 	factory.subuser = null;
 	factory.red = false;
 
-	factory.newRed = function(msg){
-		if(factory.ticket == msg){
+	factory.newRed = function(msg) {
+		if (factory.ticket == msg) {
 			factory.red = true;
 			$("#main_container").addClass("red");
-		} else if(factory.red){
+		} else if (factory.red) {
 			factory.red = false;
 			$("#main_container").removeClass("red");
 		}
