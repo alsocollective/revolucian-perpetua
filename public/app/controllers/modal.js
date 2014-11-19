@@ -13,15 +13,25 @@ timeApp.modal = {
 
 		timeApp.modal.settings.close.onclick = timeApp.modal.close;
 		timeApp.modal.settings.help.onclick = timeApp.modal.help;
+
+		timeApp.modal.settings.modal.className = "fade-in";
 	},
 	close: function() {
 		if (timeApp.modal.settings.modal == null) {
 			return false;
 		}
-		timeApp.modal.settings.modal.className = "close";
+		// timeApp.modal.settings.help.className = "";
+		timeApp.modal.settings.help.style.display = "";
+		timeApp.modal.settings.help.className = "pop-in";
+		timeApp.modal.settings.modal.className = "fade-out";
+
+		setTimeout(function() {
+			timeApp.modal.settings.modal.style.display = "none";
+		}, 900);
+
 
 		//Fullscreen
-		var doc = window.document;
+		/*var doc = window.document;
 		var docEl = doc.documentElement;
 
 		var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
@@ -31,10 +41,15 @@ timeApp.modal = {
 			requestFullScreen.call(docEl);
 		} else {
 			cancelFullScreen.call(doc);
-		}
+		}*/
 	},
 	help: function() {
-		timeApp.modal.settings.modal.className = "";
+		timeApp.modal.settings.help.className = "pop-out";
+		setTimeout(function() {
+			timeApp.modal.settings.help.style.display = "none";
+		}, 500)
+		timeApp.modal.settings.modal.style.display = "";
+		timeApp.modal.settings.modal.className = "fade-in";
 	},
 	setTextHidden: function(text) {
 		if (timeApp.modal.settings.modal == null) {
@@ -48,6 +63,7 @@ timeApp.modal = {
 			timeApp.modal.init();
 		}
 		timeApp.modal.settings.modal.className = "";
+		timeApp.modal.settings.modal.className = "fade-in";
 		timeApp.modal.settings.content.innerHTML = text;
 	}
 }
