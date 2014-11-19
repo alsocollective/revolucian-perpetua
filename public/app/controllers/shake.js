@@ -19,14 +19,18 @@ timeApp.shake = {
 				[255, 0, 255]
 			]
 		],
-		socket: null
+		socket: null,
+		subuser: null
 	},
-	init: function(Socket) {
+	init: function(Socket, Userset) {
 		console.log("Shake JS Init");
 		timeApp.shake.settings.socket = Socket;
 		timeApp.shake.settings.test = document.getElementById("test");
 		timeApp.shake.settings.back = document.getElementById("shake");
 		timeApp.shake.settings.diffArr = [0, 0];
+		Userset.getUserSub();
+		timeApp.shake.settings.subuser = Userset.subuser;
+		console.log(timeApp.shake.settings.subuser)
 		timeApp.modal.alert("<h2>Shake your phone, becasue it's all about the bass.</h2>")
 
 		window.addEventListener("devicemotion", timeApp.shake.motionEvent, true);
@@ -48,7 +52,7 @@ timeApp.shake = {
 		}
 
 		if ((timeApp.shake.diff(timeApp.shake.settings.diffArr[0], timeApp.shake.settings.diffArr[1])) > 100) {
-			timeApp.shake.settings.back.style.backgroundColor = timeApp.shake.mapColour(timeApp.shake.settings.current, timeApp.shake.settings.min, timeApp.shake.settings.max, timeApp.shake.settings.col[0][0], timeApp.shake.settings.col[0][1]);
+			timeApp.shake.settings.back.style.backgroundColor = timeApp.shake.mapColour(timeApp.shake.settings.current, timeApp.shake.settings.min, timeApp.shake.settings.max, timeApp.shake.settings.col[timeApp.shake.settings.subuser][0], timeApp.shake.settings.col[timeApp.shake.settings.subuser][1]);
 		}
 
 		//TODO-BA: Add colour select by ID group

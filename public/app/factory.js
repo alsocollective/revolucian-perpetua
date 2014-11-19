@@ -52,12 +52,12 @@ factories.Userset = function($cookies, Socket, $location, SongSets) {
 	factory.subuser = null;
 
 	factory.getUserSub = function() {
-		if (factory.subuser) {
-			return factory.subuser;
+		if (factory.subuser != null) {
+			return "-" + factory.subuser;
 		} else {
-			factory.subuser = "-" + (factory.ticket.charCodeAt(0) % 2);
-			factory.downloadImages(factory.subuser);
-			return factory.subuser;
+			factory.subuser = (factory.ticket.charCodeAt(0) % 2);
+			factory.downloadImages("-" + factory.subuser);
+			return "-" + factory.subuser;
 		}
 	}
 	factory.downloadImages = function(subuser) {

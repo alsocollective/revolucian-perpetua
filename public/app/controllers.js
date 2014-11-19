@@ -31,7 +31,7 @@ controllers.shake = function($scope, $cookies, $location, Socket, Userset, Curre
 	timeApp.communication.setup(Socket, $cookies, Userset, $location, CurrentPage); //setup initiall message
 	$scope.id = Userset.ticket || $cookies.ticket;
 
-	timeApp.shake.init(Socket)
+	timeApp.shake.init(Socket, Userset)
 	timeApp.communication.exitfunction = timeApp.shake.onexit;
 
 }
