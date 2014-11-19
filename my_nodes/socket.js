@@ -6,6 +6,8 @@ var http = null,
 	currentpage = "",
 	meta = "",
 	simpleId = {},
+	simpleIdRev = {},
+	userArray = [],
 	simpleIdCount = 0;
 
 
@@ -27,38 +29,65 @@ exports.setCurrentPage = function(newPage) {
 exports.setMeta = function(newMeta) {
 	meta = newMeta;
 }
+exports.getSimpleID = function(){
+	return simpleId;
+}
+exports.getSimpleIDRev = function(){
+	return simpleIdRev;
+}
+exports.userArray = function(){
+	return userArray;
+}
 
 
 exports.connect = function(socket) {
 
 	//LOGIN
+	//for initial connections
 	socket.on("getID", function(msg) {
-		console.log("gave ID:\t..\t" + msg);
-		if (simpleId[msg]) {
-			socket.simpleId = simpleId[msg];
-		} else {
-			simpleIdCount += 1;
-			socket.simpleId = simpleIdCount;
-			simpleId[msg] = simpleIdCount;
-		}
-		socket.emit("setID", socket.id);
+		console.log("saying getID:\t..\t" + msg);
 
-		// socket.emit("CP", currentpage);
-		// socket.emit("meta", meta)
+		// if (simpleId[msg]) {
+		// 	socket.simpleId = simpleId[msg];
+		// } else {
+		// 	simpleIdCount += 1;
+		// 	socket.simpleId = simpleIdCount;
+		// 	userArray.push(socket.id);
+		// }
+
+		//iterate count
+		simpleIdCount += 1;
+		//assign the counter id to the element
+		socket.simpleId = simpleIdCount;
+		//add the id to the list (for reconnects... so we know what id they are)
+		simpleId[socket.id] = simpleIdCount;
+		simpleIdRev[simpleIdCount] = socket.id;
+		//we add them to the userlist
+		userArray.push(socket.id);
+		//tell the user what id they are
+		socket.emit("setID", socket.id);
 	});
 
+	//for reconnections
 	socket.on("setID", function(msg) {
+		console.log("saying setID:\t..\t" + msg);
+		//the user knows what ID they were
+		//so we now assign them their id
 		socket.id = msg;
+		//we see if we can give them back their counter id
 		if (simpleId[msg]) {
+			//we can give the back their number 
 			socket.simpleId = simpleId[msg];
 		} else {
+			//we can't so we need to add it to the db
+			//this would happen if we reset the node server, and people reconnect
 			simpleIdCount += 1;
 			socket.simpleId = simpleIdCount;
 			simpleId[msg] = simpleIdCount;
+			simpleIdRev[simpleIdCount] = msg;
+
+			userArray.push(socket.id);
 		}
-		console.log("set ID:\t..\t" + msg);
-		// socket.emit("CP", currentpage);
-		// socket.emit("meta", meta)
 	});
 
 	socket.on("ID", function(msg) {
@@ -106,16 +135,16 @@ exports.connect = function(socket) {
 
 	//TO TD////
 	socket.on("tap", function(msg) {
-		console.log("tap:\t..\t" + msg)
+		console.log("tap:\t..\t" + msg + " " + simpleId[this.id])
 		if (tcp) {
-			console.log("\ttap 1 " + this.simpleId + "\n")
+			//console.log("\ttap 1 " + this.simpleId + "\n")
 			tcp.write("tap 1 " + this.simpleId + "\n");
 		} else {
 			console.log("\t\t\tNo TCP connected");
 		}
 	})
 	socket.on("sha", function(msg) {
-		console.log("shake:\t..\t" + msg)
+		console.log("shake:\t..\t" + msg + " " + simpleId[this.id])
 		if (!this.oddoreven) {
 			console.log("setting odd or even")
 			this.oddoreven = (this.id.charCodeAt(0) % 2)
@@ -166,6 +195,11 @@ exports.connect = function(socket) {
 		if (tcp) {
 			console.log("dis:\t..\t" + this.id);
 			tcp.write("left " + ". " + this.simpleId + "\n");
+		}
+
+		var index = userArray.indexOf(this.id);
+		if(index != null && index >= 0){
+			userArray.splice(index,1);
 		}
 	})
 }

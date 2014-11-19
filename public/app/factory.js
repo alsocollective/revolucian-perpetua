@@ -2,7 +2,7 @@ var factories = {};
 
 factories.Socket = function($rootScope, $location) {
 
-	var socket = io.connect("http://192.168.0.107:3000");
+	var socket = io.connect("http://192.168.0.126:3000");
 
 	return {
 		on: function(eventName, callback) {
@@ -50,6 +50,17 @@ factories.Userset = function($cookies, Socket, $location, SongSets) {
 	var factory = {};
 	factory.ticket = null;
 	factory.subuser = null;
+	factory.red = false;
+
+	factory.newRed = function(msg){
+		if(factory.ticket == msg){
+			factory.red = true;
+			$("#main_container").addClass("red");
+		} else if(factory.red){
+			factory.red = false;
+			$("#main_container").removeClass("red");
+		}
+	}
 
 	factory.getUserSub = function() {
 		if (factory.subuser != null) {

@@ -51,6 +51,11 @@ var tcp = net.createServer(function(sock) {
 		} else if(split[0] =="MT"){
 			socket.io.sockets.emit("meta",split[1]);
 			socket.setMeta(split[1]);
+		} else if(split[0] =="RED"){
+			if(socket.getSimpleIDRev()[1]){
+				console.log("forward red");
+				socket.io.sockets.emit("red",socket.getSimpleIDRev()[split[1]]);
+			}
 		}
 	});
 });
