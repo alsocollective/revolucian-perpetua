@@ -40,13 +40,17 @@ var tcp = net.createServer(function(sock) {
 	});
 
 	sock.on('data', function(data) {
-		var msg = decoder.write(data);
-		if (msg.substring(0, 2) == "CP") {
-			var out =  msg.substring(3, msg.length - 2);
-			console.log("CP-TD\t..\t"+out);
-			socket.io.sockets.emit("CP",out);
-			socket.setCurrentPage(out);
-			socket.setMeta("");	
+		var msg = decoder.write(data),
+			split = msg.split(" ");
+		if (split[0] == "CP") {
+			if(split[1]=="lobby"){
+				split[1] = "";
+			}
+			socket.io.sockets.emit("CP",split[1]);
+			socket.setCurrentPage(split[1]);
+		} else if(split[0] =="MT"){
+			socket.io.sockets.emit("meta",split[1]);
+			socket.setMeta(split[1]);
 		}
 	});
 });
