@@ -13,6 +13,8 @@ TODO-SO:
 - Fix shaker bug
 - Finish UI
 
+- FONT AND DESIGN
+
 DONE
 - Fix undo for iOS : iOS8 has resolved this issue. Need to test more, and iOS7
 - Add fullscreen button for lobby modal : Added function to onclick for X of modal
@@ -49,19 +51,15 @@ DONE
   0% {
     left: 0%; } }
 @keyframes pop-in {
-  0% {
-    width: 0px;
-    height: 0px; }
   100% {
-    width: 40px;
-    height: 40px; } }
+    bottom: 10px; }
+  0% {
+    bottom: -50px; } }
 @-webkit-keyframes pop-in {
-  0% {
-    width: 0px;
-    height: 0px; }
   100% {
-    width: 40px;
-    height: 40px; } }
+    bottom: 10px; }
+  0% {
+    bottom: -50px; } }
 @keyframes fade-in {
   100% {
     opacity: 1; }
@@ -83,19 +81,15 @@ DONE
   0% {
     opacity: 1; } }
 @keyframes pop-out {
-  0% {
-    width: 40px;
-    height: 40px; }
   100% {
-    width: 0px;
-    height: 0px; } }
+    bottom: -50px; }
+  0% {
+    bottom: 10px; } }
 @-webkit-keyframes pop-out {
-  0% {
-    width: 40px;
-    height: 40px; }
   100% {
-    width: 0px;
-    height: 0px; } }
+    bottom: -50px; }
+  0% {
+    bottom: 10px; } }
 .animate-enter {
   -webkit-transition: 1s linear all;
   /* Chrome */
@@ -226,7 +220,7 @@ html, body {
 #help {
   width: 40px;
   height: 40px;
-  background-color: #ff4141;
+  background-color: #333;
   position: absolute;
   bottom: 10px;
   right: 10px;
