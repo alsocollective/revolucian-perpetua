@@ -5,7 +5,8 @@ timeApp.communication = {
 		socket: null,
 		location: null,
 		currentPage: null,
-		heartbeatPage: null
+		heartbeatPage: null,
+		container: null
 	},
 
 	setup: function(Socket, Cookie, Userset, location, CurrentPage) {
@@ -32,6 +33,7 @@ timeApp.communication = {
 		timeApp.communication.settings.socket = Socket;
 		timeApp.communication.settings.location = location;
 		timeApp.communication.settings.currentPage = CurrentPage;
+		timeApp.communication.settings.container = $("#main_container")[0];
 
 		if (location.path() == "/admin") {
 			return false;
@@ -78,6 +80,7 @@ timeApp.communication = {
 	changePage: function(msg) {
 		console.log("changePage: " + msg);
 		if (timeApp.communication.settings.currentPage.page != msg || timeApp.communication.settings.location.path() != ("/" + msg)) {
+			// timeApp.communication.settings.container.className = "animation " + msg
 			timeApp.communication.pageExitFunction();
 			timeApp.communication.settings.location.path("/" + msg);
 		}
