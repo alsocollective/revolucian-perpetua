@@ -81,9 +81,9 @@ timeApp.communication = {
 	},
 
 	changePage: function(msg) {
-		console.log("changePage: " + msg);
-		if (timeApp.communication.settings.currentPage.page != msg || timeApp.communication.settings.location.path() != ("/" + msg)) {
+		if (timeApp.communication.settings.currentPage.page != msg && timeApp.communication.settings.location.path() != ("/" + msg)) {
 			// timeApp.communication.settings.container.className = "animation " + msg
+			console.log("changepage")
 			timeApp.communication.pageExitFunction();
 			timeApp.communication.settings.location.path("/" + msg);
 		}
@@ -95,6 +95,7 @@ timeApp.communication = {
 	},
 
 	pageExitFunction: function() {
+		console.log("page exit function")
 		if (timeApp.communication.exitfunction) {
 			timeApp.communication.exitfunction(timeApp.communication.settings.socket)
 			timeApp.communication.exitfunction = null;
