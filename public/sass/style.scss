@@ -10,6 +10,11 @@ TODO-SO:
 - Make content for "Content"
 - Write all copy, and instructions
 - Make slides (1280 x 720) Intro, outro, don't include our names
+- Add more content to shaker scrolling words
+- Fix shaker bug
+- Finish UI
+
+- FONT AND DESIGN
 
 DONE
 - Fix undo for iOS : iOS8 has resolved this issue. Need to test more, and iOS7
@@ -36,16 +41,11 @@ html,body{
 	display: none;
 }
 
-
-//Page specific attributes
-
-// .slightBlur {
-// 	-webkit-filter: blur(5px);
-// }
-
 #lobby {
 
-	background: url("/public/content/tst.png") no-repeat center center fixed;
+	background: url("/public/content/tst.png") center center;
+	background-repeat: no-repeat;
+    background-attachment: fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -61,14 +61,6 @@ html,body{
 		font-family: 'Anonymous Pro', ;
 		font-size: 0.8em;
 	}
-
-	// img {
-	// 	width: 100%;
-	// 	height: auto;
-	// 	position: fixed;
-	// 	top: 0;
-	// 	opacity: 0.5;
-	// }
 }
 
 #shake {
@@ -184,13 +176,20 @@ html,body{
 // HELP
 
 #help {
-	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NDkxMSwgMjAxMy8xMC8yOS0xMTo0NzoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjYzM0EwM0E4NjM4MDExRTQ5ODJFRDBFMTUwRTA0MDU1IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjYzM0EwM0E5NjM4MDExRTQ5ODJFRDBFMTUwRTA0MDU1Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NjMzQTAzQTY2MzgwMTFFNDk4MkVEMEUxNTBFMDQwNTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NjMzQTAzQTc2MzgwMTFFNDk4MkVEMEUxNTBFMDQwNTUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6nnWG7AAABWElEQVR42mL8//8/w0AAxhFnMRNeVzEywjEQcAJxNhDvBuI3QAxy8R8gfgjES4HYGU09fgDyMS6MpMYLiF/9Jww2ADE/IXPBZhOyGEj7AfHf/8SDQ0DMRJHFQCwAxG/RDF4IxAZAzAfERkC8DovlSZRaXIFm4AIsUQVKoDux+Joiiw+jGaiAI524oan7QshiJgJpTxeJ/QCYWh/gUHcfjc9NKFGzEJA/gMS+jUedIhr/M1WyEwH9oDjejhbUmyjOTgQsZQHiWWiWgrKeNc0sBhUUQLwHzdJ/QJxJlQIEh6WcQHwSzdJvQBxETBRSYnE7mqWvgdiY2LRDlsVAcWa00gwUpxakJFpyLdZA8+0qUnMLMQUINiCOxt9FTn3MQoYeUKn0EYn/iOotEKIqdDwFE9ktkAFr+uDwCajG+oCEp9ErjnmBmB+Jz0UXHw9YUI826EctJhYABBgAednkB5AZGcsAAAAASUVORK5CYII=);
+	width: 40px;
+	height: 40px;
+	//background-repeat: no-repeat;
+	//background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3NpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDplZTYwODVlNC00YThiLTQwZjQtYTJiMS04MDA3MDhmMTc0N2IiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QTJEMzVGNDg2NjE3MTFFNEFBQkNCRjc4MDY0QTdCNDciIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QTJEMzVGNDc2NjE3MTFFNEFBQkNCRjc4MDY0QTdCNDciIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6ZWU2MDg1ZTQtNGE4Yi00MGY0LWEyYjEtODAwNzA4ZjE3NDdiIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOmVlNjA4NWU0LTRhOGItNDBmNC1hMmIxLTgwMDcwOGYxNzQ3YiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pp6vGHUAAAFUSURBVHjaYvz//z/DQAAmhgECg9NiRkZGOAYCTiDOBuLdQPwGiEFx9AeIHwLxUiB2RlOPH4DiGBdGUuMFxK/+EwYbgJifkLlgswlZDKT9gPjvf+LBISBmoshiIBYA4rdoBi8EYgMg5gNiIyBeh8XyJEotrkAzcAGWqGIE4p1YfE2RxYfRDFTAkU7c0NR9IWQxoeyki8R+AEytD3Cou4/G5yaUqFkIyB9AYt/Go04Rjf+ZKtmJgH5QHG9HC+pNFGcnApayAPEsNEtBWc+aZhaDCgog3oNm6T8gzqRKAYLDUk4gPolm6TcgDiImCimxuB3N0tdAbExs2iHLYqA4M1ppBopTC1ISLbkWa6D5dhWpuYWYAgQbEEfj7yKnPmYhQw+oVPqIxH9EjsWM+BIRURU6noJpeLS5oDXWByQ8jV5xzAvE/Eh8rtHmLcWperQnMSwsBggwALSg1RvLpc3SAAAAAElFTkSuQmCC);
+	//background-color: rgb(255,65,0);
+	//background-color: rgb(255,65,65);
 	background-color: #333;
-	width: 30px;
-	height: 30px;
 	position: absolute;
-	bottom: 0px;
-	right: 0px;
+	bottom: 10px;
+	right: 10px;
+	//-webkit-transform: rotate(45deg);
+	border-radius: 20px;
+	box-shadow: 0px 0px 20px #333;
+
 }
 
 #content {

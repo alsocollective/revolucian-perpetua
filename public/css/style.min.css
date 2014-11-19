@@ -9,6 +9,11 @@ TODO-SO:
 - Make content for "Content"
 - Write all copy, and instructions
 - Make slides (1280 x 720) Intro, outro, don't include our names
+- Add more content to shaker scrolling words
+- Fix shaker bug
+- Finish UI
+
+- FONT AND DESIGN
 
 DONE
 - Fix undo for iOS : iOS8 has resolved this issue. Need to test more, and iOS7
@@ -28,27 +33,63 @@ DONE
 @-webkit-keyframes enter {
   0% {
     left: 100%; }
-
   100% {
     left: 0%; } }
 @keyframes enter {
   0% {
     left: 100%; }
-
   100% {
     left: 0%; } }
 @-webkit-keyframes exit {
   100% {
     left: -100%; }
-
   0% {
     left: 0%; } }
 @keyframes exit {
   100% {
     left: -100%; }
-
   0% {
     left: 0%; } }
+@keyframes pop-in {
+  100% {
+    bottom: 10px; }
+  0% {
+    bottom: -50px; } }
+@-webkit-keyframes pop-in {
+  100% {
+    bottom: 10px; }
+  0% {
+    bottom: -50px; } }
+@keyframes fade-in {
+  100% {
+    opacity: 1; }
+  0% {
+    opacity: 0; } }
+@-webkit-keyframes fade-in {
+  100% {
+    opacity: 1; }
+  0% {
+    opacity: 0; } }
+@keyframes fade-out {
+  100% {
+    opacity: 0; }
+  0% {
+    opacity: 1; } }
+@-webkit-keyframes fade-out {
+  100% {
+    opacity: 0; }
+  0% {
+    opacity: 1; } }
+@keyframes pop-out {
+  100% {
+    bottom: -50px; }
+  0% {
+    bottom: 10px; } }
+@-webkit-keyframes pop-out {
+  100% {
+    bottom: -50px; }
+  0% {
+    bottom: 10px; } }
 .animate-enter {
   -webkit-transition: 1s linear all;
   /* Chrome */
@@ -57,6 +98,25 @@ DONE
 
 .animate-enter.animate-leave {
   opacity: 0; }
+
+.pop-in {
+  transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50%;
+  -webkit-animation: pop-in 0.5s;
+  animation: pop-in 0.5s; }
+
+.fade-in {
+  -webkit-animation: fade-in 0.9s;
+  animation: fade-in 0.9s; }
+
+.fade-out {
+  -webkit-animation: fade-out 0.9s;
+  animation: fade-out 0.9s; }
+
+.pop-out {
+  -webkit-transform-origin: top left;
+  -webkit-animation: pop-out 0.5s;
+  animation: pop-out 0.5s; }
 
 html, body {
   margin: 0;
@@ -73,7 +133,9 @@ html, body {
   display: none; }
 
 #lobby {
-  background: url("/public/content/tst.png") no-repeat center center fixed;
+  background: url("/public/content/tst.png") center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -94,7 +156,6 @@ html, body {
 @-webkit-keyframes tapCol {
   from {
     background: #fff; }
-
   to {
     background: #333; } }
 #tap h1 {
@@ -157,13 +218,14 @@ html, body {
   display: none; }
 
 #help {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NDkxMSwgMjAxMy8xMC8yOS0xMTo0NzoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjYzM0EwM0E4NjM4MDExRTQ5ODJFRDBFMTUwRTA0MDU1IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjYzM0EwM0E5NjM4MDExRTQ5ODJFRDBFMTUwRTA0MDU1Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NjMzQTAzQTY2MzgwMTFFNDk4MkVEMEUxNTBFMDQwNTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NjMzQTAzQTc2MzgwMTFFNDk4MkVEMEUxNTBFMDQwNTUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6nnWG7AAABWElEQVR42mL8//8/w0AAxhFnMRNeVzEywjEQcAJxNhDvBuI3QAxy8R8gfgjES4HYGU09fgDyMS6MpMYLiF/9Jww2ADE/IXPBZhOyGEj7AfHf/8SDQ0DMRJHFQCwAxG/RDF4IxAZAzAfERkC8DovlSZRaXIFm4AIsUQVKoDux+Joiiw+jGaiAI524oan7QshiJgJpTxeJ/QCYWh/gUHcfjc9NKFGzEJA/gMS+jUedIhr/M1WyEwH9oDjejhbUmyjOTgQsZQHiWWiWgrKeNc0sBhUUQLwHzdJ/QJxJlQIEh6WcQHwSzdJvQBxETBRSYnE7mqWvgdiY2LRDlsVAcWa00gwUpxakJFpyLdZA8+0qUnMLMQUINiCOxt9FTn3MQoYeUKn0EYn/iOotEKIqdDwFE9ktkAFr+uDwCajG+oCEp9ErjnmBmB+Jz0UXHw9YUI826EctJhYABBgAednkB5AZGcsAAAAASUVORK5CYII=);
+  width: 40px;
+  height: 40px;
   background-color: #333;
-  width: 30px;
-  height: 30px;
   position: absolute;
-  bottom: 0px;
-  right: 0px; }
+  bottom: 10px;
+  right: 10px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 20px #333; }
 
 #content {
   position: absolute;
@@ -184,6 +246,8 @@ html, body {
     position: absolute;
     top: 0;
     left: 0; }
+
+/*# sourceMappingURL=style.css.map */
 
 @charset "UTF-8";
 
