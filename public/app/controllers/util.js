@@ -63,13 +63,13 @@ timeApp.communication = {
 		Socket.on("meta", function(msg) {
 			CurrentPage.meta = msg;
 		})
-		Socket.on("red",timeApp.communication.settings.userset.newRed);
+		Socket.on("red", timeApp.communication.settings.userset.newRed);
 
 
 		// make sure everything is set correctly...
 		timeApp.communication.checkforupdates();
 		timeApp.communication.settings.heartbeatPage = setInterval(timeApp.communication.checkforupdates, 10000);
-		$(window).focus(timeApp.communication.checkforupdates);
+		$(window).focus(timeApp.communication.onfocus);
 
 		// Socket.on("push", function(msg) {
 		// 	timeApp.communication.pageExitFunction();
@@ -79,7 +79,10 @@ timeApp.communication = {
 		// })		
 		timeApp.communication.settings.pageChange = true;
 	},
-
+	onfocus: function() {
+		timeApp.communication.checkforupdates();
+		timeApp.allfunc.fullscreen();
+	},
 	changePage: function(msg) {
 		if (timeApp.communication.settings.currentPage.page != msg && timeApp.communication.settings.location.path() != ("/" + msg)) {
 			// timeApp.communication.settings.container.className = "animation " + msg
@@ -119,5 +122,20 @@ timeApp.allfunc = {
 			// console.log(location.path())
 
 		}
+	},
+	fullscreen: function() {
+		//Fullscreen
+		/*var doc = window.document;
+		var docEl = doc.documentElement;
+
+		var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+		var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+		if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+			requestFullScreen.call(docEl);
+			console.log("Fullscreen called");
+		} else {
+			//cancelFullScreen.call(doc);
+		}*/
 	}
 }

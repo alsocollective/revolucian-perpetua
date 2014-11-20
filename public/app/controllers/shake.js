@@ -31,7 +31,7 @@ timeApp.shake = {
 		Userset.getUserSub();
 		timeApp.shake.settings.subuser = Userset.subuser;
 		console.log(timeApp.shake.settings.subuser)
-		timeApp.modal.alert("<h2>Shake your phone, becasue it's all about the bass.</h2>")
+		timeApp.modal.alert("<h2>Shake your phone, becasue it's all about the bass.</h2><h3>Shake</h3><img src='/public/content/shake.png'>")
 
 		window.addEventListener("devicemotion", timeApp.shake.motionEvent, true);
 	},
@@ -53,6 +53,7 @@ timeApp.shake = {
 
 		if ((timeApp.shake.diff(timeApp.shake.settings.diffArr[0], timeApp.shake.settings.diffArr[1])) > 100) {
 			timeApp.shake.settings.back.style.backgroundColor = timeApp.shake.mapColour(timeApp.shake.settings.current, timeApp.shake.settings.min, timeApp.shake.settings.max, timeApp.shake.settings.col[timeApp.shake.settings.subuser][0], timeApp.shake.settings.col[timeApp.shake.settings.subuser][1]);
+			timeApp.shake.settings.test.style.color = timeApp.shake.mapColour(timeApp.shake.settings.current, timeApp.shake.settings.min, timeApp.shake.settings.max, timeApp.shake.settings.col[timeApp.shake.settings.subuser][1], timeApp.shake.settings.col[timeApp.shake.settings.subuser][0]);
 		}
 
 		//TODO-BA: Add colour select by ID group
@@ -62,7 +63,9 @@ timeApp.shake = {
 			if (timeApp.shake.settings.current > timeApp.shake.settings.max || timeApp.shake.settings.current < timeApp.shake.settings.min) {
 				timeApp.shake.settings.counter++
 				timeApp.shake.settings.socket.emit("sha", timeApp.shake.settings.counter);
-				timeApp.shake.settings.test.innerHTML = "counter: " + timeApp.shake.settings.counter;
+				//timeApp.shake.settings.test.innerHTML = "counter: " + timeApp.shake.settings.counter;
+				timeApp.shake.settings.test.style.top = "-" + timeApp.shake.settings.counter * 16 + "px";
+				//console.log(timeApp.shake.settings.counter);
 			}
 		}
 	},

@@ -104,10 +104,12 @@ DONE
   opacity: 0; }
 
 .pop-in {
-  transform-origin: 50% 50%;
-  -webkit-transform-origin: 50% 50%;
-  -webkit-animation: pop-in 0.5s;
-  animation: pop-in 0.5s; }
+  -webkit-animation: pop-in 0.4s ease-in;
+  animation: pop-in 0.4s ease-in; }
+
+.pop-out {
+  -webkit-animation: pop-out 0.3s ease-in;
+  animation: pop-out 0.3s ease-in; }
 
 .fade-in {
   -webkit-animation: fade-in 0.9s;
@@ -117,49 +119,43 @@ DONE
   -webkit-animation: fade-out 0.9s;
   animation: fade-out 0.9s; }
 
-.pop-out {
-  -webkit-transform-origin: top left;
-  -webkit-animation: pop-out 0.5s;
-  animation: pop-out 0.5s; }
-
-/* Animation */
+/* Page Animations */
 .animation {
-  position: relative; }
+  position: relative;
+  top: 0px; }
 
 .ng-enter {
   -webkit-animation: enter 1s ease-out;
   animation: enter 1s ease-out; }
 
 .ng-leave {
-  top: 0;
-  position: absolute;
-  -webkit-animation: exit 1s ease-out;
-  animation: exit 1s ease-out; }
+  -webkit-animation: exit 0.3s ease-out;
+  animation: exit 0.3s ease-out; }
 
 @-webkit-keyframes enter {
   0% {
-    left: 100%; }
+    top: 100%; }
 
   100% {
-    left: 0%; } }
+    top: 0%; } }
 @keyframes enter {
   0% {
-    left: 100%; }
+    top: 100%; }
 
   100% {
-    left: 0%; } }
+    top: 0%; } }
 @-webkit-keyframes exit {
   100% {
-    left: -100%; }
+    bottom: -100%; }
 
   0% {
-    left: 0%; } }
+    bottom: 0%; } }
 @keyframes exit {
   100% {
-    left: -100%; }
+    bottom: -100%; }
 
   0% {
-    left: 0%; } }
+    bottom: 0%; } }
 html, body {
   margin: 0;
   padding: 0;
@@ -171,29 +167,59 @@ html, body {
   overflow-x: hidden;
   color: #fff; }
 
+@font-face {
+  font-family: 'IM Fell English';
+  font-style: normal;
+  font-weight: 400;
+  src: local("IM FELL English Roman"), local("IM_FELL_English_Roman"), url(/public/content/fonts/IMFeENrm28P.woff) format("woff"); }
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local("Open Sans Semibold"), local("OpenSans-Semibold"), url(/public/content/fonts/OpenSans-Semibold.woff) format("woff"); }
+#main_container {
+  height: 100%;
+  height: 100vh; }
+
 .hidden {
   display: none; }
+
+#forever-vid {
+  position: absolute;
+  bottom: -5px;
+  left: -5px; }
 
 #lobby {
   background: url("/public/content/tst.png") center center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-origin: content-box;
   -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover; }
+  height: 100%;
+  height: 100vh; }
   #lobby #openStmt {
     -webkit-transform: rotate(-0.5deg);
-    width: 90%;
-    font-size: 2em; }
+    margin: 0;
+    padding: 4em 0 7em 0;
+    width: 100%; }
+  #lobby p {
+    font-size: 2em;
+    padding: 0 3% 0 3%;
+    margin: 0 0 0.3em 0;
+    text-align: justify; }
   #lobby h1 {
-    font-family: "Anonymous Pro";
-    font-size: 0.8em; }
+    font-size: 3em;
+    text-align: center;
+    padding: 0;
+    margin: 3em 0 0 0; }
 
 #shake {
-  height: 100vh; }
+  height: 100vh;
+  overflow: hidden; }
   #shake h1 {
-    color: #333; }
+    color: #fff;
+    font-size: 5em;
+    position: relative;
+    text-align: center; }
 
 @-webkit-keyframes tapCol {
   from {
@@ -201,19 +227,21 @@ html, body {
 
   to {
     background: #333; } }
-#tap h1 {
-  text-align: center;
-  display: table-cell;
-  vertical-align: middle;
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
-  font-size: 5em;
-  -webkit-transform: rotate(-90deg); }
-#tap #tap-speech {
-  width: 100%;
-  height: 100%;
-  display: table;
-  overflow: hidden; }
+#tap {
+  background-color: #333; }
+  #tap h1 {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    font-size: 5em;
+    -webkit-transform: rotate(-90deg); }
+  #tap #tap-speech {
+    width: 100%;
+    height: 100%;
+    display: table;
+    overflow: hidden; }
 
 .red #tap #tap-speech {
   background: #f00; }
@@ -232,7 +260,7 @@ html, body {
   height: 96vh;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.85);
-  font-family: 'Anonymous Pro';
+  font-family: 'Open Sans';
   color: #fff;
   font-size: 1em;
   padding: 0;
@@ -292,3 +320,14 @@ html, body {
     position: absolute;
     top: 0;
     left: 0; }
+
+#betweenpages {
+  height: 100vh;
+  overflow: hidden; }
+
+#betweenpages.Eshu {
+  background: url("/public/content/tst.png") center center;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  -webkit-background-size: cover;
+  background-color: #f0f; }
