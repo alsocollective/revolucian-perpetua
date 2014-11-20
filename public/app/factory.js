@@ -50,20 +50,31 @@ factories.Userset = function($cookies, Socket, $location, SongSets) {
 	var factory = {};
 	factory.ticket = null;
 	factory.subuser = null;
+	factory.red = false;
+
+	factory.newRed = function(msg) {
+		if (factory.ticket == msg) {
+			factory.red = true;
+			$("#main_container").addClass("red");
+		} else if (factory.red) {
+			factory.red = false;
+			$("#main_container").removeClass("red");
+		}
+	}
 
 	factory.getUserSub = function() {
-		if (factory.subuser) {
-			return factory.subuser;
+		if (factory.subuser != null) {
+			return "-" + factory.subuser;
 		} else {
-			factory.subuser = "-" + (factory.ticket.charCodeAt(0) % 2);
-			factory.downloadImages(factory.subuser);
-			return factory.subuser;
+			factory.subuser = (factory.ticket.charCodeAt(0) % 2);
+			factory.downloadImages("-" + factory.subuser);
+			return "-" + factory.subuser;
 		}
 	}
 	factory.downloadImages = function(subuser) {
 		return false;
 		var imagesToLoad = [];
-		var imageSetSizes = [9, 9, 9] //TODO actually set the proper number of images in here...
+		var imageSetSizes = [9, 9, 9, 9, 9] //TODO actually set the proper number of images in here...
 		for (var a = 1, maxa = 3; a <= maxa; ++a) {
 			for (var b = 0, maxb = imageSetSizes[a - 1]; b <= maxb; ++b) {
 				var item = new Image();
@@ -79,22 +90,39 @@ factories.SongSets = function() {
 	var factory = {
 		songs: {
 			"song1": {
-				title: "actual song 1 title",
-				length: "3:54",
-				albumb: "albumb name",
-				backgroundImage: "/public/content/albumbbackground/song1.jpg"
+				title: "Eshu",
+				english: "goblin",
+				backgroundImage: "/public/content/albumbbackground/song1.jpg",
+				description: "description",
+				type: "tap"
 			},
 			"song2": {
-				title: "actual song 2 title",
-				length: "3:54",
-				albumb: "albumb name",
-				backgroundImage: "/public/content/albumbbackground/song2.jpg"
+				title: "Pa Bailar",
+				english: "lets go dance",
+				backgroundImage: "/public/content/albumbbackground/song2.jpg",
+				description: "description",
+				type: "slide"
 			},
 			"song3": {
-				title: "actual song 3 title",
-				length: "3:54",
-				albumb: "albumb name",
-				backgroundImage: "/public/content/albumbbackground/song3.jpg"
+				title: "Cimarron",
+				english: "excape to freedom",
+				backgroundImage: "/public/content/albumbbackground/song3.jpg",
+				description: "description",
+				type: "slide"
+			},
+			"song4": {
+				title: "Complica",
+				english: "complicated",
+				backgroundImage: "/public/content/albumbbackground/song3.jpg",
+				description: "description",
+				type: "shake"
+			},
+			"song5": {
+				title: "Asi Vengo Yo",
+				english: "here I come",
+				backgroundImage: "/public/content/albumbbackground/song3.jpg",
+				description: "description",
+				type: "slide"
 			}
 		}
 	};

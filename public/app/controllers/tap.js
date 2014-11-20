@@ -18,6 +18,8 @@ timeApp.tap = {
 		window.addEventListener("devicemotion", timeApp.tap.motionEvent, true);
 	},
 	motionEvent: function(event) {
+		console.log("tap motion event")
+
 		var z = event.accelerationIncludingGravity.z;
 
 		event.preventDefault();
@@ -33,6 +35,7 @@ timeApp.tap = {
 		}
 	},
 	onexit: function() {
+		console.log("tap onexit")		
 		window.removeEventListener("devicemotion", timeApp.tap.motionEvent, true);
 	}
 }

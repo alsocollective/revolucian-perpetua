@@ -5,7 +5,8 @@ timeApp.communication = {
 		socket: null,
 		location: null,
 		currentPage: null,
-		heartbeatPage: null
+		heartbeatPage: null,
+		container: null
 	},
 
 	setup: function(Socket, Cookie, Userset, location, CurrentPage) {
@@ -32,6 +33,8 @@ timeApp.communication = {
 		timeApp.communication.settings.socket = Socket;
 		timeApp.communication.settings.location = location;
 		timeApp.communication.settings.currentPage = CurrentPage;
+		timeApp.communication.settings.userset = Userset;
+		timeApp.communication.settings.container = $("#main_container")[0];
 
 		if (location.path() == "/admin") {
 			return false;
@@ -43,12 +46,12 @@ timeApp.communication = {
 		//be sure to run exit script when changing pages
 	},
 
-	test: function(Socket) {
-		Socket.emit("ID");
-		Socket.on("ID", function(msg) {
-			console.log(msg);
-		})
-	},
+	// test: function(Socket) {
+	// 	Socket.emit("ID");
+	// 	Socket.on("ID", function(msg) {
+	// 		console.log(msg);
+	// 	})
+	// },
 	exitfunction: null,
 	setupPageChange: function(Socket, location, CurrentPage) {
 		if (timeApp.communication.settings.pageChange) {
@@ -60,6 +63,7 @@ timeApp.communication = {
 		Socket.on("meta", function(msg) {
 			CurrentPage.meta = msg;
 		})
+		Socket.on("red",timeApp.communication.settings.userset.newRed);
 
 
 		// make sure everything is set correctly...
@@ -75,9 +79,11 @@ timeApp.communication = {
 		// })		
 		timeApp.communication.settings.pageChange = true;
 	},
+
 	changePage: function(msg) {
-		console.log("changePage: " + msg);
-		if (timeApp.communication.settings.currentPage.page != msg || timeApp.communication.settings.location.path() != ("/" + msg)) {
+		if (timeApp.communication.settings.currentPage.page != msg && timeApp.communication.settings.location.path() != ("/" + msg)) {
+			// timeApp.communication.settings.container.className = "animation " + msg
+			console.log("changepage")
 			timeApp.communication.pageExitFunction();
 			timeApp.communication.settings.location.path("/" + msg);
 		}
@@ -89,6 +95,7 @@ timeApp.communication = {
 	},
 
 	pageExitFunction: function() {
+		console.log("page exit function")
 		if (timeApp.communication.exitfunction) {
 			timeApp.communication.exitfunction(timeApp.communication.settings.socket)
 			timeApp.communication.exitfunction = null;

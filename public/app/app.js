@@ -1,4 +1,4 @@
-var timeApp = angular.module("timeApp", ['ngRoute', 'ngCookies']) //, 'ngAnimate'
+var timeApp = angular.module("timeApp", ['ngRoute', 'ngCookies', 'ngAnimate']) //
 	.config(function($routeProvider) {
 		$routeProvider
 			.when('/', {

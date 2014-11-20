@@ -1,14 +1,4 @@
 /* Animation */
-.ng-enter {
-	-webkit-animation: enter 1s ease-out;
-	animation: enter 1s ease-out;
-}
-
-.ng-leave {
-	-webkit-animation: exit 1s ease-out;
-	animation: exit 1s ease-out;
-}
-
 @-webkit-keyframes enter {
 	0% {left: 100%;}
 	100% {left: 0%;}
@@ -97,4 +87,46 @@
 	-webkit-transform-origin: top left;
 	-webkit-animation: pop-out 0.5s;
     animation: pop-out 0.5s;
+}
+
+
+
+
+
+
+
+
+
+/* Animation */
+.animation{
+	position: relative;
+}
+.ng-enter {
+	-webkit-animation: enter 1s ease-out;
+	animation: enter 1s ease-out;
+}
+
+.ng-leave {
+	top: 0;
+	position: absolute;
+	-webkit-animation: exit 1s ease-out;
+	animation: exit 1s ease-out;
+}
+
+@-webkit-keyframes enter {
+	0% {left: 100%;}
+	100% {left: 0%;}
+}
+@keyframes enter {
+	0% {left: 100%;}
+	100% {left: 0%;}
+}
+
+@-webkit-keyframes exit {
+	100% {left: -100%;}
+	0% {left: 0%;}
+}
+@keyframes exit {
+	100% {left: -100%;}
+	0% {left: 0%;}
 }
