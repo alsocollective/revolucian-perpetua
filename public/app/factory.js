@@ -2,7 +2,7 @@ var factories = {};
 
 factories.Socket = function($rootScope, $location) {
 
-	var socket = io.connect("http://10.0.1.8:3000");
+	var socket = io.connect("http://192.168.0.113:3000");
 
 	return {
 		on: function(eventName, callback) {
@@ -90,35 +90,35 @@ factories.SongSets = function() {
 	var factory = {
 		songs: {
 			"song1": {
-				title: "Eshu",
+				title: "eshu",
 				english: "goblin",
 				backgroundImage: "/public/content/albumbbackground/song1.jpg",
 				description: "description",
 				type: "tap"
 			},
 			"song2": {
-				title: "Pa Bailar",
+				title: "pa bailar",
 				english: "lets go dance",
 				backgroundImage: "/public/content/albumbbackground/song2.jpg",
 				description: "description",
 				type: "slide"
 			},
 			"song3": {
-				title: "Cimarron",
+				title: "cimarron",
 				english: "excape to freedom",
 				backgroundImage: "/public/content/albumbbackground/song3.jpg",
 				description: "description",
 				type: "slide"
 			},
 			"song4": {
-				title: "Complica",
+				title: "complica",
 				english: "complicated",
 				backgroundImage: "/public/content/albumbbackground/song3.jpg",
 				description: "description",
 				type: "shake"
 			},
 			"song5": {
-				title: "Asi Vengo Yo",
+				title: "asi vengo yo",
 				english: "here I come",
 				backgroundImage: "/public/content/albumbbackground/song3.jpg",
 				description: "description",
