@@ -119,18 +119,72 @@ DONE
   -webkit-animation: fade-out 0.9s;
   animation: fade-out 0.9s; }
 
+@-webkit-keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0); }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none; } }
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    -ms-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0); }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none; } }
+.fadeInLeft {
+  -webkit-animation: fadeInLeft 1s forwards;
+  animation: fadeInLeft 1s forwards; }
+
+@-webkit-keyframes fadeOutRight {
+  0% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none; }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0); } }
+@keyframes fadeOutRight {
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+    -ms-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0); }
+
+  0% {
+    opacity: 1;
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none; } }
+.fadeOutRight {
+  -webkit-animation: fadeOutRight 1s forwards;
+  animation: fadeOutRight 1s forwards; }
+
 /* Page Animations */
 .animation {
   position: relative;
-  top: 0px; }
+  width: 100%; }
 
 .ng-enter {
-  -webkit-animation: enter 1s ease-out;
-  animation: enter 1s ease-out; }
+  -webkit-animation: enter 0.8s ease-out;
+  animation: enter 0.8s ease-out; }
 
 .ng-leave {
-  -webkit-animation: exit 0.3s ease-out;
-  animation: exit 0.3s ease-out; }
+  bottom: 0%;
+  position: absolute;
+  -webkit-animation: exit 0.4s;
+  animation: exit 0.4s; }
 
 @-webkit-keyframes enter {
   0% {
@@ -163,8 +217,8 @@ html, body {
   height: 100%;
   height: 100vh;
   font-family: 'IM Fell English', serif;
-  background-color: #ff4100;
-  overflow-x: hidden;
+  background-color: #0f0;
+  overflow-y: hidden;
   color: #fff; }
 
 @font-face {
@@ -189,13 +243,22 @@ html, body {
   bottom: -5px;
   left: -5px; }
 
+#lobby, #shake, #tap, #betweenpages, #content {
+  overflow-y: overlay;
+  -webkit-overflow-scrolling: touch; }
+
 #lobby {
   background: url("/public/content/tst.png") center center;
   background-repeat: no-repeat;
   background-origin: content-box;
   -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-color: #ff4100;
   height: 100%;
-  height: 100vh; }
+  height: 100vh;
+  overflow-x: hidden; }
   #lobby #openStmt {
     -webkit-transform: rotate(-0.5deg);
     margin: 0;
@@ -212,9 +275,18 @@ html, body {
     padding: 0;
     margin: 3em 0 0 0; }
 
+#lobby-icons {
+  width: 100%;
+  position: relative;
+  display: inline;
+  left: -51px; }
+  #lobby-icons div {
+    position: absolute; }
+
 #shake {
   height: 100vh;
-  overflow: hidden; }
+  overflow: hidden;
+  background-color: #fff; }
   #shake h1 {
     color: #fff;
     font-size: 5em;
@@ -228,7 +300,10 @@ html, body {
   to {
     background: #333; } }
 #tap {
-  background-color: #333; }
+  background-color: #333;
+  height: 100%;
+  height: 100vh;
+  overflow: hidden; }
   #tap h1 {
     text-align: center;
     display: table-cell;
@@ -308,7 +383,9 @@ html, body {
   width: 100%;
   height: 100%;
   height: 100vh;
-  overflow: hidden; }
+  overflow: hidden;
+  background-color: #00f;
+  color: #fff; }
   #content div {
     background: no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -350,13 +427,16 @@ html, body {
     opacity: 0.9; }
 
 #betweenpages.cimarron {
-  background: url("/public/content/cimarron.jpg") center center;
+  background: url("/public/content/cimarron.png") center center;
   background-repeat: no-repeat;
   background-origin: content-box;
   -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   background-color: #ff0; }
   #betweenpages.cimarron h2 {
-    font-size: 8em;
+    font-size: 5em;
     text-align: center;
     text-transform: capitalize;
     opacity: 0.9;
@@ -367,6 +447,9 @@ html, body {
   background-repeat: no-repeat;
   background-origin: content-box;
   -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   background-color: #ff0;
   display: table;
   width: 100%;
@@ -381,13 +464,20 @@ html, body {
     -webkit-transform: rotate(-90deg); }
 
 #betweenpages.vengo {
-  background: url("/public/content/asivengoyo.png") center center;
+  background: url("/public/content/asivengoyo.gif") center center;
   background-repeat: no-repeat;
   background-origin: content-box;
   -webkit-background-size: cover;
-  background-color: #ff0; }
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-color: #ff0;
+  display: table;
+  width: 100%; }
   #betweenpages.vengo h2 {
     font-size: 8em;
     text-align: center;
     text-transform: capitalize;
-    opacity: 0.9; }
+    opacity: 0.9;
+    display: table-cell;
+    vertical-align: middle; }

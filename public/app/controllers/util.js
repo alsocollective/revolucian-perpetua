@@ -7,7 +7,7 @@ timeApp.communication = {
 		currentPage: null,
 		heartbeatPage: null,
 		container: null,
-		lastFired:0
+		lastFired: 0
 	},
 
 	setup: function(Socket, Cookie, Userset, location, CurrentPage) {
@@ -67,6 +67,7 @@ timeApp.communication = {
 
 
 		// make sure everything is set correctly...
+		console.log("set up check for updates");
 		timeApp.communication.checkforupdates();
 		timeApp.communication.settings.heartbeatPage = setInterval(timeApp.communication.checkforupdates, 10000);
 		$(window).focus(timeApp.communication.onfocus);
@@ -75,7 +76,7 @@ timeApp.communication = {
 		if ((/iphone|ipod|ipad.*os/gi).test(navigator.appVersion)) {
 			setInterval(function() {
 				now = new Date().getTime();
-				if(now - timeApp.communication.settings.lastFired > 2000) {//if it's been more than 5 seconds
+				if (now - timeApp.communication.settings.lastFired > 2000) { //if it's been more than 5 seconds
 					timeApp.communication.onfocus()
 				}
 				timeApp.communication.settings.lastFired = now;
@@ -83,10 +84,10 @@ timeApp.communication = {
 		}
 
 		Socket.on("ID", function(msg) {
-			if(timeApp.communication.settings.cookie.ticket){
+			if (timeApp.communication.settings.cookie.ticket) {
 				timeApp.communication.settings.socket.emit("setID", timeApp.communication.settings.cookie.ticket);
 			}
-		})		
+		})
 
 		// Socket.on("push", function(msg) {
 		// 	timeApp.communication.pageExitFunction();
@@ -103,7 +104,9 @@ timeApp.communication = {
 		// timeApp.communication.settings.socket.emit("setID", timeApp.communication.settings.cookie.ticket);
 	},
 	changePage: function(msg) {
-		if (timeApp.communication.settings.currentPage.page != msg && timeApp.communication.settings.location.path() != ("/" + msg)) {
+		console.log(msg)
+		if (timeApp.communication.settings.location.path() != ("/" + msg)) {
+			console.log("not the correct pages");
 			// timeApp.communication.settings.container.className = "animation " + msg
 			console.log("changepage")
 			timeApp.communication.pageExitFunction();
@@ -112,12 +115,13 @@ timeApp.communication = {
 		timeApp.communication.settings.currentPage.page = msg;
 	},
 	checkforupdates: function() {
+		console.log("check for updates");
 		timeApp.communication.settings.socket.emit("getmeta");
 		timeApp.communication.settings.socket.emit("getpage");
 	},
 
 	pageExitFunction: function() {
-		console.log("page exit function")
+		timeApp.modal.close();
 		if (timeApp.communication.exitfunction) {
 			timeApp.communication.exitfunction(timeApp.communication.settings.socket)
 			timeApp.communication.exitfunction = null;
@@ -158,4 +162,3 @@ timeApp.allfunc = {
 		}*/
 	}
 }
-
