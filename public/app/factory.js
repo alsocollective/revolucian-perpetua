@@ -91,7 +91,7 @@ factories.SongSets = function() {
 		songs: {
 			"song1": {
 				title: "eshu",
-				english: "goblin",
+				english: "trickster",
 				backgroundImage: "/public/content/albumbbackground/song1.jpg",
 				description: "description",
 				type: "tap"

@@ -396,7 +396,7 @@ html, body {
     opacity: 0.9; }
 
 #betweenpages.cimarron {
-  background: url("/public/content/cimarron.jpg") center center;
+  background: url("/public/content/cimarron.png") center center;
   background-repeat: no-repeat;
   background-origin: content-box;
   -webkit-background-size: cover;
@@ -405,7 +405,7 @@ html, body {
   background-size: cover;
   background-color: #ff0; }
   #betweenpages.cimarron h2 {
-    font-size: 8em;
+    font-size: 5em;
     text-align: center;
     text-transform: capitalize;
     opacity: 0.9;
@@ -433,16 +433,20 @@ html, body {
     -webkit-transform: rotate(-90deg); }
 
 #betweenpages.vengo {
-  background: url("/public/content/asivengoyo.png") center center;
+  background: url("/public/content/asivengoyo.gif") center center;
   background-repeat: no-repeat;
   background-origin: content-box;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  background-color: #ff0; }
+  background-color: #ff0;
+  display: table;
+  width: 100%; }
   #betweenpages.vengo h2 {
     font-size: 8em;
     text-align: center;
     text-transform: capitalize;
-    opacity: 0.9; }
+    opacity: 0.9;
+    display: table-cell;
+    vertical-align: middle; }
