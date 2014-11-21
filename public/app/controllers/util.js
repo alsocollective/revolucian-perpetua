@@ -104,7 +104,9 @@ timeApp.communication = {
 		// timeApp.communication.settings.socket.emit("setID", timeApp.communication.settings.cookie.ticket);
 	},
 	changePage: function(msg) {
-		console.log(msg)
+		if (msg == null) {
+			return false;
+		}
 		if (timeApp.communication.settings.location.path() != ("/" + msg)) {
 			console.log("not the correct pages");
 			// timeApp.communication.settings.container.className = "animation " + msg
