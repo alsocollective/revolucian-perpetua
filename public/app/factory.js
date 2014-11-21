@@ -2,6 +2,7 @@ var factories = {};
 
 factories.Socket = function($rootScope, $location) {
 
+
 	var socket = io.connect("http://192.168.1.101:3000");
 
 
@@ -40,7 +41,8 @@ factories.CurrentPage = function(Socket, Userset) {
 			// return "song1" + Userset.getUserSub();
 			return "";
 		} else {
-			return factory.meta + Userset.getUserSub();
+			//return factory.meta + Userset.getUserSub();
+			return factory.meta;
 		}
 	}
 
