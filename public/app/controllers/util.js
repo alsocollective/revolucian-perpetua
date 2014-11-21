@@ -7,7 +7,7 @@ timeApp.communication = {
 		currentPage: null,
 		heartbeatPage: null,
 		container: null,
-		lastFired:0
+		lastFired: 0
 	},
 
 	setup: function(Socket, Cookie, Userset, location, CurrentPage) {
@@ -75,7 +75,7 @@ timeApp.communication = {
 		if ((/iphone|ipod|ipad.*os/gi).test(navigator.appVersion)) {
 			setInterval(function() {
 				now = new Date().getTime();
-				if(now - timeApp.communication.settings.lastFired > 2000) {//if it's been more than 5 seconds
+				if (now - timeApp.communication.settings.lastFired > 2000) { //if it's been more than 5 seconds
 					timeApp.communication.onfocus()
 				}
 				timeApp.communication.settings.lastFired = now;
@@ -83,10 +83,10 @@ timeApp.communication = {
 		}
 
 		Socket.on("ID", function(msg) {
-			if(timeApp.communication.settings.cookie.ticket){
+			if (timeApp.communication.settings.cookie.ticket) {
 				timeApp.communication.settings.socket.emit("setID", timeApp.communication.settings.cookie.ticket);
 			}
-		})		
+		})
 
 		// Socket.on("push", function(msg) {
 		// 	timeApp.communication.pageExitFunction();
@@ -158,4 +158,3 @@ timeApp.allfunc = {
 		}*/
 	}
 }
-

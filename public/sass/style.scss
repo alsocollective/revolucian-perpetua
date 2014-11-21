@@ -32,8 +32,9 @@ html,body{
 	height: 100%;
 	height: 100vh;
 	font-family: 'IM Fell English', serif;
-	background-color: rgb(255,65,0);
-	overflow-x: hidden;
+	//background-color: rgb(255,65,0);
+	background-color: #0f0;
+	overflow-y: hidden;
 	color: #fff;
 
 	//-webkit-overflow-scrolling: touch;
@@ -59,8 +60,6 @@ html,body{
 #main_container {
 	height: 100%;
 	height: 100vh;
-
-	//-webkit-overflow-scrolling: touch;
 }
 
 .hidden{
@@ -73,19 +72,28 @@ html,body{
 	left: -5px;
 }
 
+#lobby,#shake,#tap,#betweenpages,#content {
+	//box-shadow: 0px 0px 120px #222; //Performance drops like crazy
+	overflow-y: overlay;
+	-webkit-overflow-scrolling: touch;
+}
+
 #lobby {
 
 	background: url("/public/content/tst.png") center center;
 	background-repeat: no-repeat;
 	background-origin: content-box;
- 	//background-attachment: fixed;
 	-webkit-background-size: cover;
-	// -moz-background-size: cover;
-	// -o-background-size: cover;
-	// background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+
+	background-color: rgb(255,65,0);
 
 	height: 100%;
 	height: 100vh;
+
+	overflow-x: hidden;
 
 	//-webkit-overflow-scrolling: touch;
 
@@ -111,9 +119,22 @@ html,body{
 	}
 }
 
+#lobby-icons {
+		width: 100%;
+		position: relative;
+		display: inline;
+		left: -51px;
+
+		div {
+			position: absolute;
+		}
+	}
+
 #shake {
 	height: 100vh;
 	overflow: hidden;
+
+	background-color: #fff;
 
 	h1{
 		color: #fff;
@@ -141,6 +162,11 @@ html,body{
 #tap {
 
 	background-color: #333;
+
+	height: 100%;
+	height: 100vh;
+
+	overflow: hidden;
 
 	h1 {
 		text-align: center;
@@ -261,6 +287,9 @@ html,body{
 		height: 100vh;
 		overflow: hidden;
 
+		background-color: #00f;
+		color: #fff;
+
 	div {
 		background: no-repeat center center fixed; 
 		-webkit-background-size: cover;
@@ -325,11 +354,10 @@ html,body{
 	background: url("/public/content/cimarron.jpg") center center;
 	background-repeat: no-repeat;
 	background-origin: content-box;
- 	//background-attachment: fixed;
 	-webkit-background-size: cover;
-	// -moz-background-size: cover;
-	// -o-background-size: cover;
-	// background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 	background-color: #ff0;
 
 	h2 {
@@ -345,11 +373,10 @@ html,body{
 	background: url("/public/content/complica.png") center center;
 	background-repeat: no-repeat;
 	background-origin: content-box;
- 	//background-attachment: fixed;
 	-webkit-background-size: cover;
-	// -moz-background-size: cover;
-	// -o-background-size: cover;
-	// background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 	background-color: #ff0;
 
 	display: table;
@@ -373,11 +400,10 @@ html,body{
 	background: url("/public/content/asivengoyo.png") center center;
 	background-repeat: no-repeat;
 	background-origin: content-box;
- 	//background-attachment: fixed;
 	-webkit-background-size: cover;
-	// -moz-background-size: cover;
-	// -o-background-size: cover;
-	// background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 	background-color: #ff0;
 
 	h2 {
