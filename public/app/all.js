@@ -352,7 +352,7 @@ timeApp.newSong = {
 			clearInterval(timeApp.newSong.settings.interval);
 		}
 		// we change what the modal says... still hidden
-		timeApp.modal.setTextHidden("<h2>Song credentials in here</h2>");
+		timeApp.modal.setTextHidden("<h2>The song is about to begin.</h2>");
 
 		// we set local variables
 		var element = document.getElementById("content"),
@@ -554,7 +554,9 @@ timeApp.communication = {
 		// timeApp.communication.settings.socket.emit("setID", timeApp.communication.settings.cookie.ticket);
 	},
 	changePage: function(msg) {
-		console.log(msg)
+		if (msg == null) {
+			return false;
+		}
 		if (timeApp.communication.settings.location.path() != ("/" + msg)) {
 			console.log("not the correct pages");
 			// timeApp.communication.settings.container.className = "animation " + msg
@@ -617,7 +619,8 @@ timeApp.modal = {
 		close: null,
 		modal: null,
 		help: null,
-		content: null
+		content: null,
+		hideDelay: null
 	},
 	init: function() {
 		timeApp.modal.settings.close = document.getElementById("xx");
@@ -640,7 +643,7 @@ timeApp.modal = {
 		timeApp.modal.settings.help.className = "pop-in";
 		timeApp.modal.settings.modal.className = "fade-out";
 
-		setTimeout(function() {
+		timeApp.modal.settings.hideDelay = setTimeout(function() {
 			timeApp.modal.settings.modal.style.display = "none";
 		}, 900);
 
@@ -654,7 +657,7 @@ timeApp.modal = {
 	},
 	help: function() {
 		timeApp.modal.settings.help.className = "pop-out";
-		setTimeout(function() {
+		timeApp.modal.settings.hideDelay = setTimeout(function() {
 			timeApp.modal.settings.help.style.display = "none";
 		}, 500)
 		timeApp.modal.settings.modal.style.display = "";
@@ -664,13 +667,23 @@ timeApp.modal = {
 		if (timeApp.modal.settings.modal == null) {
 			timeApp.modal.init();
 		}
-		timeApp.modal.settings.modal.className = "close";
+		// if (timeApp.modal.settings.hideDelay) {
+		// 	clearTimeout(timeApp.modal.settings.hideDelay);
+		// 	timeApp.modal.settings.hideDelay = null;
+		// }
+		timeApp.modal.settings.modal.style.display = "none";
+		// timeApp.modal.settings.modal.className = "close";
 		timeApp.modal.settings.content.innerHTML = text;
 	},
 	alert: function(text) {
 		if (timeApp.modal.settings.modal == null) {
 			timeApp.modal.init();
 		}
+		if (timeApp.modal.settings.hideDelay) {
+			clearTimeout(timeApp.modal.settings.hideDelay);
+			timeApp.modal.settings.hideDelay = null;
+		}
+		timeApp.modal.settings.modal.style.display = "block";
 		timeApp.modal.settings.modal.className = "";
 		timeApp.modal.settings.modal.className = "fade-in";
 		timeApp.modal.settings.content.innerHTML = text;
@@ -730,12 +743,12 @@ timeApp.shake = {
 		max: 800,
 		col: [
 			[
-				[200, 0, 255],
-				[255, 255, 0]
+				[144, 0, 255],
+				[255, 0, 0]
 			],
 			[
-				[255, 0, 0],
-				[255, 0, 255]
+				[13, 255, 0],
+				[255, 145, 0]
 			]
 		],
 		socket: null,
@@ -1145,7 +1158,7 @@ var factories = {};
 
 factories.Socket = function($rootScope, $location) {
 
-	var socket = io.connect("http://192.168.2.24:3000");
+	var socket = io.connect("http://192.168.2.26:3000");
 
 	return {
 		on: function(eventName, callback) {
