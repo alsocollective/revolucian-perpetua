@@ -6,8 +6,32 @@ controllers.lobby = function($scope, $cookies, $location, Socket, Userset, Curre
 	// timeApp.communication.setupPageChange(Socket, $location, CurrentPage); //changepage on message
 	$scope.id = Userset.ticket || $cookies.ticket;
 
+	var count = 0;
+
 	setTimeout(function() {
-		timeApp.modal.alert("<h2>Welcome</h2><p>Please note that at certain instances of this show you should use your phone to interact with the visuals.</p><h3>Shake</h3><img src='/public/content/shake.png'><h3>Tap</h3><img src='/public/content/tap.png'>");
+		timeApp.modal.alert("<h2>Welcome</h2><p>Please note that at certain instances of this show you should use your phone to interact with the visuals.</p><div id='lobby-icons'><div class='hidden'><h3>Shake</h3><img src='/public/content/shake.png'></div><div class='hidden'><h3>Tap</h3><img src='/public/content/tap.png'></div></div>");
+
+		timeApp.modal.settings.icons = document.getElementById("lobby-icons");
+
+		setInterval(function() {
+
+			console.log(count);
+
+			if (timeApp.modal.settings.icons.childNodes[count].className == "fadeInLeft") {
+				timeApp.modal.settings.icons.childNodes[count].className = "hidden";
+			} else {
+				timeApp.modal.settings.icons.childNodes[count].className = "fadeInLeft";
+				console.log(timeApp.modal.settings.icons.childNodes[count].className);
+			}
+
+			console.log(timeApp.modal.settings.icons.childNodes.length);
+
+			if (count == timeApp.modal.settings.icons.childNodes.length - 1) {
+				count = 0;
+			}
+			count++;
+		}, 4000);
+
 	}, 1500);
 }
 
