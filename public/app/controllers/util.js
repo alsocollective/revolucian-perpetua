@@ -6,7 +6,8 @@ timeApp.communication = {
 		location: null,
 		currentPage: null,
 		heartbeatPage: null,
-		container: null
+		container: null,
+		lastFired:0
 	},
 
 	setup: function(Socket, Cookie, Userset, location, CurrentPage) {
@@ -34,6 +35,7 @@ timeApp.communication = {
 		timeApp.communication.settings.location = location;
 		timeApp.communication.settings.currentPage = CurrentPage;
 		timeApp.communication.settings.userset = Userset;
+		timeApp.communication.settings.cookie = Cookie;
 		timeApp.communication.settings.container = $("#main_container")[0];
 
 		if (location.path() == "/admin") {
@@ -48,9 +50,7 @@ timeApp.communication = {
 
 	// test: function(Socket) {
 	// 	Socket.emit("ID");
-	// 	Socket.on("ID", function(msg) {
-	// 		console.log(msg);
-	// 	})
+	// 
 	// },
 	exitfunction: null,
 	setupPageChange: function(Socket, location, CurrentPage) {
@@ -63,13 +63,30 @@ timeApp.communication = {
 		Socket.on("meta", function(msg) {
 			CurrentPage.meta = msg;
 		})
-		Socket.on("red",timeApp.communication.settings.userset.newRed);
+		Socket.on("red", timeApp.communication.settings.userset.newRed);
 
 
 		// make sure everything is set correctly...
 		timeApp.communication.checkforupdates();
 		timeApp.communication.settings.heartbeatPage = setInterval(timeApp.communication.checkforupdates, 10000);
-		$(window).focus(timeApp.communication.checkforupdates);
+		$(window).focus(timeApp.communication.onfocus);
+
+		timeApp.communication.settings.lastFired = new Date().getTime();
+		if ((/iphone|ipod|ipad.*os/gi).test(navigator.appVersion)) {
+			setInterval(function() {
+				now = new Date().getTime();
+				if(now - timeApp.communication.settings.lastFired > 2000) {//if it's been more than 5 seconds
+					timeApp.communication.onfocus()
+				}
+				timeApp.communication.settings.lastFired = now;
+			}, 500);
+		}
+
+		Socket.on("ID", function(msg) {
+			if(timeApp.communication.settings.cookie.ticket){
+				timeApp.communication.settings.socket.emit("setID", timeApp.communication.settings.cookie.ticket);
+			}
+		})		
 
 		// Socket.on("push", function(msg) {
 		// 	timeApp.communication.pageExitFunction();
@@ -79,7 +96,12 @@ timeApp.communication = {
 		// })		
 		timeApp.communication.settings.pageChange = true;
 	},
-
+	onfocus: function() {
+		// alert("setting on focuse")
+		timeApp.communication.checkforupdates();
+		timeApp.allfunc.fullscreen();
+		// timeApp.communication.settings.socket.emit("setID", timeApp.communication.settings.cookie.ticket);
+	},
 	changePage: function(msg) {
 		if (timeApp.communication.settings.currentPage.page != msg && timeApp.communication.settings.location.path() != ("/" + msg)) {
 			// timeApp.communication.settings.container.className = "animation " + msg
@@ -119,5 +141,21 @@ timeApp.allfunc = {
 			// console.log(location.path())
 
 		}
+	},
+	fullscreen: function() {
+		//Fullscreen
+		/*var doc = window.document;
+		var docEl = doc.documentElement;
+
+		var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+		var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+		if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+			requestFullScreen.call(docEl);
+			console.log("Fullscreen called");
+		} else {
+			//cancelFullScreen.call(doc);
+		}*/
 	}
 }
+

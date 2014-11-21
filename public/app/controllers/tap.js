@@ -12,7 +12,7 @@ timeApp.tap = {
 	init: function(Socket) {
 		console.log("tap init")
 		timeApp.tap.settings.socket = Socket;
-		timeApp.modal.alert("<h2>Tap your phone to the beat on your hip or hand.</h2>")
+		timeApp.modal.alert("<h2>Tap your phone to the beat</h2><h3>Tap</h3><img src='/public/content/tap.png'>")
 		timeApp.tap.settings.bg = document.getElementById("tap");
 		timeApp.tap.settings.textOut = document.getElementById("speech");
 		window.addEventListener("devicemotion", timeApp.tap.motionEvent, true);
@@ -35,7 +35,7 @@ timeApp.tap = {
 		}
 	},
 	onexit: function() {
-		console.log("tap onexit")		
+		console.log("tap onexit")
 		window.removeEventListener("devicemotion", timeApp.tap.motionEvent, true);
 	}
 }

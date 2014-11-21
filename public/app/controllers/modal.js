@@ -10,6 +10,7 @@ timeApp.modal = {
 		timeApp.modal.settings.modal = document.getElementById("modal");
 		timeApp.modal.settings.help = document.getElementById("help");
 		timeApp.modal.settings.content = document.getElementById("modal-content");
+		timeApp.modal.settings.endless = document.getElementById("endless");
 
 		timeApp.modal.settings.close.onclick = timeApp.modal.close;
 		timeApp.modal.settings.help.onclick = timeApp.modal.help;
@@ -29,19 +30,10 @@ timeApp.modal = {
 			timeApp.modal.settings.modal.style.display = "none";
 		}, 900);
 
+		timeApp.allfunc.fullscreen();
 
-		//Fullscreen
-		/*var doc = window.document;
-		var docEl = doc.documentElement;
-
-		var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-		var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-		if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-			requestFullScreen.call(docEl);
-		} else {
-			cancelFullScreen.call(doc);
-		}*/
+		//Trigger video to play once modal is closed
+		//timeApp.modal.settings.endless.play();
 	},
 	help: function() {
 		timeApp.modal.settings.help.className = "pop-out";

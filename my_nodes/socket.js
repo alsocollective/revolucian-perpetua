@@ -41,9 +41,10 @@ exports.userArray = function(){
 
 
 exports.connect = function(socket) {
-
+	console.log("con\t"+socket.id)
 	//LOGIN
 	//for initial connections
+	socket.emit("ID", socket.id);
 	socket.on("getID", function(msg) {
 		console.log("saying getID:\t..\t" + msg);
 
@@ -135,10 +136,18 @@ exports.connect = function(socket) {
 
 	//TO TD////
 	socket.on("tap", function(msg) {
+		console.log(this.id);
 		console.log("tap:\t..\t" + msg + " " + simpleId[this.id])
 		if (tcp) {
 			//console.log("\ttap 1 " + this.simpleId + "\n")
-			tcp.write("tap 1 " + this.simpleId + "\n");
+			if(this.simpleId == 'undefined'){
+				if(simpleId[socket.id]){
+					this.simpleId = simpleId[socket.id];
+				}
+			}
+			if(this.simpleId != 'undefined'){
+				tcp.write("tap 1 " + this.simpleId + "\n");
+			}
 		} else {
 			console.log("\t\t\tNo TCP connected");
 		}

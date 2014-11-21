@@ -2,7 +2,9 @@ var factories = {};
 
 factories.Socket = function($rootScope, $location) {
 
+
 	var socket = io.connect("http://192.168.1.109:3000");
+
 
 	return {
 		on: function(eventName, callback) {
@@ -74,7 +76,7 @@ factories.Userset = function($cookies, Socket, $location, SongSets) {
 	factory.downloadImages = function(subuser) {
 		return false;
 		var imagesToLoad = [];
-		var imageSetSizes = [9, 9, 9] //TODO actually set the proper number of images in here...
+		var imageSetSizes = [9, 9, 9, 9, 9] //TODO actually set the proper number of images in here...
 		for (var a = 1, maxa = 3; a <= maxa; ++a) {
 			for (var b = 0, maxb = imageSetSizes[a - 1]; b <= maxb; ++b) {
 				var item = new Image();
@@ -90,22 +92,39 @@ factories.SongSets = function() {
 	var factory = {
 		songs: {
 			"song1": {
-				title: "actual song 1 title",
-				length: "3:54",
-				albumb: "albumb name",
-				backgroundImage: "/public/content/albumbbackground/song1.jpg"
+				title: "eshu",
+				english: "goblin",
+				backgroundImage: "/public/content/albumbbackground/song1.jpg",
+				description: "description",
+				type: "tap"
 			},
 			"song2": {
-				title: "actual song 2 title",
-				length: "3:54",
-				albumb: "albumb name",
-				backgroundImage: "/public/content/albumbbackground/song2.jpg"
+				title: "pa bailar",
+				english: "lets go dance",
+				backgroundImage: "/public/content/albumbbackground/song2.jpg",
+				description: "description",
+				type: "slide"
 			},
 			"song3": {
-				title: "actual song 3 title",
-				length: "3:54",
-				albumb: "albumb name",
-				backgroundImage: "/public/content/albumbbackground/song3.jpg"
+				title: "cimarron",
+				english: "excape to freedom",
+				backgroundImage: "/public/content/albumbbackground/song3.jpg",
+				description: "description",
+				type: "slide"
+			},
+			"song4": {
+				title: "complica",
+				english: "complicated",
+				backgroundImage: "/public/content/albumbbackground/song3.jpg",
+				description: "description",
+				type: "shake"
+			},
+			"song5": {
+				title: "asi vengo yo",
+				english: "here I come",
+				backgroundImage: "/public/content/albumbbackground/song3.jpg",
+				description: "description",
+				type: "slide"
 			}
 		}
 	};

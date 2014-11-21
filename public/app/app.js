@@ -28,6 +28,6 @@ var timeApp = angular.module("timeApp", ['ngRoute', 'ngCookies', 'ngAnimate']) /
 			.when('/diagnostics', {
 				controller: "diagnostics",
 				templateUrl: 'public/app/pages/diagnostics.html'
-			})
+			}).otherwise({ redirectTo:"/"});
 
 	});
