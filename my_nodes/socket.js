@@ -29,19 +29,19 @@ exports.setCurrentPage = function(newPage) {
 exports.setMeta = function(newMeta) {
 	meta = newMeta;
 }
-exports.getSimpleID = function(){
+exports.getSimpleID = function() {
 	return simpleId;
 }
-exports.getSimpleIDRev = function(){
+exports.getSimpleIDRev = function() {
 	return simpleIdRev;
 }
-exports.userArray = function(){
+exports.userArray = function() {
 	return userArray;
 }
 
 
 exports.connect = function(socket) {
-	console.log("con\t"+socket.id)
+	console.log("con\t" + socket.id)
 	//LOGIN
 	//for initial connections
 	socket.emit("ID", socket.id);
@@ -140,12 +140,12 @@ exports.connect = function(socket) {
 		console.log("tap:\t..\t" + msg + " " + simpleId[this.id])
 		if (tcp) {
 			//console.log("\ttap 1 " + this.simpleId + "\n")
-			if(this.simpleId == 'undefined'){
-				if(simpleId[socket.id]){
+			if (this.simpleId == 'undefined') {
+				if (simpleId[socket.id]) {
 					this.simpleId = simpleId[socket.id];
 				}
 			}
-			if(this.simpleId != 'undefined'){
+			if (this.simpleId != 'undefined') {
 				tcp.write("tap 1 " + this.simpleId + "\n");
 			}
 		} else {
@@ -207,8 +207,8 @@ exports.connect = function(socket) {
 		}
 
 		var index = userArray.indexOf(this.id);
-		if(index != null && index >= 0){
-			userArray.splice(index,1);
+		if (index != null && index >= 0) {
+			userArray.splice(index, 1);
 		}
 	})
 }

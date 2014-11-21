@@ -142,8 +142,34 @@ DONE
     -ms-transform: none;
     transform: none; } }
 .fadeInLeft {
-  -webkit-animation: fadeInLeft 1s;
-  animation: fadeInLeft 1s; }
+  -webkit-animation: fadeInLeft 1s forwards;
+  animation: fadeInLeft 1s forwards; }
+
+@-webkit-keyframes fadeOutRight {
+  0% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none; }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0); } }
+@keyframes fadeOutRight {
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+    -ms-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0); }
+
+  0% {
+    opacity: 1;
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none; } }
+.fadeOutRight {
+  -webkit-animation: fadeOutRight 1s forwards;
+  animation: fadeOutRight 1s forwards; }
 
 /* Page Animations */
 .animation {
@@ -249,8 +275,13 @@ html, body {
     padding: 0;
     margin: 3em 0 0 0; }
 
-#lobby-icons div {
-  position: absolute; }
+#lobby-icons {
+  width: 100%;
+  position: relative;
+  display: inline;
+  left: -51px; }
+  #lobby-icons div {
+    position: absolute; }
 
 #shake {
   height: 100vh;

@@ -33,7 +33,10 @@ timeApp.modal = {
 		timeApp.allfunc.fullscreen();
 
 		//Trigger video to play once modal is closed
-		//timeApp.modal.settings.endless.play();
+		if (!(/iphone|ipod|ipad.*os/gi).test(navigator.appVersion)) {
+			timeApp.modal.settings.endless.play();
+		}
+
 	},
 	help: function() {
 		timeApp.modal.settings.help.className = "pop-out";

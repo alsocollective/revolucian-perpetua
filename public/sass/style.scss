@@ -120,6 +120,11 @@ html,body{
 }
 
 #lobby-icons {
+		width: 100%;
+		position: relative;
+		display: inline;
+		left: -51px;
+
 		div {
 			position: absolute;
 		}
