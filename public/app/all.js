@@ -671,6 +671,7 @@ timeApp.modal = {
 		if (timeApp.modal.settings.modal == null) {
 			timeApp.modal.init();
 		}
+		timeApp.modal.settings.help.style.display = "block";
 		timeApp.modal.settings.modal.className = "";
 		timeApp.modal.settings.modal.className = "fade-in";
 		timeApp.modal.settings.content.innerHTML = text;
@@ -1145,7 +1146,7 @@ var factories = {};
 
 factories.Socket = function($rootScope, $location) {
 
-	var socket = io.connect("http://192.168.2.24:3000");
+	var socket = io.connect("http://192.168.1.101:3000");
 
 	return {
 		on: function(eventName, callback) {

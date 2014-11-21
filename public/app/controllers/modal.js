@@ -57,6 +57,7 @@ timeApp.modal = {
 		if (timeApp.modal.settings.modal == null) {
 			timeApp.modal.init();
 		}
+		timeApp.modal.settings.help.style.display = "block";
 		timeApp.modal.settings.modal.className = "";
 		timeApp.modal.settings.modal.className = "fade-in";
 		timeApp.modal.settings.content.innerHTML = text;
