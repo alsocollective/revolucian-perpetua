@@ -52,11 +52,11 @@ timeApp.newSong = {
 			song = CurrentPage.getMeta();
 
 		// we generate images of each of the elements
-		for (i = 0; i < 10; i++) {
+		for (i = 0; i < 20; i++) {
 			var d = document.createElement("div");
 			element.appendChild(d);
 			d.style.visibility = "hidden";
-			d.style.backgroundImage = "url(/public/content/" + song + "/" + i + ".png)";
+			d.style.backgroundImage = "url(/public/content/song-" + song.split("g").pop() + "/s" + song.split("g").pop() + "-" + i + ".jpg)";
 			d.id = "s4-" + i;
 		}
 
@@ -66,15 +66,15 @@ timeApp.newSong = {
 		}, 150);
 	},
 	myTimer: function() {
-		if (timeApp.newSong.settings.j < 9) {
+		if (timeApp.newSong.settings.j < 19) {
 			timeApp.newSong.settings.j++
-		} else if (timeApp.newSong.settings.j === 9) {
+		} else if (timeApp.newSong.settings.j === 19) {
 			timeApp.newSong.settings.j = 0;
 		}
 
 		document.getElementById(("s4-" + timeApp.newSong.settings.j).toString()).style.visibility = "hidden";
 
-		if (timeApp.newSong.settings.j + 1 === 10) {
+		if (timeApp.newSong.settings.j + 1 === 20) {
 			document.getElementById(("s4-0").toString()).style.visibility = "visible";
 		} else {
 			document.getElementById(("s4-" + (timeApp.newSong.settings.j + 1)).toString()).style.visibility = "visible";

@@ -359,11 +359,11 @@ timeApp.newSong = {
 			song = CurrentPage.getMeta();
 
 		// we generate images of each of the elements
-		for (i = 0; i < 10; i++) {
+		for (i = 0; i < 20; i++) {
 			var d = document.createElement("div");
 			element.appendChild(d);
 			d.style.visibility = "hidden";
-			d.style.backgroundImage = "url(/public/content/" + song + "/" + i + ".png)";
+			d.style.backgroundImage = "url(/public/content/song-" + song.split("g").pop() + "/s" + song.split("g").pop() + "-" + i + ".jpg)";
 			d.id = "s4-" + i;
 		}
 
@@ -373,15 +373,15 @@ timeApp.newSong = {
 		}, 150);
 	},
 	myTimer: function() {
-		if (timeApp.newSong.settings.j < 9) {
+		if (timeApp.newSong.settings.j < 19) {
 			timeApp.newSong.settings.j++
-		} else if (timeApp.newSong.settings.j === 9) {
+		} else if (timeApp.newSong.settings.j === 19) {
 			timeApp.newSong.settings.j = 0;
 		}
 
 		document.getElementById(("s4-" + timeApp.newSong.settings.j).toString()).style.visibility = "hidden";
 
-		if (timeApp.newSong.settings.j + 1 === 10) {
+		if (timeApp.newSong.settings.j + 1 === 20) {
 			document.getElementById(("s4-0").toString()).style.visibility = "visible";
 		} else {
 			document.getElementById(("s4-" + (timeApp.newSong.settings.j + 1)).toString()).style.visibility = "visible";
@@ -517,6 +517,7 @@ timeApp.communication = {
 
 
 		// make sure everything is set correctly...
+		console.log("set up check for updates");
 		timeApp.communication.checkforupdates();
 		timeApp.communication.settings.heartbeatPage = setInterval(timeApp.communication.checkforupdates, 10000);
 		$(window).focus(timeApp.communication.onfocus);
@@ -553,7 +554,9 @@ timeApp.communication = {
 		// timeApp.communication.settings.socket.emit("setID", timeApp.communication.settings.cookie.ticket);
 	},
 	changePage: function(msg) {
-		if (timeApp.communication.settings.currentPage.page != msg && timeApp.communication.settings.location.path() != ("/" + msg)) {
+		console.log(msg)
+		if (timeApp.communication.settings.location.path() != ("/" + msg)) {
+			console.log("not the correct pages");
 			// timeApp.communication.settings.container.className = "animation " + msg
 			console.log("changepage")
 			timeApp.communication.pageExitFunction();
@@ -562,12 +565,13 @@ timeApp.communication = {
 		timeApp.communication.settings.currentPage.page = msg;
 	},
 	checkforupdates: function() {
+		console.log("check for updates");
 		timeApp.communication.settings.socket.emit("getmeta");
 		timeApp.communication.settings.socket.emit("getpage");
 	},
 
 	pageExitFunction: function() {
-		console.log("page exit function")
+		timeApp.modal.close();
 		if (timeApp.communication.exitfunction) {
 			timeApp.communication.exitfunction(timeApp.communication.settings.socket)
 			timeApp.communication.exitfunction = null;
@@ -594,7 +598,7 @@ timeApp.allfunc = {
 	},
 	fullscreen: function() {
 		//Fullscreen
-		/*var doc = window.document;
+		var doc = window.document;
 		var docEl = doc.documentElement;
 
 		var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
@@ -605,7 +609,7 @@ timeApp.allfunc = {
 			console.log("Fullscreen called");
 		} else {
 			//cancelFullScreen.call(doc);
-		}*/
+		}
 	}
 }
 timeApp.modal = {
@@ -643,7 +647,10 @@ timeApp.modal = {
 		timeApp.allfunc.fullscreen();
 
 		//Trigger video to play once modal is closed
-		//timeApp.modal.settings.endless.play();
+		if (!(/iphone|ipod|ipad.*os/gi).test(navigator.appVersion)) {
+			timeApp.modal.settings.endless.play();
+		}
+
 	},
 	help: function() {
 		timeApp.modal.settings.help.className = "pop-out";
@@ -1138,7 +1145,7 @@ var factories = {};
 
 factories.Socket = function($rootScope, $location) {
 
-	var socket = io.connect("http://192.168.2.26:3000");
+	var socket = io.connect("http://192.168.2.24:3000");
 
 	return {
 		on: function(eventName, callback) {
@@ -1175,7 +1182,8 @@ factories.CurrentPage = function(Socket, Userset) {
 			// return "song1" + Userset.getUserSub();
 			return "";
 		} else {
-			return factory.meta + Userset.getUserSub();
+			//return factory.meta + Userset.getUserSub();
+			return factory.meta;
 		}
 	}
 
@@ -1227,7 +1235,7 @@ factories.SongSets = function() {
 		songs: {
 			"song1": {
 				title: "eshu",
-				english: "goblin",
+				english: "trickster",
 				backgroundImage: "/public/content/albumbbackground/song1.jpg",
 				description: "description",
 				type: "tap"
