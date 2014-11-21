@@ -2,12 +2,8 @@ var factories = {};
 
 factories.Socket = function($rootScope, $location) {
 
-<<<<<<< HEAD
 	var socket = io.connect("http://192.168.1.101:3000");
 
-=======
-	var socket = io.connect("http://192.168.2.26:3000");
->>>>>>> e715f0807de0c246d8ff17df9adc51cf6980e14e
 
 	return {
 		on: function(eventName, callback) {
