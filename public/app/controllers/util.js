@@ -148,7 +148,7 @@ timeApp.allfunc = {
 	},
 	fullscreen: function() {
 		//Fullscreen
-		/*var doc = window.document;
+		var doc = window.document;
 		var docEl = doc.documentElement;
 
 		var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
@@ -159,6 +159,6 @@ timeApp.allfunc = {
 			console.log("Fullscreen called");
 		} else {
 			//cancelFullScreen.call(doc);
-		}*/
+		}
 	}
 }
