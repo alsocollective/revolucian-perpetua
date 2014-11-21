@@ -325,12 +325,72 @@ html, body {
   height: 100vh;
   overflow: hidden; }
 
-#betweenpages.Eshu {
+#betweenpages.eshu {
   background: url("/public/content/tst.png") center center;
   background-repeat: no-repeat;
   background-origin: content-box;
   -webkit-background-size: cover;
   background-color: #f0f; }
+  #betweenpages.eshu h2 {
+    font-size: 8em;
+    text-align: center;
+    text-transform: capitalize;
+    opacity: 0.9; }
+
+#betweenpages.bailar {
+  background: url("/public/content/pabailer.png") center center;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  -webkit-background-size: cover;
+  background-color: #ff0; }
+  #betweenpages.bailar h2 {
+    font-size: 8em;
+    text-align: center;
+    text-transform: capitalize;
+    opacity: 0.9; }
+
+#betweenpages.cimarron {
+  background: url("/public/content/cimarron.jpg") center center;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  -webkit-background-size: cover;
+  background-color: #ff0; }
+  #betweenpages.cimarron h2 {
+    font-size: 8em;
+    text-align: center;
+    text-transform: capitalize;
+    opacity: 0.9;
+    -webkit-transform: rotate(45deg); }
+
+#betweenpages.complica {
+  background: url("/public/content/complica.png") center center;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  -webkit-background-size: cover;
+  background-color: #ff0;
+  display: table;
+  width: 100%;
+  font-family: 'Open Sans'; }
+  #betweenpages.complica h2 {
+    font-size: 8em;
+    text-align: center;
+    text-transform: capitalize;
+    opacity: 0.9;
+    display: table-cell;
+    vertical-align: middle;
+    -webkit-transform: rotate(-90deg); }
+
+#betweenpages.vengo {
+  background: url("/public/content/asivengoyo.png") center center;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  -webkit-background-size: cover;
+  background-color: #ff0; }
+  #betweenpages.vengo h2 {
+    font-size: 8em;
+    text-align: center;
+    text-transform: capitalize;
+    opacity: 0.9; }
 
 @charset "UTF-8";
 
