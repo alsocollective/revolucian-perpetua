@@ -117,7 +117,7 @@ timeApp.communication = {
 	},
 
 	pageExitFunction: function() {
-		console.log("page exit function")
+		timeApp.modal.close();
 		if (timeApp.communication.exitfunction) {
 			timeApp.communication.exitfunction(timeApp.communication.settings.socket)
 			timeApp.communication.exitfunction = null;
