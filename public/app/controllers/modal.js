@@ -3,7 +3,8 @@ timeApp.modal = {
 		close: null,
 		modal: null,
 		help: null,
-		content: null
+		content: null,
+		hideDelay: null
 	},
 	init: function() {
 		timeApp.modal.settings.close = document.getElementById("xx");
@@ -26,7 +27,7 @@ timeApp.modal = {
 		timeApp.modal.settings.help.className = "pop-in";
 		timeApp.modal.settings.modal.className = "fade-out";
 
-		setTimeout(function() {
+		timeApp.modal.settings.hideDelay = setTimeout(function() {
 			timeApp.modal.settings.modal.style.display = "none";
 		}, 900);
 
@@ -40,7 +41,7 @@ timeApp.modal = {
 	},
 	help: function() {
 		timeApp.modal.settings.help.className = "pop-out";
-		setTimeout(function() {
+		timeApp.modal.settings.hideDelay = setTimeout(function() {
 			timeApp.modal.settings.help.style.display = "none";
 		}, 500)
 		timeApp.modal.settings.modal.style.display = "";
@@ -50,13 +51,23 @@ timeApp.modal = {
 		if (timeApp.modal.settings.modal == null) {
 			timeApp.modal.init();
 		}
-		timeApp.modal.settings.modal.className = "close";
+		// if (timeApp.modal.settings.hideDelay) {
+		// 	clearTimeout(timeApp.modal.settings.hideDelay);
+		// 	timeApp.modal.settings.hideDelay = null;
+		// }
+		timeApp.modal.settings.modal.style.display = "none";
+		// timeApp.modal.settings.modal.className = "close";
 		timeApp.modal.settings.content.innerHTML = text;
 	},
 	alert: function(text) {
 		if (timeApp.modal.settings.modal == null) {
 			timeApp.modal.init();
 		}
+		if (timeApp.modal.settings.hideDelay) {
+			clearTimeout(timeApp.modal.settings.hideDelay);
+			timeApp.modal.settings.hideDelay = null;
+		}
+		timeApp.modal.settings.modal.style.display = "block";
 		timeApp.modal.settings.modal.className = "";
 		timeApp.modal.settings.modal.className = "fade-in";
 		timeApp.modal.settings.content.innerHTML = text;

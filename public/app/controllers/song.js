@@ -45,7 +45,7 @@ timeApp.newSong = {
 			clearInterval(timeApp.newSong.settings.interval);
 		}
 		// we change what the modal says... still hidden
-		timeApp.modal.setTextHidden("<h2>Song credentials in here</h2>");
+		timeApp.modal.setTextHidden("<h2>The song is about to begin.</h2>");
 
 		// we set local variables
 		var element = document.getElementById("content"),
